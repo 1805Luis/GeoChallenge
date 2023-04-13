@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "328528376078",
+    "firebase_url": "https://geochange-4f91e-default-rtdb.firebaseio.com",
+    "project_id": "geochange-4f91e",
+    "storage_bucket": "geochange-4f91e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328528376078:android:b2ee505eb10c97af3ba75f",
+        "android_client_info": {
+          "package_name": "es.practicacumn.geochallenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328528376078-d0gvogi25q54rdmrnnh3drqsa1rv8vvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.practicacumn.geochallenge",
+            "certificate_hash": "2da80387a837d452162cc7937af46fb1b018810c"
+          }
+        },
+        {
+          "client_id": "328528376078-manec0p7gnhdegu3kpuhfb8jhi9dk2vl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrCG04SQawWZ3Ooq-B4Pf9ppWaoZpjtQA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328528376078-manec0p7gnhdegu3kpuhfb8jhi9dk2vl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

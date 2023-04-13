@@ -6,13 +6,82 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:minHeight="48sp"
+            android:textSize="20sp" />
+
+        <Space
+            android:layout_width="0sp"
+            android:layout_height="20sp" />
+
+        <Button
+            android:id="@+id/olvidarPw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Olvide la contraseña" />
+
+        <Button
+            android:id="@+id/acceder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Acceder" />
+
+        <Space
+            android:layout_width="0sp"
+            android:layout_height="20sp" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/AccederGoogle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:buttonSize="wide">
+        </com.google.android.gms.common.SignInButton>
+
+        <Space
+            android:layout_width="0sp"
+            android:layout_height="20dp" />
+
+        <Button
+            android:id="@+id/registrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No tengo cuenta" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Acceso estratosferico"
+            android:onClick="estratosferico"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
