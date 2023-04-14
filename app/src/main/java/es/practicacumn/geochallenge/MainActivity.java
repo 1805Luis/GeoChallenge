@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
-    private Button tengocredenciales,soyNuevo,olvidePw;
+    private Button tengocredenciales,soyNuevo,olvidePwd;
     private EditText email,contrasenia;
     private String correo,pw;
     private SignInButton AccesoGoogle;
@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tengocredenciales.setOnClickListener(this);
         soyNuevo=findViewById(R.id.CrearCuenta);
         soyNuevo.setOnClickListener(this);
+        olvidePwd=findViewById(R.id.OlvidePwd);
+        olvidePwd.setOnClickListener(this);
+        AccesoGoogle=findViewById(R.id.AccederGoogle);
 
     }
 
@@ -42,8 +45,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.Acceder:
                 Toast.makeText(this, "Acceder", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.CrearCuenta:
                 Toast.makeText(this, "Crear Cuenta", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.OlvidePwd:
+                Toast.makeText(this, "Olvidé la contraseña", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.AccederGoogle:
+                Toast.makeText(this, "Acceder con Google", Toast.LENGTH_SHORT).show();
+                break;
 
         }
 
