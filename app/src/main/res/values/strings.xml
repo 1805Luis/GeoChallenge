@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GeoChallenge</string>
+    <string name="default_web_cliente_id" />
 </resources>
