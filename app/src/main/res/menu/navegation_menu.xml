@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+            <item android:id="@+id/DatosUsuario"
+            android:icon="@drawable/ic_perfil"
+            android:title="Mi perfil"/>
+
+            <item android:id="@+id/CerraSesion"
+            android:icon="@drawable/ic_cerrarsesion"
+            android:title="Cerrar Sesion"/>
+
+</menu>

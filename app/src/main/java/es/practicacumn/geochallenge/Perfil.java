@@ -36,22 +36,22 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         mDatabase= FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
         UserId=mAuth.getUid();
-/*
+
         mDatabase.child("Usuario").child(UserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
-                    Intent intent= new Intent(PPerfil.this,PBusquedaGK.class);
+                    Intent intent= new Intent(getApplicationContext(),Hub.class);
                     startActivity(intent);
                     finish();
                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(PPerfil.this, "Error en la conexion en la base", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error en la conexion en la base", Toast.LENGTH_SHORT).show();
             }
         });
-        */
+
         nombre = findViewById(R.id.Nombre);
         apellido = findViewById(R.id.Apellidos);
         tlf = findViewById(R.id.Telefono);

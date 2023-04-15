@@ -19,4 +19,11 @@
         <item>O+</item>
         <item>O-</item>
     </string-array>
+
+    <string name="navegation">Navigation Drawer</string>
+
+    <!--to toggle the open close button
+        of the navigation drawer-->
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
 </resources>

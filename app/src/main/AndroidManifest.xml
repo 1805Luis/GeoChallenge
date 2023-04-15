@@ -17,6 +17,12 @@
         android:theme="@style/Theme.GeoChallenge"
         tools:targetApi="31">
         <activity
+            android:name=".VerificarCuenta"
+            android:exported="false" />
+        <activity
+            android:name=".OlvidePwd"
+            android:exported="false" />
+        <activity
             android:name=".Hub"
             android:exported="false" />
         <activity
