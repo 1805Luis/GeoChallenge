@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Pattern;
 
-public class CrearCuenta extends AppCompatActivity {
+public class CrearCuenta extends AppCompatActivity implements View.OnClickListener {
     private EditText email,pwd, Vpwd;
     private String Email,Pwd, VPwd;
     private Button continuar;
@@ -35,13 +35,15 @@ public class CrearCuenta extends AppCompatActivity {
         pwd=findViewById(R.id.PasswordCC);
         Vpwd =findViewById(R.id.ConfirmationPwdCC);
         continuar=findViewById(R.id.Continuar);
-        continuar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        continuar.setOnClickListener(this);
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.Continuar:
                 comprobarDatos();
-            }
-        });
-
+                break;
+        }
     }
 
 
@@ -94,4 +96,6 @@ public class CrearCuenta extends AppCompatActivity {
 
         return seguro;
     }
+
+
 }

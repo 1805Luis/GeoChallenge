@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">GeoChallenge</string>
-    <string name="default_web_cliente_id" />
+    <string-array name="sexo_array">
+        <item>Seleccione uno</item>
+        <item>Hombre</item>
+        <item>Mujer</item>
+        <item>Otro</item>
+        <item>Prefiero no contestar</item>
+    </string-array>
+
+    <string-array name="sangre_array">
+        <item>Seleccione uno</item>
+        <item>A+</item>
+        <item>A-</item>
+        <item>B+</item>
+        <item>B-</item>
+        <item>AB+</item>
+        <item>AB-</item>
+        <item>O+</item>
+        <item>O-</item>
+    </string-array>
 </resources>

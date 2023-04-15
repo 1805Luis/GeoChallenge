@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".Perfil">
 
 
@@ -16,7 +16,7 @@
         android:hint="Nombre"
         android:minHeight="48sp"
         android:textSize="20sp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         />
     <Space
@@ -34,7 +34,7 @@
         android:textSize="20sp"
         android:layout_toRightOf="@id/Espacio"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         />
     <EditText
@@ -43,23 +43,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_toLeftOf="@id/Espacio"
-        android:hint="Telefono"
         android:minHeight="48sp"
         android:textSize="20sp"
         android:layout_below="@+id/Nombre"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
+        android:hint="Telefono"
+        android:inputType="phone"
         />
 
     <EditText
         android:id="@+id/FechaNacimiento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:hint="Fecha Nacimiento"
+        android:inputType="date"
         android:layout_below="@+id/Nombre"
         android:layout_toRightOf="@id/Espacio"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:minHeight="48sp"
         android:textSize="20sp"
@@ -74,7 +80,7 @@
         android:minHeight="48sp"
         android:textSize="20sp"
         android:layout_below="@+id/Telefono"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
         />
     <Spinner
@@ -85,7 +91,7 @@
         android:layout_below="@+id/FechaNacimiento"
         android:layout_toRightOf="@id/Espacio"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:spinnerMode="dropdown"
         android:minHeight="48sp"
@@ -102,7 +108,7 @@
         android:minHeight="48sp"
         android:textSize="20sp"
         android:layout_below="@+id/Genero"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="15dp"
         />
 
@@ -114,7 +120,7 @@
         android:layout_below="@+id/Sexo_spinner"
         android:layout_toRightOf="@id/Espacio"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="15dp"
         android:spinnerMode="dropdown"
         android:minHeight="48sp"
@@ -134,8 +140,9 @@
         android:minHeight="48sp"
         android:textSize="20sp"
         android:layout_below="@+id/GrupoSanguineo"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
+        android:inputType="numberDecimal"
         />
 
     <EditText
@@ -146,11 +153,55 @@
         android:layout_below="@+id/Sangre_spinner"
         android:layout_toRightOf="@id/Espacio"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:spinnerMode="dropdown"
         android:minHeight="48sp"
         android:textSize="20sp"
+        android:inputType="numberDecimal"
+        />
+    <RelativeLayout
+        android:id="@+id/DatosMultiples"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Altura"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/Alergias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alergias (Ej: acaros, avispas, etc)"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            />
+        <EditText
+            android:id="@+id/Medico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Alergias"
+            android:hint="Antecdentes médicos relevantes"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/DatosUsuario"
+        android:layout_below="@+id/DatosMultiples"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:text="Enviar Datos"
         />
 
 

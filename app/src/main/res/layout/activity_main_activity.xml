@@ -23,7 +23,7 @@
             android:minHeight="48sp"
             android:textSize="20sp"
             android:layout_below="@+id/Email"
-            android:layout_marginTop="@{Utils.getDistanciaVerticalElementos(context, 1)}dp"
+            android:layout_marginTop="10dp"
             android:hint="Password"/>
 
         <Button
