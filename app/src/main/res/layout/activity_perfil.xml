@@ -3,34 +3,154 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".Perfil">
 
+
     <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
+        android:id="@+id/Nombre"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/Espacio"
-        android:hint="Nombre"/>
+        android:layout_toLeftOf="@id/Espacio"
+        android:hint="Nombre"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        />
     <Space
         android:id="@+id/Espacio"
-        android:layout_width="12dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"/>
 
-
-        />
     <EditText
         android:id="@+id/Apellidos"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Apellidos"
-        android:layout_alignStart=""
-        android:layout_centerHorizontal="true"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:layout_toRightOf="@id/Espacio"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        />
+    <EditText
+        android:id="@+id/Telefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/Espacio"
+        android:hint="Telefono"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/Nombre"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        />
 
+    <EditText
+        android:id="@+id/FechaNacimiento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha Nacimiento"
+        android:layout_below="@+id/Nombre"
+        android:layout_toRightOf="@id/Espacio"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        />
+    <TextView
+        android:id="@+id/Genero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/Espacio"
+        android:hint="Genero"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/Telefono"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        />
+    <Spinner
+        android:id="@+id/Sexo_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha Nacimiento"
+        android:layout_below="@+id/FechaNacimiento"
+        android:layout_toRightOf="@id/Espacio"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:spinnerMode="dropdown"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:contentDescription="Elija"
+        />
+    <TextView
+        android:id="@+id/GrupoSanguineo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/Espacio"
+        android:hint="Grupo Sanguineo"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/Genero"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        />
+
+    <Spinner
+        android:id="@+id/Sangre_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha Nacimiento"
+        android:layout_below="@+id/Sexo_spinner"
+        android:layout_toRightOf="@id/Espacio"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:spinnerMode="dropdown"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:contentDescription="Elija"
+        />
+
+
+
+    <EditText
+        android:id="@+id/Altura"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@id/Espacio"
+        android:hint="Altura (cm)"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:layout_below="@+id/GrupoSanguineo"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        />
+
+    <EditText
+        android:id="@+id/Peso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Peso (KG)"
+        android:layout_below="@+id/Sangre_spinner"
+        android:layout_toRightOf="@id/Espacio"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:spinnerMode="dropdown"
+        android:minHeight="48sp"
+        android:textSize="20sp"
         />
 
 

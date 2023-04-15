@@ -12,7 +12,8 @@
             android:layout_height="wrap_content"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginTop="5dp"/>
 
         <EditText
             android:id="@+id/Password"
@@ -22,7 +23,7 @@
             android:minHeight="48sp"
             android:textSize="20sp"
             android:layout_below="@+id/Email"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@{Utils.getDistanciaVerticalElementos(context, 1)}dp"
             android:hint="Password"/>
 
         <Button

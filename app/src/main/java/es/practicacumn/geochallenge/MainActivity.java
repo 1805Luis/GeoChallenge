@@ -50,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         olvidePwd.setOnClickListener(this);
         AccesoGoogle=findViewById(R.id.AccederGoogle);
         AccesoGoogle.setOnClickListener(this);
+        ajustarPantallas();
+    }
+
+    private void ajustarPantallas() {
+
     }
 
     @Override
