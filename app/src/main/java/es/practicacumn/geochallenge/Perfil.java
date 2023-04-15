@@ -24,7 +24,6 @@ import java.util.Calendar;
 
 public class Perfil extends AppCompatActivity implements View.OnClickListener {
     private Spinner sexo,sangre;
-    private Calendar calendar;
     private FirebaseAuth mAuth;
     private EditText nombre,apellido,tlf,cumple,altura,peso,antecedentes,alergias;
     private String Unombre,Uapellido,Utlf,Usexo,Usangre,Uantecedentes,Ualergias,UserId,Ucumple,Upeso,Ualtura;
@@ -134,8 +133,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         Intent intent= new Intent(getApplicationContext(),Hub.class);
         startActivity(intent);
         finish();
-
-
     }
 
     private void Inizializar() {
