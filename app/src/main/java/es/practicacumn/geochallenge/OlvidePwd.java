@@ -18,7 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class OlvidePwd extends AppCompatActivity implements View.OnClickListener {
+public class OlvidePwd extends AppCompatActivity{
     private Button continuar;
     private EditText email;
     private String correo;
@@ -29,29 +29,26 @@ public class OlvidePwd extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_olvide_pwd);
         email=findViewById(R.id.Correo);
         continuar=findViewById(R.id.Siguiente);
-        continuar.setOnClickListener(this);
+        continuar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                recuperar();
+            }
+        });
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.Continuar:
-                recuperaContrasenia();
-                break;
-        }
-    }
-
-    private void recuperaContrasenia() {
+    private void recuperar() {
         correo=email.getText().toString().trim();
-        if(!correo.isEmpty()&& Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
-            enviarEmail(correo);
-            AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
-            alert.setMessage("¿Le ha llegado el correo?")
+        if (!correo.isEmpty()&&Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
+            enviarCorreo();
+            AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+            alerta.setTitle("Recuperacion de contraseña");
+            alerta.setMessage("¿Le ha llegado el correo?")
                     .setCancelable(false)
                     .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
@@ -59,19 +56,14 @@ public class OlvidePwd extends AppCompatActivity implements View.OnClickListener
                     .setNegativeButton("Volver a enviar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            enviarEmail(correo);
+                            enviarCorreo();
                         }
                     });
-            AlertDialog titulo= alert.create();
-            titulo.setTitle("Recuperación de contraseña");
-            titulo.show();
-
-
-
+            alerta.create().show();
         }
     }
 
-    private void enviarEmail(String correo){
+    private void enviarCorreo() {
         FirebaseAuth auth=FirebaseAuth.getInstance();
         auth.sendPasswordResetEmail(correo)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -85,4 +77,5 @@ public class OlvidePwd extends AppCompatActivity implements View.OnClickListener
                     }
                 });
     }
+
 }

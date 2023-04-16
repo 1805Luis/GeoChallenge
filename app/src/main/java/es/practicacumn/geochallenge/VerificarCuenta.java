@@ -23,6 +23,11 @@ public class VerificarCuenta extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verificar_cuenta);
         tvMensaje = findViewById(R.id.tvMensaje);
+        Bundle parametros=this.getIntent().getExtras();
+        if ((parametros!=null)) {
+             String correo = parametros.getString("email");
+            tvMensaje.setText("Se le ha enviado un correo de verificacion al correo: "+ correo);
+        }
         btnReenviar = findViewById(R.id.btnReenviar);
         btnReenviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +56,7 @@ public class VerificarCuenta extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null && user.isEmailVerified()) {
-                    // El correo electrónico del usuario ha sido verificado, redirigir al usuario a la pantalla principal
+                    // El correo electrónico del usuario ha sido verificado, redirigir al usuario a la pantalla de crar perfil
                     Intent intent = new Intent(getApplicationContext(), Perfil.class);
                     startActivity(intent);
                     finish();

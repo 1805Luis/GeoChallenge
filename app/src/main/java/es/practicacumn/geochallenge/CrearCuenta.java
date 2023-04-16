@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
@@ -62,7 +63,10 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
                                         public void onComplete(@NonNull Task<AuthResult> task) {
                                             if(task.isSuccessful()){
                                                 Toast.makeText(CrearCuenta.this, "Cuenta Creada con exito", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(getApplicationContext(), Perfil.class);
+                                                FirebaseUser user = Auth.getCurrentUser();
+                                                user.sendEmailVerification();
+                                                Intent intent = new Intent(getApplicationContext(), VerificarCuenta.class);
+                                                intent.putExtra("email",Email);
                                                 startActivity(intent);
                                                 finish();
                                             }else{
@@ -81,12 +85,12 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
         boolean seguro=false;
         Pattern patronSeguridad= Pattern.compile(
                 "^" +
-                        "(?=.*[0-9])"+       // al menos 1 numero
-                        "(?=.*[a-z])"+       // al menos 1 letra minuscula
-                        "(?=.*[A-Z])"+       // al menos 1 letra mayuscula
-                        "(?=.*[@#$%&+=/])"+  // al menos 1 caracter especial
-                        "(?=\\S+$)"+         // no espacios em blaco
-                        ".{"+tamanio+",}"+   // longitud minima de la contraseña
+                        "(?=.*[0-9])"+           // al menos 1 numero
+                        "(?=.*[a-z])"+           // al menos 1 letra minuscula
+                        "(?=.*[A-Z])"+           // al menos 1 letra mayuscula
+                        "(?=.*[@#$%&+=/!¡¿?])"+  // al menos 1 caracter especial
+                        "(?=\\S+$)"+             // no espacios em blaco
+                        ".{"+tamanio+",}"+       // longitud minima de la contraseña
                         "$"
         );
 
