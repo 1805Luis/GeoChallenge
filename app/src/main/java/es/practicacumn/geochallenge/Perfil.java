@@ -123,7 +123,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
                 }else Toast.makeText(this, "Debe rellenar el campo del telefono y termine de rellenar el formulario" , Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "Debe rellenar el campo del apellido y termine de rellenar el formulario", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "Debe rellenar el campo del nombre y termine de rellenar el formulario", Toast.LENGTH_SHORT).show();
-
     }
 
     private void subirDatos() {
