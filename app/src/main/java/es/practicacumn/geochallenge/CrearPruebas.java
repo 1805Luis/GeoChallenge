@@ -17,13 +17,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_Pruebas;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener {
-    String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,HoraInicio,FechaFin,HoraFin;
+    String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id;
     private List<Prueba> ListaPruebas;
     private EditText EOrden,ELat,ELon,EInfo;
     private DatabaseReference mDatabase;
@@ -49,20 +50,28 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.IntroduccirDatos:
                 introducirDatos();
+                break;
             case R.id.Terminar:
                 if(ListaPruebas.size()+1<=2){
                     Toast.makeText(this, "Debe introduccir al menos 2 pistas", Toast.LENGTH_SHORT).show();
                 }else{
                     almacenarDatos();
                 }
+                break;
         }
     }
     private void almacenarDatos() {
         recibirDatos();
-        Gymkhana gymkhana= new Gymkhana(Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false);
-        mDatabase.child("Gymkhana").setValue(gymkhana);
+        generarId();
+        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false);
+        mDatabase.child("Gymkhana").child(Id).setValue(gymkhana);
         cambiarActividad(gymkhana);
 
+    }
+
+    private void generarId() {
+        UUID uuid = UUID.randomUUID();
+        Id = uuid.toString().replaceAll("-", "");
     }
 
     private void cambiarActividad(Gymkhana gymkana) {
@@ -83,7 +92,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
             FechaInicio = extras.getString("InicioFGY");
             HoraInicio = extras.getString("InicioHGY");
             FechaFin= extras.getString("FinFGY");
-            HoraFin=extras.getString("FinHGy");
+            HoraFin=extras.getString("FinHGY");
 
         }
     }
@@ -124,7 +133,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                             }else Toast.makeText(this, "La longitud no puede ser nula", Toast.LENGTH_SHORT).show();
                         }else Toast.makeText(this, "La latitud debe estar entre -90º y 90º", Toast.LENGTH_SHORT).show();
                     }else Toast.makeText(this, "La latitud no puede ser nula", Toast.LENGTH_SHORT).show();
-                }else Toast.makeText(this, "El numero de la pista ha de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
+                }else Toast.makeText(this, "El numero de la pista a de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "Se debe introducir un numero", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "Introduzca el numero de la pista", Toast.LENGTH_SHORT).show();
 

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import es.practicacumn.geochallenge.Model.Comun;
 
@@ -126,7 +127,9 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
                         if(!GKinicioHora.isEmpty()&&!GKinicioFecha.isEmpty()&&!GKfinHora.isEmpty()&&!GKfinFecha.isEmpty()){
                             if(fechasPasadas(GKinicioFecha,GKinicioHora)){
                                 if(fechasPasadas(GKfinFecha, GKfinHora)){
-                                   EnviarDatos();
+                                    if(esPosterior(GKinicioFecha,GKfinFecha,GKinicioHora,GKfinHora)){
+                                        EnviarDatos();
+                                    }else Toast.makeText(this, "Las fechas no son posteriores", Toast.LENGTH_SHORT).show();
                                 }else Toast.makeText(this, "No pude poner la fecha y hora de final en el pasado", Toast.LENGTH_SHORT).show();
                             }else Toast.makeText(this, "No pude poner la fecha y hora de inicio en el pasado", Toast.LENGTH_SHORT).show();
                         }else Toast.makeText(this, "Los campos de inicio y fin no pueden estar vacios", Toast.LENGTH_SHORT).show();
@@ -134,6 +137,21 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
                 }else Toast.makeText(this, "Debe especificar la dificultad", Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "Debe especificar en lugar de comienzo", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "Debe indicar el nombre de la gymkhana", Toast.LENGTH_SHORT).show();
+    }
+    private boolean esPosterior(String fechaInicio, String fechaFinal, String horaInicio, String horaFinal) {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+        try {
+            // Convertir las cadenas de texto de las fechas y horas a objetos Date
+            Date inicio = formato.parse(fechaInicio + " " + horaInicio);
+            Date fin = formato.parse(fechaFinal + " " + horaFinal);
+
+            // Comparar las fechas y horas y devolver true si la fecha y hora final es posterior a la fecha y hora de inicio
+            return fin.after(inicio);
+        } catch (Exception e) {
+            // Si hay algún error en la conversión de las fechas y horas, devolver false
+            return false;
+        }
     }
 
     private void EnviarDatos() {

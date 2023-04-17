@@ -41,9 +41,9 @@ public class AdaptadorPruebas extends BaseAdapter {
         LayoutInflater inflate=LayoutInflater.from(context);
         vista=inflate.inflate(R.layout.item_prueba,null);
         TextView titulo = vista.findViewById(R.id.titulo);
-        TextView ubicacion=vista.findViewById(R.id.Descripccion);
         titulo.setText("Número de la prueba: "+listaPruebas.get(i).getOrden());
-        ubicacion.setText("La prueba se ubica en la latitud "+listaPruebas.get(i).getLatitud()+" y en la longitud. "+listaPruebas.get(i).getLongitud());
+        TextView informacion=vista.findViewById(R.id.descripcion);
+        informacion.setText("La prueba se ubica en la latitud "+listaPruebas.get(i).getLatitud()+" y en la longitud "+listaPruebas.get(i).getLongitud());
         return vista;
     }
 }

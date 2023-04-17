@@ -4,25 +4,27 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Gymkhana implements Serializable {
+    private String Id;
     private String Nombre;
     private String Lugar;
     private String Dificultad;
     private String DiaInicio;
     private String DiaFin;
     private String HoraInicio;
-    private String HoraFinal;
+    private String HoraFin;
     private String MaxParticipantes;
     private List<Prueba> Pruebas;
     private boolean Terminado;
 
-    public Gymkhana(String nombre, String lugar, String dificultad, String diaInicio, String diaFin, String horaInicio, String horaFinal, String maxParticipantes, List<Prueba> pruebas, boolean terminado) {
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String diaInicio, String diaFin, String horaInicio, String horaFinal, String maxParticipantes, List<Prueba> pruebas, boolean terminado) {
+        Id = id;
         Nombre = nombre;
         Lugar = lugar;
         Dificultad = dificultad;
         DiaInicio = diaInicio;
         DiaFin = diaFin;
         HoraInicio = horaInicio;
-        HoraFinal = horaFinal;
+        HoraFin = horaFinal;
         MaxParticipantes = maxParticipantes;
         Pruebas = pruebas;
         Terminado = terminado;
@@ -76,12 +78,12 @@ public class Gymkhana implements Serializable {
         HoraInicio = horaInicio;
     }
 
-    public String getHoraFinal() {
-        return HoraFinal;
+    public String getHoraFin() {
+        return HoraFin;
     }
 
-    public void setHoraFinal(String horaFinal) {
-        HoraFinal = horaFinal;
+    public void setHoraFin(String horaFin) {
+        HoraFin = horaFin;
     }
 
     public String getMaxParticipantes() {
@@ -106,5 +108,13 @@ public class Gymkhana implements Serializable {
 
     public void setTerminado(boolean terminado) {
         Terminado = terminado;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 }
