@@ -1,4 +1,4 @@
-package es.practicacumn.geochallenge;
+package es.practicacumn.geochallenge.Model.UsuarioGymkhana;
 
 public class Usuario {
 

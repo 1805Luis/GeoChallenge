@@ -1,4 +1,4 @@
-package es.practicacumn.geochallenge;
+package es.practicacumn.geochallenge.Model;
 
 import android.app.DatePickerDialog;
 import android.content.Context;

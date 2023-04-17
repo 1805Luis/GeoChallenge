@@ -20,7 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
+import es.practicacumn.geochallenge.Model.Comun;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario;
 
 public class Perfil extends AppCompatActivity implements View.OnClickListener {
     private Spinner sexo,sangre;

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".CrearGymkhana">
+
+    <EditText
+        android:id="@+id/NombreGK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:hint="Nombre de la Gymkhana"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/LugarGk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/NombreGK"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:hint="Lugar de Gymkhana"
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textSize="20sp"/>
+
+    <RelativeLayout
+        android:id="@+id/RDificultad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LugarGk"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/Dificultad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/Espacio"
+            android:hint="Dificultad:"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            />
+        <Space
+            android:id="@+id/Espacio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/NivelDificultad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="¿Cual será?"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_toRightOf="@id/Espacio"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            />
+
+    </RelativeLayout>
+
+    <RatingBar
+        android:id="@+id/EDificultad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/RDificultad"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:scrollbarSize="0.5sp"
+        android:stepSize="1"
+        android:theme="@style/Estrellas"
+        android:contentDescription="dificultad"/>
+    <RelativeLayout
+        android:id="@+id/RFechas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EDificultad"
+        android:layout_marginStart="10dp">
+
+        <EditText
+            android:id="@+id/FechaInicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/Espacio1"
+            android:hint="Dia de inicio"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            android:textAlignment="center"
+            android:inputType="date"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
+        <Space
+            android:id="@+id/Espacio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+        <EditText
+            android:id="@+id/HoraInicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora de inicio"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_toRightOf="@id/Espacio1"
+            android:layout_alignParentRight="true"
+            android:textAlignment="center"
+            android:layout_marginRight="15dp"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            />
+        <EditText
+            android:id="@+id/FechaFin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/Espacio1"
+            android:hint="Dia de fin"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            android:textAlignment="center"
+            android:inputType="date"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_below="@+id/FechaInicio"
+            />
+        <EditText
+            android:id="@+id/HoraFin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora de inicio"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_toRightOf="@id/Espacio1"
+            android:layout_alignParentRight="true"
+            android:textAlignment="center"
+            android:layout_marginRight="15dp"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:layout_below="@+id/HoraInicio"
+            />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/ParticipantesMax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/RFechas"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:minHeight="48sp"
+        android:textSize="20sp"
+        android:hint="Número máximo de participantes"
+        />
+
+    <Button
+        android:id="@+id/Crear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ParticipantesMax"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="Continuar" />
+
+
+
+
+
+
+</RelativeLayout>

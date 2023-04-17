@@ -9,6 +9,14 @@
     android:id="@+id/toolbar"
     layout="@layout/toolbar"
     />
+<Button
+    android:id="@+id/CrearGymkhana"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:text="Crear Gymkhana"
+    />
+
 
 
 </RelativeLayout>
