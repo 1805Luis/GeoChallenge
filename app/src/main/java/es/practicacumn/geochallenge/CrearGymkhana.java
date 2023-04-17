@@ -101,6 +101,8 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
                        Mihora.setText(String.format("%d:%02d",selectedHora,selectedMinutos));
                     }
                 },hora,minute,true);
+                timePickerDialog.setTitle("Seleccione una hora");
+                timePickerDialog.show();
             }
         });
     }
@@ -121,7 +123,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
             if (!GKlugar.isEmpty()){
                 if(!GKdificultad.isEmpty()){
                     if(!GKNcomponentes.isEmpty()){
-                        if(!GKinicioHora.isEmpty()&&!GKinicioFecha.isEmpty()&&!GKfinHora.isEmpty()&&GKfinFecha.isEmpty()){
+                        if(!GKinicioHora.isEmpty()&&!GKinicioFecha.isEmpty()&&!GKfinHora.isEmpty()&&!GKfinFecha.isEmpty()){
                             if(fechasPasadas(GKinicioFecha,GKinicioHora)){
                                 if(fechasPasadas(GKfinFecha, GKfinHora)){
                                    EnviarDatos();
@@ -142,8 +144,8 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         extras.putString("NParticipantes",GKNcomponentes);
         extras.putString("InicioFGY",GKinicioFecha);
         extras.putString("InicioHGY",GKinicioHora);
-        extras.putString("InicioFGY",GKfinFecha);
-        extras.putString("InicioHGY",GKfinHora);
+        extras.putString("FinFGY",GKfinFecha);
+        extras.putString("FinHGY",GKfinHora);
 
 
 

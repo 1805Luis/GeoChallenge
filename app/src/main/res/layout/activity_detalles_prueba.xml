@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".DetallesPrueba">
+
+    <TextView
+        android:id="@+id/OrdenDePrueba"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Orden de la prueba"
+        android:textSize="25sp"/>
+    <TextView
+        android:id="@+id/CoordenadasPrueba"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/OrdenDePrueba"
+        android:text="Coordenadas"
+        android:textSize="25sp"/>
+    <TextView
+        android:id="@+id/InformacionPrueba"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/CoordenadasPrueba"
+        android:text="Descripcion"
+        android:textSize="25sp"/>
+
+</RelativeLayout>

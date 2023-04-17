@@ -175,6 +175,7 @@
         android:minHeight="48sp"
         android:textSize="20sp"
         android:hint="Número máximo de participantes"
+        android:inputType="number"
         />
 
     <Button
