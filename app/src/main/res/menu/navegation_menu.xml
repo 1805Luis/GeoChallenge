@@ -4,6 +4,10 @@
     tools:showIn="navegacion_view" >
 
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/VolveraCasa"
+            android:icon="@drawable/ic_pantallaprincipal"
+            android:title="Pantalla principal"/>
             <item
                 android:id="@+id/DatosUsuario"
                 android:icon="@drawable/ic_perfil"
@@ -16,6 +20,11 @@
                 android:id="@+id/CerraSesion"
                 android:icon="@drawable/ic_cerrarsesion"
                 android:title="Cerrar Sesion"/>
+            <item
+                android:id="@+id/BorrarCuenta"
+                android:icon="@drawable/ic_eliminarcuenta"
+                android:title="Eliminar mis datos"/>
+
     </menu>
     </item>
 

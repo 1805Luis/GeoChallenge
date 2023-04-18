@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             });
-        }
+        }else Toast.makeText(this, "Rellene los campos pertinentes para acceder", Toast.LENGTH_SHORT).show();
 
     }
 

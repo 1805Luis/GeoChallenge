@@ -5,13 +5,20 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
+import es.practicacumn.geochallenge.Fragmentos.Frag_Hub;
+import es.practicacumn.geochallenge.Fragmentos.Frag_Usuario;
 
 
 public class Hub extends AppCompatActivity  {
@@ -33,6 +40,7 @@ public class Hub extends AppCompatActivity  {
         setContentView(R.layout.activity_hub);
         drawerLayout = findViewById(R.id.drawer);
         navigationView=findViewById(R.id.nav_view);
+        InicioHub();
         actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.nav_open,R.string.nav_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -41,15 +49,44 @@ public class Hub extends AppCompatActivity  {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.DatosUsuario:
-                        Toast.makeText(Hub.this, "Mostar datos usuarios", Toast.LENGTH_SHORT).show();
+                    case R.id.VolveraCasa:
+                        InicioHub();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
+                    case R.id.DatosUsuario:
+                        Frag_Usuario fragUsuario=new Frag_Usuario();
+                        lanzarFragment(fragUsuario);
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        break;
+                    case R.id.CerraSesion:
+                        CerrarSesion();
+                        break;
+
                 }
                 return true;
             }
         });
 
+    }
+
+    private void CerrarSesion() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent= new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void InicioHub() {
+        Frag_Hub fragHub=new Frag_Hub();
+        lanzarFragment(fragHub);
+    }
+
+    private void lanzarFragment(Fragment frag) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        //replace elimina el fragmento existente y agrega un nuevo fragmento
+        fragmentTransaction.replace(R.id.containerHub, frag);
+        fragmentTransaction.commit();
     }
 
 }

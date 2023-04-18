@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragmentos.Frag_Hub">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Crear Gymkhana"
+            android:id="@+id/crearGY"
+            android:layout_marginTop="150dp"
+            android:layout_marginLeft="35dp"/>
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Guía primeros auxilios"
+            android:id="@+id/auxilios"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="35dp"
+            android:layout_below="@+id/crearGY"/>
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Participar"
+            android:id="@+id/participar"
+            android:layout_marginTop="150dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35dp"/>
+
+        <Button
+            android:layout_width="155dp"
+            android:layout_height="155dp"
+            android:text="Guía supervivencia"
+            android:id="@+id/supervivencia"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="35dp"
+            android:layout_below="@+id/participar"/>
+    </RelativeLayout>
+
+</FrameLayout>

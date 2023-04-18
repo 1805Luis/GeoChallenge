@@ -5,21 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer"
-    tools:context=".Hub"
-    tools:openDrawer="start">
+    tools:context=".Hub">
+    <!--tools:openDrawer="start"-->
     
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
+        <FrameLayout
+            android:id="@+id/containerHub"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Main Activity"
-            android:textSize="30sp"
-            app:layout_constraintLeft_toRightOf="parent"/>
+            android:layout_height="wrap_content"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

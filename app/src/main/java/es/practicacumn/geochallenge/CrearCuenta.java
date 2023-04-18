@@ -1,8 +1,10 @@
 package es.practicacumn.geochallenge;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -17,6 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class CrearCuenta extends AppCompatActivity implements View.OnClickListener {
@@ -57,28 +60,70 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
                 if (Pwd.length()>=tamanio){
                     if(comprobarContrasenia(Pwd)){
                         if(Pwd.equals(VPwd)){
-                            Auth.createUserWithEmailAndPassword(Email,Pwd).
-                                    addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()){
-                                                Toast.makeText(CrearCuenta.this, "Cuenta Creada con exito", Toast.LENGTH_SHORT).show();
-                                                FirebaseUser user = Auth.getCurrentUser();
-                                                user.sendEmailVerification();
-                                                Intent intent = new Intent(getApplicationContext(), VerificarCuenta.class);
-                                                intent.putExtra("email",Email);
-                                                startActivity(intent);
-                                                finish();
-                                            }else{
-                                                Toast.makeText(CrearCuenta.this, "No se pudo crear la cuenta", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
+                            Auth.fetchSignInMethodsForEmail(Email).addOnCompleteListener(task -> {
+
+                                if (task.isSuccessful()) {
+                                    List<String> signInMethods = task.getResult().getSignInMethods();
+
+                                    if (signInMethods != null && !signInMethods.isEmpty()) {
+                                        CrearAlerta();
+                                    } else {
+                                        craerCuenta();
+                                    }
+                                } else {
+                                    Toast.makeText(this, "Error al verificar cuenta", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                         }else Toast.makeText(this, "Las contraseñas no son iguales", Toast.LENGTH_SHORT).show();
                     }else Toast.makeText(this, "Las contraseña debe incluir numeros, letras, caracteres especiales", Toast.LENGTH_SHORT).show();
                 }else Toast.makeText(this, "Introduzca una contraseña con "+tamanio+" o mas caracteres(numeros, letras, caracteres especiales)", Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "Las contraseñas no pueden estar vacías", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "EL campo no debe estar vacío o introduzca un correo valido ", Toast.LENGTH_SHORT).show();
+    }
+
+    private void CrearAlerta() {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("Ya esta registrado");
+        alerta.setMessage("¿Qué desea hacer?")
+                .setCancelable(false)
+                .setPositiveButton("Volver al inicio", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("Recuperar Contraseña", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent=new Intent(getApplicationContext(),OlvidePwd.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+        alerta.create().show();
+    }
+
+    private void craerCuenta() {
+        Auth.createUserWithEmailAndPassword(Email,Pwd).
+                addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(CrearCuenta.this, "Cuenta Creada con exito", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = Auth.getCurrentUser();
+                            user.sendEmailVerification();
+                            Intent intent = new Intent(getApplicationContext(), VerificarCuenta.class);
+                            intent.putExtra("email",Email);
+                            startActivity(intent);
+                            finish();
+                        }else{
+                            Toast.makeText(CrearCuenta.this, "No se pudo crear la cuenta", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private boolean comprobarContrasenia(String pwd) {
