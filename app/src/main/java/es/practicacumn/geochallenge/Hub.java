@@ -54,8 +54,7 @@ public class Hub extends AppCompatActivity  {
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.DatosUsuario:
-                        Frag_Usuario fragUsuario=new Frag_Usuario();
-                        lanzarFragment(fragUsuario);
+                        MostrarUsuario();
                         drawerLayout.closeDrawer(GravityCompat.START);
                         break;
                     case R.id.CerraSesion:
@@ -67,6 +66,11 @@ public class Hub extends AppCompatActivity  {
             }
         });
 
+    }
+
+    private void MostrarUsuario() {
+        Frag_Usuario fragUsuario=new Frag_Usuario();
+        lanzarFragment(fragUsuario);
     }
 
     private void CerrarSesion() {

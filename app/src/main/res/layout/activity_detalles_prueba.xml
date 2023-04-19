@@ -7,12 +7,20 @@
     android:gravity="center"
     tools:context=".DetallesPrueba">
 
+    <ImageView
+        android:id="@+id/CodigoQR"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
     <TextView
+        android:layout_below="@id/CodigoQR"
         android:id="@+id/OrdenDePrueba"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Orden de la prueba"
+        android:layout_marginTop="10dp"
         android:textSize="25sp"/>
     <TextView
         android:id="@+id/CoordenadasPrueba"

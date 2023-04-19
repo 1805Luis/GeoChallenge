@@ -1,19 +1,30 @@
 package es.practicacumn.geochallenge;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.zxing.BarcodeFormat;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +35,13 @@ import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener {
-    String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id;
+    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo;
+    private double lat,lon;
+    private int orden;
     private List<Prueba> ListaPruebas;
     private EditText EOrden,ELat,ELon,EInfo;
     private DatabaseReference mDatabase;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +57,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         enviar.setOnClickListener(this);
         Button continuar = findViewById(R.id.Terminar);
         continuar.setOnClickListener(this);
+        recibirDatos();
     }
 
     @Override
@@ -61,7 +76,6 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void almacenarDatos() {
-        recibirDatos();
         generarId();
         Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false);
         mDatabase.child("Gymkhana").child(Id).setValue(gymkhana);
@@ -98,36 +112,23 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void introducirDatos() {
-        String torden = EOrden.getText().toString().trim();
-        String TLat = ELat.getText().toString().trim();
-        String TLon = ELon.getText().toString().trim();
-        String infoPr = EInfo.getText().toString().trim();
-        if(!torden.isEmpty()){
-            if(EsNumerico(torden)){
-                int orden = Integer.parseInt(torden);
+        Porden = EOrden.getText().toString().trim();
+        PLat = ELat.getText().toString().trim();
+        PLon = ELon.getText().toString().trim();
+        Pinfo = EInfo.getText().toString().trim();
+        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+        if(!Porden.isEmpty()){
+            if(esNumerico(Porden)){
+                orden = Integer.parseInt(Porden);
                 if(orden ==(ListaPruebas.size()+1)){
-                    if(!TLat.isEmpty()){
-                        double lat = Double.parseDouble(TLat);
+                    if(!PLat.isEmpty()){
+                        lat = Double.parseDouble(PLat);
                         if(lat <=90&& lat >=-90){
-                            if(!TLon.isEmpty()){
-                                double lon = Double.parseDouble(TLon);
+                            if(!PLon.isEmpty()){
+                                lon = Double.parseDouble(PLon);
                                 if(lon <=180&& lon >=-180){
-                                    if(!infoPr.isEmpty()){
-                                        ListaPruebas.add(new Prueba(orden, lat, lon, infoPr));
-                                        EOrden.getText().clear();
-                                        ELat.getText().clear();
-                                        ELon.getText().clear();
-                                        EInfo.getText().clear();
-                                        Bundle bundle = new Bundle();
-                                        bundle.putSerializable("pruebas", (Serializable) ListaPruebas);
-                                        Frag_Pruebas fPruebas = new Frag_Pruebas();
-                                        fPruebas.setArguments(bundle);
-                                        // Crea una transacción de fragmentos
-                                        FragmentManager fragmentManager = getSupportFragmentManager();
-                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                        //replace elimina el fragmento existente y agrega un nuevo fragmento
-                                        fragmentTransaction.replace(R.id.container, fPruebas);
-                                        fragmentTransaction.commit();
+                                    if(!Pinfo.isEmpty()){
+                                        generarCodigoQR(barcodeEncoder);
                                     }else Toast.makeText(this, "La informacion de la pista no puede ser vacía", Toast.LENGTH_SHORT).show();
                                 }else Toast.makeText(this, "La longitud debe estar entre -180º y 180º", Toast.LENGTH_SHORT).show();
                             }else Toast.makeText(this, "La longitud no puede ser nula", Toast.LENGTH_SHORT).show();
@@ -141,7 +142,68 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private boolean EsNumerico(String cadena) {
+    private void generarCodigoQR(BarcodeEncoder barcodeEncoder) {
+        try {
+
+            Bitmap bitmap = barcodeEncoder.encodeBitmap("Orden de la prueba: " + orden + " Latitud: " + lat + " ,Longitud: " + lon + " Informacion: " + Pinfo, BarcodeFormat.QR_CODE, 750, 750);
+            String nombre="Prueba"+orden;
+            subirCodigoQR(bitmap,nombre);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void subirCodigoQR(Bitmap bitmap, String nombreArchivo) {
+        storageRef = FirebaseStorage.getInstance().getReference().child("codigosQR");
+
+        // Convertir el código QR a un array de bytes
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] data = baos.toByteArray();
+
+        // Subir el código QR a Firebase Storage con un nombre de archivo único
+        StorageReference codigoQRRef = storageRef.child(nombreArchivo);
+        codigoQRRef.putBytes(data)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        // El código QR se subió exitosamente
+                        codigoQRRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                // Se obtuvo la URL de descarga del código QR
+                                String codigoUrl = uri.toString();
+                                ListaPruebas.add(new Prueba(orden, lat, lon, Pinfo,codigoUrl));
+                                EOrden.getText().clear();
+                                ELat.getText().clear();
+                                ELon.getText().clear();
+                                EInfo.getText().clear();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("pruebas", (Serializable) ListaPruebas);
+                                Frag_Pruebas fPruebas = new Frag_Pruebas();
+                                fPruebas.setArguments(bundle);
+                                // Crea una transacción de fragmentos
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                //replace elimina el fragmento existente y agrega un nuevo fragmento
+                                fragmentTransaction.replace(R.id.container, fPruebas);
+                                fragmentTransaction.commit();
+
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        Toast.makeText(CrearPruebas.this, "Error al subir el codigo", Toast.LENGTH_SHORT).show();                    }
+                });
+    }
+
+
+    private boolean esNumerico(String cadena) {
         try {
             Integer.parseInt(cadena);
             return true;

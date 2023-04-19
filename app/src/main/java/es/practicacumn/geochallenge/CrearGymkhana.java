@@ -153,6 +153,17 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
             return false;
         }
     }
+    private boolean fechasPasadas(String FechaInicio, String HoraInicio) {
+        SimpleDateFormat FormatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Calendar FechaHoraActual = Calendar.getInstance();
+        try {
+            Date FechaHoraInicio=FormatoFecha.parse(FechaInicio+" "+HoraInicio+ ":00");
+            return FechaHoraInicio.compareTo(FechaHoraActual.getTime())>0;
+        }catch (Exception e){
+            return false;
+        }
+
+    }
 
     private void EnviarDatos() {
         Bundle extras = new Bundle();
@@ -165,23 +176,10 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         extras.putString("FinFGY",GKfinFecha);
         extras.putString("FinHGY",GKfinHora);
 
-
-
-
         Intent intent=new Intent(getApplicationContext(),CrearPruebas.class);
         intent.putExtras(extras);
         startActivity(intent);
     }
 
-    private boolean fechasPasadas(String FechaInicio, String HoraInicio) {
-        SimpleDateFormat FormatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Calendar FechaHoraActual = Calendar.getInstance();
-        try {
-            Date FechaHoraInicio=FormatoFecha.parse(FechaInicio+" "+HoraInicio+ ":00");
-            return FechaHoraInicio.compareTo(FechaHoraActual.getTime())>0;
-        }catch (Exception e){
-            return false;
-        }
 
-    }
 }

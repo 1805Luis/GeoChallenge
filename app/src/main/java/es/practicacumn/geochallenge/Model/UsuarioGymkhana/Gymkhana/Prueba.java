@@ -7,12 +7,14 @@ public class Prueba implements Serializable {
     private double Latitud;
     private double Longitud;
     private String Descripccion;
+    private String CodigoQr;
 
-    public Prueba(int orden, double latitud, double longitud, String descripccion) {
+    public Prueba(int orden, double latitud, double longitud, String descripccion, String codigoQr) {
         Orden = orden;
         Latitud = latitud;
         Longitud = longitud;
         Descripccion = descripccion;
+        CodigoQr = codigoQr;
     }
 
     public int getOrden() {
@@ -45,5 +47,13 @@ public class Prueba implements Serializable {
 
     public void setDescripccion(String descripccion) {
         Descripccion = descripccion;
+    }
+
+    public String getCodigoQr() {
+        return CodigoQr;
+    }
+
+    public void setCodigoQr(String codigoQr) {
+        CodigoQr = codigoQr;
     }
 }
