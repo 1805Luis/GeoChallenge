@@ -29,5 +29,24 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string-array name="Consejo_del_dia">
+        <item>¡Sonríe! La vida es hermosa.</item>
+        <item>Bebe más agua</item>
+        <item>Haz una buena acción</item>
+        <item>Agradece por algo bueno que haya pasado hoy</item>
+        <item>Sonríe a alguien que pase cerca de ti</item>
+        <item>Haz una pausa y respira profundamente</item>
+        <item>Camina al menos 30 minutos al día</item>
+        <item>Dedica tiempo a una actividad que disfrutes</item>
+        <item>Limita el tiempo en redes sociales</item>
+        <item>Escribe tus metas para el día</item>
+        <item>Practica la empatía con las personas que te rodean</item>
+        <item>Exprésate con gratitud y amabilidad</item>
+        <item>Desconecta de la tecnología antes de dormir</item>
+        <item>Escucha música que te haga sentir bien</item>
+        <item>Evita las bebidas alcohólicas en exceso</item>
+        <item>Celebra tus logros, por pequeños que sean</item>
+    </string-array>
+
 
 </resources>

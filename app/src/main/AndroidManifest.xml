@@ -12,12 +12,15 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/icono_app"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.GeoChallenge"
-        tools:targetApi="31"
-        android:hardwareAccelerated="true" >
+        tools:targetApi="31">
+        <activity
+            android:name=".Hub"
+            android:exported="false" />
         <activity
             android:name=".DetallesPrueba"
             android:exported="false" />
@@ -35,9 +38,6 @@
             android:exported="false" />
         <activity
             android:name=".OlvidePwd"
-            android:exported="false" />
-        <activity
-            android:name=".Hub"
             android:exported="false" />
         <activity
             android:name=".Perfil"
