@@ -65,6 +65,7 @@ public class Hub extends AppCompatActivity {
                         break;
                     case R.id.BorrarCuenta:
                         borrarDatos();
+                        break;
                         
                 }
                 drawerLayout.closeDrawers();

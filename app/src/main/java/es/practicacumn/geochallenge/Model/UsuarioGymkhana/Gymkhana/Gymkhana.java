@@ -3,6 +3,8 @@ package es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana;
 import java.io.Serializable;
 import java.util.List;
 
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario;
+
 public class Gymkhana implements Serializable {
     private String Id;
     private String Nombre;
@@ -15,8 +17,11 @@ public class Gymkhana implements Serializable {
     private String MaxParticipantes;
     private List<Prueba> Pruebas;
     private boolean Terminado;
+    private double Latitud;
+    private double Longitud;
+    private List<Usuario> usuarios;
 
-    public Gymkhana(String id, String nombre, String lugar, String dificultad, String diaInicio, String diaFin, String horaInicio, String horaFinal, String maxParticipantes, List<Prueba> pruebas, boolean terminado) {
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String diaInicio, String diaFin, String horaInicio, String horaFin, String maxParticipantes, List<Prueba> pruebas, boolean terminado, double latitud, double longitud, List<Usuario> usuarios) {
         Id = id;
         Nombre = nombre;
         Lugar = lugar;
@@ -24,10 +29,13 @@ public class Gymkhana implements Serializable {
         DiaInicio = diaInicio;
         DiaFin = diaFin;
         HoraInicio = horaInicio;
-        HoraFin = horaFinal;
+        HoraFin = horaFin;
         MaxParticipantes = maxParticipantes;
         Pruebas = pruebas;
         Terminado = terminado;
+        Latitud = latitud;
+        Longitud = longitud;
+        this.usuarios = usuarios;
     }
 
     public String getNombre() {

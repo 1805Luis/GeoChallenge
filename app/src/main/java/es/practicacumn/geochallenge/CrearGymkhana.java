@@ -29,8 +29,8 @@ import java.util.Locale;
 import es.practicacumn.geochallenge.Model.Comun;
 
 public class CrearGymkhana extends AppCompatActivity implements View.OnClickListener {
-    private EditText Gnombre,Glugar,GinicioFecha,GinicioHora,GfinFecha,GfinHora,GNparticipantes;
-    private String GKnombre,GKlugar,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes;
+    private EditText Gnombre,GinicioFecha,GinicioHora,GfinFecha,GfinHora,GNparticipantes;
+    private String GKnombre,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes;
     private TextView GnivelDificultad;
     private RatingBar Gdificultad;
     private Button CrearPruebas;
@@ -40,7 +40,6 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_gymkhana);
         Gnombre=findViewById(R.id.NombreGK);
-        Glugar=findViewById(R.id.LugarGk);
         GinicioFecha=findViewById(R.id.FechaInicio);
         Comun.InicializarFecha(GinicioFecha,CrearGymkhana.this);
         GfinFecha=findViewById(R.id.FechaFin);
@@ -58,7 +57,6 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     }
     private void Inicializar() {
         GKnombre=Gnombre.getText().toString().trim();
-        GKlugar=Glugar.getText().toString().trim();
         GKinicioFecha=GinicioFecha.getText().toString().trim();
         GKfinFecha=GfinFecha.getText().toString().trim();
         GKinicioHora=GinicioHora.getText().toString().trim();
@@ -129,7 +127,6 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     private void Continuar() {
         Inicializar();
         if(!GKnombre.isEmpty()){
-            if (!GKlugar.isEmpty()){
                 if(!GKdificultad.isEmpty()){
                     if(!GKNcomponentes.isEmpty()){
                         if(!GKinicioHora.isEmpty()&&!GKinicioFecha.isEmpty()&&!GKfinHora.isEmpty()&&!GKfinFecha.isEmpty()){
@@ -143,7 +140,6 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
                         }else Toast.makeText(this, "Los campos de inicio y fin no pueden estar vacios", Toast.LENGTH_SHORT).show();
                     }else Toast.makeText(this, "Debe indicar el numero maximo de participantes", Toast.LENGTH_SHORT).show();
                 }else Toast.makeText(this, "Debe especificar la dificultad", Toast.LENGTH_SHORT).show();
-            }else Toast.makeText(this, "Debe especificar en lugar de comienzo", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "Debe indicar el nombre de la gymkhana", Toast.LENGTH_SHORT).show();
     }
     private boolean esPosterior(String fechaInicio, String fechaFinal, String horaInicio, String horaFinal) {
@@ -176,7 +172,6 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     private void EnviarDatos() {
         Bundle extras = new Bundle();
         extras.putString("NombreGY",GKnombre);
-        extras.putString("LugarGY",GKlugar);
         extras.putString("DificultadGY",GKdificultad);
         extras.putString("NParticipantes",GKNcomponentes);
         extras.putString("InicioFGY",GKinicioFecha);
@@ -184,7 +179,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         extras.putString("FinFGY",GKfinFecha);
         extras.putString("FinHGY",GKfinHora);
 
-        Intent intent=new Intent(getApplicationContext(),CrearPruebas.class);
+        Intent intent=new Intent(getApplicationContext(),LugarGymkhana.class);
         intent.putExtras(extras);
         startActivity(intent);
     }
@@ -209,7 +204,6 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
                         Intent intent=new Intent(getApplicationContext(),Hub.class);
                         startActivity(intent);
                         finish();
-
 
                     }
                 })

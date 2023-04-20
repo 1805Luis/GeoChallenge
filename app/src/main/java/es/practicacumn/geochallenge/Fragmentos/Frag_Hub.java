@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import es.practicacumn.geochallenge.CrearGymkhana;
+import es.practicacumn.geochallenge.LugarGymkhana;
 import es.practicacumn.geochallenge.R;
 
 public class Frag_Hub extends Fragment implements View.OnClickListener {
@@ -37,7 +38,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.crearGY:
-                Intent intent=new Intent(getContext(), CrearGymkhana.class);
+                Intent intent=new Intent(getContext(), LugarGymkhana.class);
                 startActivity(intent);
                 break;
             case R.id.auxilios:

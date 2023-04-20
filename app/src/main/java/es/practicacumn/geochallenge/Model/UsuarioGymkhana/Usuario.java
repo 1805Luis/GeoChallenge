@@ -12,20 +12,24 @@ public class Usuario {
     private String Peso;
     private String AntecedentesMedicos;
     private String Alergias;
+    private double Latitud;
+    private double Longitud;
 
     public Usuario() {    }
 
-    public Usuario(String nombre, String apellido, String telefono, String fechaNacimiento, String genero, String grupoSanguineo, String altura, String peso, String antecedentesMedicos, String alergias) {
-        this.Nombre = nombre;
-        this.Apellido = apellido;
-        this.Telefono = telefono;
-        this.FechaNacimiento = fechaNacimiento;
-        this.Genero = genero;
-        this.GrupoSanguineo = grupoSanguineo;
-        this.Altura = altura;
-        this.Peso = peso;
-        this.AntecedentesMedicos = antecedentesMedicos;
-        this.Alergias = alergias;
+    public Usuario(String nombre, String apellido, String telefono, String fechaNacimiento, String genero, String grupoSanguineo, String altura, String peso, String antecedentesMedicos, String alergias, double latitud, double longitud) {
+        Nombre = nombre;
+        Apellido = apellido;
+        Telefono = telefono;
+        FechaNacimiento = fechaNacimiento;
+        Genero = genero;
+        GrupoSanguineo = grupoSanguineo;
+        Altura = altura;
+        Peso = peso;
+        AntecedentesMedicos = antecedentesMedicos;
+        Alergias = alergias;
+        Latitud = latitud;
+        Longitud = longitud;
     }
 
     public String getNombre() {
@@ -106,5 +110,21 @@ public class Usuario {
 
     public void setAlergias(String alergias) {
         this.Alergias = alergias;
+    }
+
+    public double getLatitud() {
+        return Latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        Latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return Longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        Longitud = longitud;
     }
 }

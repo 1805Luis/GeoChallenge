@@ -39,7 +39,7 @@ import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener {
     private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo;
-    private double lat,lon;
+    private double lat,lon,Lat,Lon;
     private int orden;
     private List<Prueba> ListaPruebas;
     private EditText EOrden,ELat,ELon,EInfo;
@@ -80,7 +80,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
     private void almacenarDatos() {
         generarId();
-        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false);
+        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false,Lat,Lon,null);
         mDatabase.child("Gymkhana").child(Id).setValue(gymkhana);
         cambiarActividad(gymkhana);
 
@@ -110,6 +110,9 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
             HoraInicio = extras.getString("InicioHGY");
             FechaFin= extras.getString("FinFGY");
             HoraFin=extras.getString("FinHGY");
+            Lon=extras.getDouble("Latitud");
+            Lat= extras.getDouble("Longitud");
+
 
         }
     }

@@ -133,7 +133,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void subirDatos() {
-        Usuario usuario= new Usuario(Unombre,Uapellido,Utlf,Ucumple,Usexo,Usangre,Ualtura,Upeso,Uantecedentes,Ualergias);
+        Usuario usuario= new Usuario(Unombre,Uapellido,Utlf,Ucumple,Usexo,Usangre,Ualtura,Upeso,Uantecedentes,Ualergias,0.0,0.0);
         mDatabase.child("Usuario").child(UserId).setValue(usuario);
         Toast.makeText(this, "Usuario creado con exito", Toast.LENGTH_SHORT).show();
         Intent intent= new Intent(getApplicationContext(),Hub.class);
