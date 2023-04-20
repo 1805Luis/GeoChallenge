@@ -1,14 +1,17 @@
 package es.practicacumn.geochallenge;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -210,5 +213,38 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         } catch (NumberFormatException nfe){
             return false;
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==event.KEYCODE_BACK){
+            CrearAlerta();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void CrearAlerta() {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("¿Desea volver atras?");
+        alerta.setMessage("Perderá el progreso")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent intent=new Intent(getApplicationContext(),CrearGymkhana.class);
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alerta.create().show();
+
     }
 }

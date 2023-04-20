@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 public class CrearCuenta extends AppCompatActivity implements View.OnClickListener {
     private EditText email,pwd, Vpwd;
     private String Email,Pwd, VPwd;
-    private Button continuar;
+    private Button continuar,VIP;
     private FirebaseAuth Auth;
     private int tamanio=6;
 
@@ -47,8 +47,12 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
             case R.id.Continuar:
                 comprobarDatos();
                 break;
+
         }
     }
+
+
+
 
 
     private void comprobarDatos() {

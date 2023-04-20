@@ -78,12 +78,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.AccesoSinLogin:
-                Intent intent4= new Intent(getApplicationContext(),Hub.class);
-                startActivity(intent4);
+                VIP();
 
         }
 
     }
+
+    private void VIP() {
+        Auth.signInWithEmailAndPassword("admin@gmail.com", "12@#As").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Intent intent= new Intent(MainActivity.this,Hub.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+    }
+
     @Override
     protected void onStart() {
         super.onStart();

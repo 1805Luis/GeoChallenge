@@ -1,8 +1,11 @@
 package es.practicacumn.geochallenge;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,6 +16,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -184,11 +191,35 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode== event.getKeyCode()){
-            Intent intent = new Intent(getApplicationContext(),Hub.class);
-            startActivity(intent);
-            finish();
+        if(keyCode==event.KEYCODE_BACK){
+            CrearAlerta();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void CrearAlerta() {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("¿Desea volver atras?");
+        alerta.setMessage("Perderá el progreso")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent intent=new Intent(getApplicationContext(),Hub.class);
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alerta.create().show();
+
     }
 }

@@ -67,6 +67,7 @@ public class Hub extends AppCompatActivity {
                         borrarDatos();
                         
                 }
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
