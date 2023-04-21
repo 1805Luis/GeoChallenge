@@ -1,6 +1,6 @@
 package es.practicacumn.geochallenge;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.app.ActivityCompat;
@@ -10,19 +10,18 @@ import androidx.preference.PreferenceManager;
 import android.Manifest;
 import android.content.Context;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.GestureDetector;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.EditText;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
-import org.osmdroid.events.MapListener;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
@@ -32,29 +31,30 @@ import org.osmdroid.views.overlay.compass.CompassOverlay;
 
 import java.util.ArrayList;
 
-public class LugarGymkhana extends AppCompatActivity implements GestureDetector.OnGestureListener {
+public class LugarGymkhana extends AppCompatActivity {
     private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin;
-    private Marker previous = null; // Variable para guardar el marcador anterior
-    private Marker lastMarkerPosition = null;
+    private Marker previous; // Variable para guardar el marcador anterior
     private IMapController mapController;
     private MapView map = null;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private GestureDetector gestureDetector;
-    float lastX,lastY,oldDist;
-    int mode,NONE=0,DRAG=1,ZOOM=2;
-    boolean isAddingMarker=true;
 
+    private float startX, startY;
+    private EditText LatitudP, LongitudP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lugargymkhana);
 
+        LatitudP=findViewById(R.id.LatitudPrueba);
+        LongitudP =findViewById(R.id.LongitudPrueba);
+
         Context ctx = this.getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        previous=null;
 
         map = findViewById(R.id.MapView);
-        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setTileSource(TileSourceFactory.HIKEBIKEMAP);
         mapController=map.getController();
         mapController.setZoom(12.0);
 
@@ -80,36 +80,51 @@ public class LugarGymkhana extends AppCompatActivity implements GestureDetector.
         map.getController().setCenter(point);
         previous=startMarker;
 
-        //Desplazar el marcador
-        /*startMarker.setOnMarkerDragListener(new Marker.OnMarkerDragListener() {
+        map.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onMarkerDragStart(Marker marker) {
-               // Se llama cuando se empieza a arrastrar el marcador
-            }
-            @Override
-            public void onMarkerDrag(Marker marker) {
-                // Se llama cuando se está arrastrando el marcador
-            }
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Guarda la posición inicial del evento
+                        startX = event.getX();
+                        startY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        // Calcula la distancia entre la posición inicial y la posición final del evento
+                        float distance = (float) Math.sqrt(Math.pow(event.getX() - startX, 2) + Math.pow(event.getY() - startY, 2));
 
-            @Override
-            public void onMarkerDragEnd(Marker marker) {
-                // Se llama cuando se suelta el marcador
-                // Obtiene la nueva ubicación del marcador
-                GeoPoint newPosition = marker.getPosition();
-                // Actualiza la posición del marcador en el mapa
-                marker.setPosition(newPosition);
-                // Invalida el MapView para que se reflejen los cambios
-                map.invalidate();
+                        // Si la distancia es menor que un umbral específico, agrega el marcador
+                        if (distance < 50) {
+                            // Si hay un marcador anterior, elimínalo del mapa
+                            if (previous != null) {
+                                map.getOverlays().remove(previous);
+                                previous = null;
+                            }
+
+                            // Obtén las coordenadas del punto clickeado
+                            IGeoPoint point1 = map.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+                            double latitud = point1.getLatitude();
+                            double longitud = point1.getLongitude();
+                            LatitudP.setText(String.valueOf(String.format("%.4f",latitud)));
+                            LongitudP.setText(String.valueOf(String.format("%.4f",longitud)));
+
+                            // Crea un nuevo marcador en la ubicación del punto clickeado
+                            Marker marker = new Marker(map);
+                            marker.setPosition((GeoPoint) point1);
+                            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+
+                            // Agrega el nuevo marcador a la lista de overlays del mapa
+                            map.getOverlays().add(marker);
+
+                            // Asigna el nuevo marcador a la variable previousMarker
+                            previous = marker;
+                        }
+                        break;
+                }
+
+                return false;
             }
-
-
         });
-        startMarker.setDraggable(true);
-        map.getOverlays().add(startMarker);*/
-        map.setMultiTouchControls(true);
-
-        // Configurar el detector de gestos
-        gestureDetector = new GestureDetector(this, this);
     }
 
 
@@ -143,112 +158,16 @@ public class LugarGymkhana extends AppCompatActivity implements GestureDetector.
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
     }
-
-
-
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_UP:
-                if (isAddingMarker) {
-                    GeoPoint geoPoint = (GeoPoint) map.getProjection().fromPixels((int) event.getX(), (int) event.getY());
-                    if (previous != null) {
-                        map.getOverlays().remove(previous);
-                    }
-                    Marker marker = new Marker(map);
-                    marker.setPosition(geoPoint);
-                    map.getOverlays().add(marker);
-                    map.invalidate();
-                    previous = marker;
-                }
-                break;
-
-            case MotionEvent.ACTION_DOWN:
-                isAddingMarker=false;
-                lastX = event.getX();
-                lastY = event.getY();
-                mode = DRAG;
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-                if (mode==DRAG) {
-                    float x = event.getX();
-                    float y = event.getY();
-                    int deltaX = (int) (lastX - x);
-                    int deltaY = (int) (lastY - y);
-                    map.scrollBy(deltaX, deltaY);
-                    lastX = x;
-                    lastY = y;
-                    isAddingMarker=true;
-                } else if (mode==ZOOM) {
-                    float newDist = spacing(event);
-                    if (newDist > 10f) {
-                        float scale = newDist / oldDist;
-                        int zoomLevel = map.getZoomLevel();
-                        if (scale > 1) {
-                            zoomLevel += 1;
-                        } else {
-                            zoomLevel -= 1;
-                        }
-                        map.getController().setZoom(zoomLevel);
-                        oldDist = newDist;
-
-                    }
-
-                    isAddingMarker=true;
-                }
-                    break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                isAddingMarker=false;
-                // Iniciar el gesto de pellizco
-                oldDist = spacing(event);
-                if (oldDist > 10f) {
-                    mode = ZOOM;
-                }
-                break;
-            case MotionEvent.ACTION_POINTER_UP:
-                //Finalizar el gesto de pellizco
-                mode=NONE;
-
-                isAddingMarker=true;
-                break;
-
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==event.KEYCODE_BACK){
+            Intent intent=new Intent(getApplicationContext(),Hub.class);
+            startActivity(intent);
+            finish();
         }
-        return true;
-    }
-    private float spacing(MotionEvent event) {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return (float) Math.sqrt(x * x + y * y);
+        return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public boolean onDown(@NonNull MotionEvent motionEvent) {
-        return false;
-    }
 
-    @Override
-    public void onShowPress(@NonNull MotionEvent motionEvent) {
 
-    }
-
-    @Override
-    public boolean onSingleTapUp(@NonNull MotionEvent motionEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(@NonNull MotionEvent motionEvent) {
-
-    }
-
-    @Override
-    public boolean onFling(@NonNull MotionEvent motionEvent, @NonNull MotionEvent motionEvent1, float v, float v1) {
-        return false;
-    }
 }
