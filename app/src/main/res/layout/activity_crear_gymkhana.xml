@@ -19,24 +19,12 @@
         android:textAlignment="center"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/LugarGk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/NombreGK"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:hint="Lugar de Gymkhana"
-        android:singleLine="true"
-        android:textAlignment="center"
-        android:textSize="20sp"/>
 
     <RelativeLayout
         android:id="@+id/RDificultad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/LugarGk"
+        android:layout_below="@id/NombreGK"
         android:layout_marginStart="10dp">
 
         <TextView
@@ -187,7 +175,8 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
-        android:text="Continuar" />
+        android:text="Continuar"
+        android:drawableRight="@drawable/ic_continuar"/>
 
 
 

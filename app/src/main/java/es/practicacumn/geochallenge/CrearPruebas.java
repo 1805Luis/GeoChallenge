@@ -60,6 +60,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         enviar.setOnClickListener(this);
         Button continuar = findViewById(R.id.Terminar);
         continuar.setOnClickListener(this);
+        generarId();
         recibirDatos();
     }
 
@@ -79,7 +80,6 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void almacenarDatos() {
-        generarId();
         Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false,Lat,Lon,null);
         mDatabase.child("Gymkhana").child(Id).setValue(gymkhana);
         cambiarActividad(gymkhana);
@@ -103,7 +103,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         Bundle extras=getIntent().getExtras();
         if(!extras.isEmpty()) {
             Nombre = extras.getString("NombreGY");
-            Lugar = extras.getString("LugarGY");
+            Lugar = extras.getString("Lugar");
             Dificultad = extras.getString("DificultadGY");
             ParticipantesMax = extras.getString("NParticipantes");
             FechaInicio = extras.getString("InicioFGY");
@@ -162,7 +162,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void subirCodigoQR(Bitmap bitmap, String nombreArchivo) {
-        storageRef = FirebaseStorage.getInstance().getReference().child("codigosQR");
+        storageRef = FirebaseStorage.getInstance().getReference().child("codigosQR").child(Id);
 
         // Convertir el código QR a un array de bytes
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

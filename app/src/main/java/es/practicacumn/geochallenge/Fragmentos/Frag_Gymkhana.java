@@ -64,18 +64,5 @@ public class Frag_Gymkhana extends Fragment {
     }
 
 
-/*
-    private void recibirDatos() {
-        Bundle extras = getIntent().getExtras();
-        if (!extras.isEmpty()) {
-            Nombre = extras.getString("NombreGY");
-            Lugar = extras.getString("LugarGY");
-            Dificultad = extras.getString("DificultadGY");
-            ParticipantesMax = extras.getString("NParticipantes");
-            FechaInicio = extras.getString("InicioFGY");
-            HoraInicio = extras.getString("InicioHGY");
-            FechaFin = extras.getString("FinFGY");
-            HoraFin = extras.getString("FinHGY");
-        }
-    }*/
+
 }

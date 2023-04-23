@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Como desea buscar: "
+        android:textSize="20dp"
+        android:textStyle="italic"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/BuscarCoordenadas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Coordenadas"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/BuscarLugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lugar"
+            android:checked="false"/>
+    </RadioGroup>
+    <LinearLayout
+        android:id="@+id/Coordenadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        >
+        <EditText
+            android:id="@+id/latitud"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Latitud"
+            android:textAlignment="center"
+            android:inputType="numberSigned|numberDecimal"/>
+        <EditText
+            android:id="@+id/longitud"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Longitud"
+            android:textAlignment="center"
+            android:inputType="numberSigned|numberDecimal"/>
+
+    </LinearLayout>
+    <EditText
+        android:id="@+id/Lugar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Lugar que desea buscar"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/Cancelar"
+            android:text="Cancelar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"/>
+        <Space
+            android:layout_width="12dp"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/Localizar"
+            android:text="Buscar"
+            android:layout_margin="5dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</LinearLayout>

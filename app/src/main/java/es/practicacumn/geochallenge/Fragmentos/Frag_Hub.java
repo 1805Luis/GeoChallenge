@@ -38,7 +38,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.crearGY:
-                Intent intent=new Intent(getContext(), LugarGymkhana.class);
+                Intent intent=new Intent(getContext(), CrearGymkhana.class);
                 startActivity(intent);
                 break;
             case R.id.auxilios:
