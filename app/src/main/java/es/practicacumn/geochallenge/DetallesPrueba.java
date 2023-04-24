@@ -28,7 +28,7 @@ public class DetallesPrueba extends AppCompatActivity {
                 .load(imagenUrl)
                 .into(Codigo);
         Orden.setText("Esta es la pista: "+obj.getOrden());
-        Coord.setText("Las coordenadas de la pista son ( "+obj.getLatitud()+" , "+obj.getLongitud()+")");
+        Coord.setText("Las coordenadas de la pista son ( "+String.format("%.4f"+obj.getLatitud())+" , "+String.format("%.4f"+obj.getLongitud())+")");
         Info.setText("La pista dice lo siguiente: "+obj.getDescripccion());
     }
 }

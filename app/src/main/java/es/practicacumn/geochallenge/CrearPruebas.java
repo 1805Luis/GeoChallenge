@@ -42,14 +42,13 @@ import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymk
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener,Frag_Mapa.OnMapClickListener {
     private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo;
-    private double lat,lon,Lat,Lon;
+    private double lat,lon;
     private int orden;
     private List<Prueba> ListaPruebas;
     private UbicacionGymkhana ubicacionGymkhana;
     private EditText EOrden,ELat,ELon,EInfo;
     private DatabaseReference mDatabase;
     private StorageReference storageRef;
-    private ProgressBar progressBar;
 
 
     @Override
@@ -66,7 +65,6 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         enviar.setOnClickListener(this);
         Button continuar = findViewById(R.id.Terminar);
         continuar.setOnClickListener(this);
-        progressBar=findViewById(R.id.CargarLista);
         generarId();
         recibirDatos();
     }
@@ -125,7 +123,6 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void introducirDatos() {
-        progressBar.setVisibility(View.VISIBLE);
         Porden = EOrden.getText().toString().trim();
         PLat = ELat.getText().toString().trim();
         PLon = ELon.getText().toString().trim();
@@ -151,7 +148,6 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                 }else Toast.makeText(this, "El numero de la pista a de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "Se debe introducir un numero", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "Introduzca el numero de la pista", Toast.LENGTH_SHORT).show();
-progressBar.setVisibility(View.INVISIBLE);
 
     }
 
@@ -260,14 +256,18 @@ progressBar.setVisibility(View.INVISIBLE);
 
     public void LanzarMapa(View view){
         Frag_Mapa fragMapa=new Frag_Mapa();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("pruebas", (Serializable) ListaPruebas);
+        bundle.putSerializable("Origen",(Serializable) ubicacionGymkhana);
+        fragMapa.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,fragMapa).commit();
 
     }
 
 
     @Override
-    public void onMapClick(double lat, double lng) {
-        ELat.setText(String.valueOf(String.format("%.4f",lat)));
-        ELon.setText(String.valueOf(String.format("%.4f",lng)));
+    public void onMapClick(double Lat, double Lon) {
+        ELat.setText(String.valueOf(Lat));
+        ELon.setText(String.valueOf(Lon));
     }
 }

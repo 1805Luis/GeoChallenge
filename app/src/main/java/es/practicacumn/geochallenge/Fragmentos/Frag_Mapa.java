@@ -3,6 +3,7 @@ package es.practicacumn.geochallenge.Fragmentos;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,10 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
+import java.util.List;
+
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 import es.practicacumn.geochallenge.R;
 
 public class Frag_Mapa extends Fragment {
@@ -29,6 +34,8 @@ public class Frag_Mapa extends Fragment {
     private IMapController mapController;
     private MapView map = null;
     private float startX, startY;
+    private List<Prueba> pruebas;
+    private UbicacionGymkhana ubicacionGymkhana;
 
     private OnMapClickListener mListener;
 
@@ -56,12 +63,33 @@ public class Frag_Mapa extends Fragment {
         map.setTileSource(TileSourceFactory.MAPNIK);
         mapController = map.getController();
         mapController.setZoom(18.0);
-        IGeoPoint point=new GeoPoint(40.3845877,-3.6319141,15);
+        Bundle bundle =getArguments();
+        if(bundle != null){
+            pruebas= (List<Prueba>) bundle.getSerializable("pruebas");
+            ubicacionGymkhana= (UbicacionGymkhana) bundle.getSerializable("Origen");
+        }
+
+        IGeoPoint inicio =new GeoPoint(ubicacionGymkhana.getLatitud(),ubicacionGymkhana.getLongitud());
         Marker marker = new Marker(map);
-        marker.setPosition((GeoPoint) point);
+        marker.setPosition((GeoPoint) inicio);
+        Drawable icono=getResources().getDrawable(R.drawable.ic_inicio);
+        marker.setIcon(icono);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         map.getOverlays().add(marker);
-        map.getController().setCenter(point);
+        map.getController().setCenter(inicio);
+
+        if(!pruebas.isEmpty()){
+            for(Prueba prueba: pruebas){
+                IGeoPoint posta =new GeoPoint(prueba.getLatitud(),prueba.getLongitud());
+                Marker Pmarker = new Marker(map);
+                Pmarker.setPosition((GeoPoint) posta);
+                Drawable Picono=getResources().getDrawable(R.drawable.ic_prueba);
+                Pmarker.setIcon(Picono);
+                Pmarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(Pmarker);
+            }
+        }
+
 
         map.setOnTouchListener(new View.OnTouchListener() {
             @Override

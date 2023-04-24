@@ -14,7 +14,7 @@
         android:inputType="number"
         android:layout_margin="16dp"
         android:minHeight="48sp"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
     <RelativeLayout
         android:id="@+id/RCoordenadas"
         android:layout_width="wrap_content"
