@@ -47,6 +47,7 @@
         <item>Evita las bebidas alcohólicas en exceso</item>
         <item>Celebra tus logros, por pequeños que sean</item>
     </string-array>
+
     <string name="title_activity_lugar_gymkhana">LugarGymkhana</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

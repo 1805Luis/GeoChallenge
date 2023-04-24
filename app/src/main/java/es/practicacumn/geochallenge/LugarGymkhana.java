@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -126,6 +127,8 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
                             // Crea un nuevo marcador en la ubicación del punto clickeado
                             Marker marker = new Marker(map);
                             marker.setPosition((GeoPoint) point);
+                            Drawable Picono=getResources().getDrawable(R.drawable.ic_seleccionlugar);
+                            marker.setIcon(Picono);
                             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
                             // Agrega el nuevo marcador a la lista de overlays del mapa
@@ -155,6 +158,8 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
                 IntroduccirDatos(point);
                 Marker marker = new Marker(map);
                 marker.setPosition((GeoPoint) point);
+                Drawable Picono=getResources().getDrawable(R.drawable.ic_seleccionlugar);
+                marker.setIcon(Picono);
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(marker);
                 map.getController().setCenter(point);
@@ -394,6 +399,9 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
             Marker marker = new Marker(map);
             marker.setPosition((GeoPoint) point);
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            marker.setPosition((GeoPoint) point);
+            Drawable Picono=getResources().getDrawable(R.drawable.ic_seleccionlugar);
+            marker.setIcon(Picono);
             map.getOverlays().add(marker);
             map.getController().setCenter(point);
             previous = marker;

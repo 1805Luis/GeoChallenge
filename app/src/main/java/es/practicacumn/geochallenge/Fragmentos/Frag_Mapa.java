@@ -20,6 +20,7 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
@@ -122,6 +123,8 @@ public class Frag_Mapa extends Fragment {
                             // Crea un nuevo marcador en la ubicación del punto clickeado
                             Marker marker = new Marker(map);
                             marker.setPosition((GeoPoint) point);
+                            Drawable Picono=getResources().getDrawable(R.drawable.ic_seleccionlugar);
+                            marker.setIcon(Picono);
                             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
                             // Agrega el nuevo marcador a la lista de overlays del mapa
@@ -129,6 +132,9 @@ public class Frag_Mapa extends Fragment {
 
                             // Asigna el nuevo marcador a la variable previousMarker
                             previous = marker;
+
+                            map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
+                            map.setMultiTouchControls(true);
                         }
                         break;
                 }

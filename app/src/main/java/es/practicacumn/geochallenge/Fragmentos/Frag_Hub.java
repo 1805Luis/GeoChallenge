@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import es.practicacumn.geochallenge.ConsejosP;
 import es.practicacumn.geochallenge.CrearGymkhana;
 import es.practicacumn.geochallenge.LugarGymkhana;
 import es.practicacumn.geochallenge.R;
@@ -42,13 +43,17 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.auxilios:
-                Toast.makeText(getContext(), "Listar Consejos", Toast.LENGTH_SHORT).show();
+                /*Intent intent1=new Intent(getContext(), ConsejosP.class);
+                startActivity(intent1);*/
+                Toast.makeText(getActivity(), "Sigue intentandolo", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.participar:
                 Toast.makeText(getContext(), "Participar Gymkhana", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.supervivencia:
-                Toast.makeText(getContext(), "Listar Supervivencia", Toast.LENGTH_SHORT).show();
+                Intent intent4=new Intent(getContext(), ConsejosP.class);
+                startActivity(intent4);
+                break;
         }
     }
 }
