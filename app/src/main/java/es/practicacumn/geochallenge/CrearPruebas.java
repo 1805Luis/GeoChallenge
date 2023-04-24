@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,18 +34,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import es.practicacumn.geochallenge.Fragmentos.Frag_Mapa;
 import es.practicacumn.geochallenge.Fragmentos.Frag_Pruebas;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
-public class CrearPruebas extends AppCompatActivity implements View.OnClickListener {
+public class CrearPruebas extends AppCompatActivity implements View.OnClickListener,Frag_Mapa.OnMapClickListener {
     private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo;
     private double lat,lon,Lat,Lon;
     private int orden;
     private List<Prueba> ListaPruebas;
+    private UbicacionGymkhana ubicacionGymkhana;
     private EditText EOrden,ELat,ELon,EInfo;
     private DatabaseReference mDatabase;
     private StorageReference storageRef;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         enviar.setOnClickListener(this);
         Button continuar = findViewById(R.id.Terminar);
         continuar.setOnClickListener(this);
+        progressBar=findViewById(R.id.CargarLista);
         generarId();
         recibirDatos();
     }
@@ -80,7 +87,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void almacenarDatos() {
-        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false,Lat,Lon,null);
+        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false,ubicacionGymkhana,null);
         mDatabase.child("Gymkhana").child(Id).setValue(gymkhana);
         cambiarActividad(gymkhana);
 
@@ -110,14 +117,15 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
             HoraInicio = extras.getString("InicioHGY");
             FechaFin= extras.getString("FinFGY");
             HoraFin=extras.getString("FinHGY");
-            Lon=extras.getDouble("Latitud");
-            Lat= extras.getDouble("Longitud");
+            ubicacionGymkhana= (UbicacionGymkhana) extras.getSerializable("LugarPrueba");
+
 
 
         }
     }
 
     private void introducirDatos() {
+        progressBar.setVisibility(View.VISIBLE);
         Porden = EOrden.getText().toString().trim();
         PLat = ELat.getText().toString().trim();
         PLon = ELon.getText().toString().trim();
@@ -143,8 +151,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                 }else Toast.makeText(this, "El numero de la pista a de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "Se debe introducir un numero", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "Introduzca el numero de la pista", Toast.LENGTH_SHORT).show();
-
-
+progressBar.setVisibility(View.INVISIBLE);
 
     }
 
@@ -249,5 +256,18 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                 });
         alerta.create().show();
 
+    }
+
+    public void LanzarMapa(View view){
+        Frag_Mapa fragMapa=new Frag_Mapa();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,fragMapa).commit();
+
+    }
+
+
+    @Override
+    public void onMapClick(double lat, double lng) {
+        ELat.setText(String.valueOf(String.format("%.4f",lat)));
+        ELon.setText(String.valueOf(String.format("%.4f",lng)));
     }
 }

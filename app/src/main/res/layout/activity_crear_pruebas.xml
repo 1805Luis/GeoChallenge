@@ -34,6 +34,7 @@
             android:layout_marginLeft="15dp"
             android:textAlignment="center"
             android:inputType="numberSigned|numberDecimal"
+            android:onClick="LanzarMapa"
             />
         <Space
             android:id="@+id/Espacio1"
@@ -92,7 +93,14 @@
         android:id="@+id/container"
         android:layout_below="@id/Terminar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+    </FrameLayout>
+    <ProgressBar
+        android:id="@+id/CargarLista"
+        android:layout_width="75dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>

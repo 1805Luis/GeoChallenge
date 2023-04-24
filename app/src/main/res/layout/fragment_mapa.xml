@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragmentos.Frag_Pruebas">
+    tools:context=".Fragmentos.Frag_Mapa">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ListView
-        android:id="@+id/listView"
+    <org.osmdroid.views.MapView
+        android:layout_marginTop="10dp"
+        android:id="@+id/Mapa"
+        tilesource="Mapnik"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:clickable="true"/>
+
 </FrameLayout>

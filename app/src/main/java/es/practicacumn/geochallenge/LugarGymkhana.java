@@ -47,6 +47,8 @@ import org.osmdroid.views.overlay.compass.CompassOverlay;
 import java.util.List;
 import java.util.Locale;
 
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
+
 public class LugarGymkhana extends AppCompatActivity implements View.OnClickListener {
     private String Nombre, Lugar, Dificultad, ParticipantesMax, FechaInicio, FechaFin, HoraInicio, HoraFin,SLatitud,SLongitud;
     private Marker previous,markerinicial; // Variable para guardar el marcador anterior
@@ -178,6 +180,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
     private void IntroduccirDatos(IGeoPoint point1) {
         double latitud = point1.getLatitude();
         double longitud = point1.getLongitude();
+        ColocarVariablesDouble(latitud,longitud);
         LatitudP.setText(String.valueOf(String.format("%.4f", latitud)));
         LongitudP.setText(String.valueOf(String.format("%.4f", longitud)));
     }
@@ -272,6 +275,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
     }
 
     private void EnviarDatos() {
+        UbicacionGymkhana lugarPrueba=new UbicacionGymkhana(LatitudUbicacion,LongitudUbicacion);
         Bundle extras = new Bundle();
         extras.putString("NombreGY",Nombre);
         extras.putString("DificultadGY",Dificultad);
@@ -281,8 +285,8 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
         extras.putString("FinFGY",FechaFin);
         extras.putString("FinHGY",HoraFin);
         extras.putString("Lugar",Lugar);
-        extras.putDouble("Latitud",LatitudUbicacion);
-        extras.putDouble("Longitud",LongitudUbicacion);
+        extras.putSerializable("LugarPrueba",lugarPrueba);
+
 
         Intent intent=new Intent(getApplicationContext(),CrearPruebas.class);
         intent.putExtras(extras);
