@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,6 +33,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,7 +62,9 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         ListaPruebas= new ArrayList<>();
         EOrden=findViewById(R.id.Orden);
         ELat=findViewById(R.id.Latitud);
+        LanzarMapa(ELat);
         ELon=findViewById(R.id.Longitud);
+        LanzarMapa(ELon);
         EInfo=findViewById(R.id.Descripccion);
         Button enviar = findViewById(R.id.IntroduccirDatos);
         enviar.setOnClickListener(this);
@@ -254,14 +259,18 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void LanzarMapa(View view){
-        Frag_Mapa fragMapa=new Frag_Mapa();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("pruebas", (Serializable) ListaPruebas);
-        bundle.putSerializable("Origen",(Serializable) ubicacionGymkhana);
-        fragMapa.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,fragMapa).commit();
-
+    private void LanzarMapa(EditText Ubicacion) {
+        Ubicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Frag_Mapa fragMapa=new Frag_Mapa();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("pruebas", (Serializable) ListaPruebas);
+                bundle.putSerializable("Origen",(Serializable) ubicacionGymkhana);
+                fragMapa.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,fragMapa).commit();
+            }
+        });
     }
 
 

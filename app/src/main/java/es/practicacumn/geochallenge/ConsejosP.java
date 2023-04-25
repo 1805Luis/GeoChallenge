@@ -4,41 +4,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_Consejos;
-import es.practicacumn.geochallenge.Fragmentos.Frag_Pruebas;
 import es.practicacumn.geochallenge.Model.Consejos.Consejos;
 
 public class ConsejosP extends AppCompatActivity {
-    private ArrayList<Consejos> consejosSupervivencia;
-
-
+    private ArrayList<Consejos> consejosPrimerosauxilios;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consejos_p);
-        consejosSupervivencia=new ArrayList<Consejos>();
-        consejosSupervivencia.add(new Consejos(1,"Encuentra refugio","Busca un lugar seguro para protegerte del clima, animales o posibles peligros. Un refugio improvisado, como una cueva, una carpa o un refugio construido con materiales naturales, puede ser una opción."));
-        consejosSupervivencia.add(new Consejos(2,"Encuentra agua potable","El agua es esencial para la supervivencia. Asegúrate de encontrar una fuente de agua potable, como ríos, arroyos o lagos, y purificarla antes de beberla. Puedes usar filtros de agua, hervirla o usar pastillas purificadoras."));
-        consejosSupervivencia.add(new Consejos(3,"Encuentra comida","Aprende a identificar plantas y frutas comestibles, y a cazar o pescar si es posible. Ten cuidado con las plantas y animales venenosos, y asegúrate de tener conocimientos básicos de caza y pesca antes de intentarlo."));
-        consejosSupervivencia.add(new Consejos(4,"Mantén el fuego","El fuego es una herramienta valiosa para la supervivencia, ya que te proporciona calor, luz y la posibilidad de cocinar alimentos. Aprende a encender y mantener un fuego de manera segura, y asegúrate de tener los recursos necesarios, como cerillas, encendedores o un kit de inicio de fuego."));
-        consejosSupervivencia.add(new Consejos(5,"Mantén la calma y el sentido común","Mantén la mente clara y el sentido común en situaciones de emergencia. Evita el pánico y piensa con claridad para tomar decisiones informadas y sensatas."));
-        consejosSupervivencia.add(new Consejos(6,"Haz un plan","Planifica tus acciones y haz un plan de acción para asegurar tu supervivencia. Considera factores como el terreno, el clima, los recursos disponibles y la seguridad al tomar decisiones."));
-        consejosSupervivencia.add(new Consejos(7,"Conoce los primeros auxilios", "Aprende habilidades básicas de primeros auxilios, como el manejo de heridas, la reanimación cardiopulmonar (RCP) y la estabilización de fracturas. Esto te puede ayudar en caso de lesiones o emergencias médicas."));
-        consejosSupervivencia.add(new Consejos(8,"Mantén tus pertenencias y recursos en buen estado","Asegúrate de cuidar tus pertenencias y recursos, como alimentos, agua, herramientas y equipo de supervivencia. Mantenlos en buen estado y úsalos de manera responsable para que te duren el mayor tiempo posible."));
-        consejosSupervivencia.add(new Consejos(9,"Comunícate con otros","Si estás en una situación de supervivencia con otras personas, es importante mantener una comunicación clara y efectiva. Esto puede ayudar a coordinar esfuerzos y tomar decisiones informadas en grupo."));
-        consejosSupervivencia.add(new Consejos(10,"Infórmate y prepárate","Aprende sobre el entorno en el que te encuentras y prepárate adecuadamente para la situación de supervivencia en la que te encuentras. Lleva contigo un equipo de supervivencia básico, como una brújula, un cuchillo, una linterna, un botiquín de primeros auxilios y comida y agua adicionales."));
-
+        consejosPrimerosauxilios =new ArrayList<Consejos>();
+        consejosPrimerosauxilios.add(new Consejos(1,"Evalúa la seguridad","Antes de acercarte a una persona herida, asegúrate de que la escena sea segura para ti y para la víctima. Haz una evaluación rápida del entorno y toma precauciones para evitar cualquier peligro adicional."));
+        consejosPrimerosauxilios.add(new Consejos(2,"Llama a los servicios de emergencia","Si la situación lo requiere, llama a los servicios de emergencia o pide ayuda a alguien cercano. Es importante obtener ayuda médica profesional lo antes posible."));
+        consejosPrimerosauxilios.add(new Consejos(3,"Mantén la calma"," Mantén la calma y tranquiliza a la persona herida. Tu tranquilidad puede ayudar a mantener a la víctima calmada y colaborativa."));
+        consejosPrimerosauxilios.add(new Consejos(4,"Evalúa la condición de la víctima"," Haz una evaluación rápida de la condición de la persona herida. Comprueba su respiración, pulso y nivel de conciencia. Si la víctima no respira o no tiene pulso, inicia la RCP (reanimación cardiopulmonar) de inmediato si estás capacitado para hacerlo."));
+        consejosPrimerosauxilios.add(new Consejos(5,"Controla las hemorragias","Si la persona está sangrando, aplica presión directa sobre la herida con un paño limpio o tu mano para controlar la hemorragia. Eleva la extremidad afectada si es posible."));
+        consejosPrimerosauxilios.add(new Consejos(6,"Inmoviliza lesiones", "Si sospechas de una fractura o lesión en la columna vertebral, evita mover a la persona herida y trata de inmovilizar la zona afectada utilizando tablillas o cualquier objeto rígido disponible."));
+        consejosPrimerosauxilios.add(new Consejos(7,"No remuevas objetos incrustados","Si la persona tiene un objeto incrustado en una herida, no lo retires. Deja que los profesionales de salud lo manejen para evitar mayores daños."));
+        consejosPrimerosauxilios.add(new Consejos(8,"Protege a la persona del frío o calor","Mantén a la persona abrigada o protegida del calor, según sea necesario, para prevenir la hipotermia o la insolación."));
+        consejosPrimerosauxilios.add(new Consejos(9,"Administra medicamentos o tratamientos de emergencia solo si estás capacitado" ,"No administres medicamentos o tratamientos de los que no estés seguro, a menos que estés capacitado para hacerlo. Puedes empeorar la situación si no tienes el conocimiento adecuado."));
+        consejosPrimerosauxilios.add(new Consejos(10,"Registra la información relevante","Si es posible, registra la información relevante sobre la situación, como la hora de la lesión, los síntomas y cualquier otra información importante que pueda ser útil para los profesionales de salud."));
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable("consejos",consejosSupervivencia);
+        bundle.putSerializable("consejos", consejosPrimerosauxilios);
+        bundle.putInt("tipo",1);
 
         Frag_Consejos fragConsejos = new Frag_Consejos();
         fragConsejos.setArguments(bundle);

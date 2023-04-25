@@ -23,7 +23,13 @@
         android:theme="@style/Theme.GeoChallenge"
         tools:targetApi="31">
         <activity
+            android:name=".DetallesConsejos"
+            android:exported="false" />
+        <activity
             android:name=".ConsejosP"
+            android:exported="false" />
+        <activity
+            android:name=".ConsejosS"
             android:exported="false" />
         <activity
             android:name=".LugarGymkhana"

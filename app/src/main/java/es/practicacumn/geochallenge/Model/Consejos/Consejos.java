@@ -3,9 +3,9 @@ package es.practicacumn.geochallenge.Model.Consejos;
 import java.io.Serializable;
 
 public class Consejos implements Serializable {
-    int Id;
-    String Orden;
-    String Descripccion;
+    private int Id;
+    private String Orden;
+    private String Descripccion;
 
     public Consejos(int id, String orden, String descripccion) {
         Id = id;

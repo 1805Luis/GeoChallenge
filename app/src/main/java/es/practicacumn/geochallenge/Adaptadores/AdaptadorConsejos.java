@@ -14,26 +14,26 @@ import es.practicacumn.geochallenge.R;
 
 public class AdaptadorConsejos extends BaseAdapter {
     Context context;
-    List<Consejos> listaConsejos;
+    List<Consejos> consejos;
 
     public AdaptadorConsejos(Context context, List<Consejos> listaConsejos) {
         this.context = context;
-        this.listaConsejos = listaConsejos;
+        this.consejos = listaConsejos;
     }
 
     @Override
     public int getCount() {
-        return listaConsejos.size();
+        return consejos.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return listaConsejos.get(i);
+        return consejos.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return listaConsejos.get(i).getId();
+        return consejos.get(i).getId();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AdaptadorConsejos extends BaseAdapter {
         LayoutInflater inflate=LayoutInflater.from(context);
         vista=inflate.inflate(R.layout.item_consejos,null);
         TextView informacion=vista.findViewById(R.id.consejos);
-        informacion.setText(listaConsejos.get(i).getOrden());
+        informacion.setText(consejos.get(i).getOrden());
         return vista;
     }
 }
