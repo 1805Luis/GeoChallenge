@@ -15,6 +15,7 @@ import es.practicacumn.geochallenge.ConsejosP;
 import es.practicacumn.geochallenge.ConsejosS;
 import es.practicacumn.geochallenge.CrearGymkhana;
 import es.practicacumn.geochallenge.R;
+import es.practicacumn.geochallenge.TiempoMeteorologico;
 
 public class Frag_Hub extends Fragment implements View.OnClickListener {
     private Button Crear,Auxilios,Participar,Supervivencia;
@@ -47,7 +48,9 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.participar:
-                Toast.makeText(getContext(), "Participar Gymkhana", Toast.LENGTH_SHORT).show();
+                Intent intent2=new Intent(getContext(), TiempoMeteorologico.class);
+                startActivity(intent2);
+                //Toast.makeText(getContext(), "Participar Gymkhana", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.supervivencia:
                 Intent intent4=new Intent(getContext(), ConsejosS.class);
