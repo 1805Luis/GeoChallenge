@@ -93,12 +93,13 @@ public class Hub extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Hub.this, "Usuario eliminado con exito", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }else Toast.makeText(Hub.this, "Ha surgido un error", Toast.LENGTH_SHORT).show();
             }
         });
-        Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(intent);
-        finish();
+
     }
 
     private void signOut() {
