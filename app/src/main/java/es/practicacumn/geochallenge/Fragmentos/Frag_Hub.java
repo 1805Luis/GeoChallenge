@@ -1,9 +1,20 @@
 package es.practicacumn.geochallenge.Fragmentos;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +31,7 @@ import es.practicacumn.geochallenge.TiempoMeteorologico;
 public class Frag_Hub extends Fragment implements View.OnClickListener {
     private Button Crear,Auxilios,Participar,Supervivencia;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,6 +47,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
         Supervivencia.setOnClickListener(this);
         return v;
     }
+
 
     @Override
     public void onClick(View view) {

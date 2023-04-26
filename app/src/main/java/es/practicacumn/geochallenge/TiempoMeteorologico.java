@@ -45,7 +45,6 @@ import retrofit2.Response;
 public class TiempoMeteorologico extends AppCompatActivity implements View.OnClickListener {
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private FusedLocationProviderClient mFusedLocationClient;
     private double lat, lon;
     private EditText et;
     private TextView Ciudad_Pais, info, maxima, minima, actual, sensacion, viento, humedad, amanecer, atardecer, presion, direccion;
@@ -110,7 +109,7 @@ public class TiempoMeteorologico extends AppCompatActivity implements View.OnCli
             }
         }
     }
-    private void TiempoCoordenada(Double lat,Double lon){
+    public void TiempoCoordenada(Double lat,Double lon){
         WeatherAPI myapi= RetrofitWeather.getInstance();
         Call<WeatherData> examplecall = myapi.getweather(lat,lon, Comun.apikey_Weather,Comun.units,Comun.lang);
         examplecall.enqueue(new Callback<WeatherData>() {
@@ -123,6 +122,7 @@ public class TiempoMeteorologico extends AppCompatActivity implements View.OnCli
                     Toast.makeText(getApplicationContext(), response.code(), Toast.LENGTH_LONG).show();
                 }
                 actualizarIU(response);
+
             }
 
             @Override
@@ -132,7 +132,7 @@ public class TiempoMeteorologico extends AppCompatActivity implements View.OnCli
         });
     }
 
-    public void actualizarIU(Response<WeatherData> response){
+    private void actualizarIU(Response<WeatherData> response){
         WeatherData mydata=response.body();
         Main main = mydata.getMain();
 
