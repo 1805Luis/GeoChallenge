@@ -150,7 +150,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                             }else Toast.makeText(this, "La longitud no puede ser nula", Toast.LENGTH_SHORT).show();
                         }else Toast.makeText(this, "La latitud debe estar entre -90º y 90º", Toast.LENGTH_SHORT).show();
                     }else Toast.makeText(this, "La latitud no puede ser nula", Toast.LENGTH_SHORT).show();
-                }else Toast.makeText(this, "El numero de la pista a de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
+                }else Toast.makeText(this, "El numero de la pista ha de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
             }else Toast.makeText(this, "Se debe introducir un numero", Toast.LENGTH_SHORT).show();
         }else Toast.makeText(this, "Introduzca el numero de la pista", Toast.LENGTH_SHORT).show();
 

@@ -12,17 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 import es.practicacumn.geochallenge.Adaptadores.AdaptadorConsejos;
 import es.practicacumn.geochallenge.DetallesConsejos;
-import es.practicacumn.geochallenge.DetallesPrueba;
 import es.practicacumn.geochallenge.Model.Consejos.Consejos;
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 import es.practicacumn.geochallenge.R;
 
 public class Frag_Consejos extends Fragment {
@@ -44,7 +40,13 @@ public class Frag_Consejos extends Fragment {
         }
         if(tipo==1){
             Drawable drawable = getResources().getDrawable(R.drawable.primerosauxilios);
+            drawable.setAlpha(120);
             frameLayout.setBackground(drawable);
+
+        } else if (tipo==2) {
+            Drawable drawable1 = getResources().getDrawable(R.drawable.supervivencia);
+            drawable1.setAlpha(175);
+            frameLayout.setBackground(drawable1);
         }
         AdaptadorConsejos adaptadorConsejos=new AdaptadorConsejos(getActivity(), consejos);
         listView.setAdapter(adaptadorConsejos);

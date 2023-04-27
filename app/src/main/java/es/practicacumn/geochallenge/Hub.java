@@ -2,6 +2,7 @@ package es.practicacumn.geochallenge;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -42,14 +44,11 @@ public class Hub extends AppCompatActivity {
     private Toolbar toolbar;
     private LocationManager locationManager;
     private LocationListener locationListener;
-    private double latitud,longuitud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
-        getIniLocalizacion();
-        getLocalizacion();
         String[]consejos= getResources().getStringArray(R.array.Consejo_del_dia);
         Random random = new Random();
         int indice = random.nextInt(consejos.length);
@@ -88,31 +87,50 @@ public class Hub extends AppCompatActivity {
     }
 
     private void borrarDatos() {
+      CrearAlerta();
+    }
 
-        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
-        FirebaseAuth mAuth=FirebaseAuth.getInstance();
-        String UserId=mAuth.getUid();
-        mDatabase.child("Usuario").child(UserId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(Hub.this, "Datos eliminados de la base de datos", Toast.LENGTH_SHORT).show();
-                }else Toast.makeText(Hub.this, "Ha surgido un error", Toast.LENGTH_SHORT).show();
-            }
-        });
-        FirebaseUser user=mAuth.getCurrentUser();
-        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(Hub.this, "Usuario eliminado con exito", Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }else Toast.makeText(Hub.this, "Ha surgido un error", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void CrearAlerta() {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("¿Desea eliminar su cuenta?");
+        alerta.setMessage("Todos sus datos serán eliminados")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
+                        FirebaseAuth mAuth=FirebaseAuth.getInstance();
+                        String UserId=mAuth.getUid();
+                        mDatabase.child("Usuario").child(UserId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(Hub.this, "Datos eliminados de la base de datos", Toast.LENGTH_SHORT).show();
+                                }else Toast.makeText(Hub.this, "Ha surgido un error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        FirebaseUser user=mAuth.getCurrentUser();
+                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(Hub.this, "Usuario eliminado con exito", Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }else Toast.makeText(Hub.this, "Ha surgido un error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alerta.create().show();
     }
 
     private void signOut() {
@@ -143,28 +161,5 @@ public class Hub extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void getLocalizacion() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(@NonNull Location location) {
-                if (location != null) {
-                  latitud = location.getLatitude();
-                  longuitud = location.getLongitude();
-                }
-            }
-        };
-        int permiso = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 180, locationListener);
-    }
 
-    private void getIniLocalizacion() {
-        int permiso = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        if (permiso == PackageManager.PERMISSION_DENIED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }
-        }
-    }
 }

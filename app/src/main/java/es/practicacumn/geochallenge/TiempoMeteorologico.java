@@ -109,7 +109,7 @@ public class TiempoMeteorologico extends AppCompatActivity implements View.OnCli
             }
         }
     }
-    public void TiempoCoordenada(Double lat,Double lon){
+    private void TiempoCoordenada(Double lat,Double lon){
         WeatherAPI myapi= RetrofitWeather.getInstance();
         Call<WeatherData> examplecall = myapi.getweather(lat,lon, Comun.apikey_Weather,Comun.units,Comun.lang);
         examplecall.enqueue(new Callback<WeatherData>() {

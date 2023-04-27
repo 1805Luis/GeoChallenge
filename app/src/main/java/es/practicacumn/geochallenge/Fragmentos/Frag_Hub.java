@@ -45,7 +45,16 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
         Participar.setOnClickListener(this);
         Supervivencia=v.findViewById(R.id.supervivencia);
         Supervivencia.setOnClickListener(this);
+        lanzarTiempo();
         return v;
+    }
+
+    private void lanzarTiempo() {
+        Frag_TiempoMet frag_tiempoMet=new Frag_TiempoMet();
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.ElTiempo, frag_tiempoMet);
+        fragmentTransaction.commit();
     }
 
 

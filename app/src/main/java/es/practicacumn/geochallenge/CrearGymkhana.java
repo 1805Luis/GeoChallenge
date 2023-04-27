@@ -187,33 +187,29 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==event.KEYCODE_BACK){
-            CrearAlerta();
+            AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+            alerta.setTitle("¿Desea volver atras?");
+            alerta.setMessage("Perderá el progreso")
+                    .setCancelable(false)
+                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            Intent intent=new Intent(getApplicationContext(),Hub.class);
+                            startActivity(intent);
+                            finish();
+
+                        }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+            alerta.create().show();
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    private void CrearAlerta() {
-        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
-        alerta.setTitle("¿Desea volver atras?");
-        alerta.setMessage("Perderá el progreso")
-                .setCancelable(false)
-                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        Intent intent=new Intent(getApplicationContext(),Hub.class);
-                        startActivity(intent);
-                        finish();
-
-                    }
-                })
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-        alerta.create().show();
-
-    }
 }

@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
+
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 
 public class DetallesPrueba extends AppCompatActivity {
@@ -28,7 +30,10 @@ public class DetallesPrueba extends AppCompatActivity {
                 .load(imagenUrl)
                 .into(Codigo);
         Orden.setText("Esta es la pista: "+obj.getOrden());
-        Coord.setText("Las coordenadas de la pista son ( "+String.format("%.4f"+obj.getLatitud())+" , "+String.format("%.4f"+obj.getLongitud())+")");
+        DecimalFormat decimalFormat=new DecimalFormat("#.0000");
+        String latitud=decimalFormat.format(obj.getLatitud());
+        String longitud=decimalFormat.format(obj.getLongitud());
+        Coord.setText("Las coordenadas de la pista son ( "+latitud+" , "+longitud+")");
         Info.setText("La pista dice lo siguiente: "+obj.getDescripccion());
     }
 }
