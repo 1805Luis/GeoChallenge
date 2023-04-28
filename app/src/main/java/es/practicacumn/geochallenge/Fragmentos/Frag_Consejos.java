@@ -39,12 +39,12 @@ public class Frag_Consejos extends Fragment {
             tipo=bundle.getInt("tipo");
         }
         if(tipo==1){
-            Drawable drawable = getResources().getDrawable(R.drawable.primerosauxilios);
-            drawable.setAlpha(120);
+            Drawable drawable = getResources().getDrawable(R.drawable.y8);
+            drawable.setAlpha(175);
             frameLayout.setBackground(drawable);
 
         } else if (tipo==2) {
-            Drawable drawable1 = getResources().getDrawable(R.drawable.supervivencia);
+            Drawable drawable1 = getResources().getDrawable(R.drawable.y8);
             drawable1.setAlpha(175);
             frameLayout.setBackground(drawable1);
         }

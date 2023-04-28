@@ -91,7 +91,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
     private void almacenarDatos() {
         Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false,ubicacionGymkhana,null);
-        mDatabase.child("Gymkhana").child(Id).setValue(gymkhana);
+
         cambiarActividad(gymkhana);
 
     }
