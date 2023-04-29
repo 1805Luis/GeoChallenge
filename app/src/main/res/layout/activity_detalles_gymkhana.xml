@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".DetallesGymkhana">
+
+    <TextView
+        android:id="@+id/TituloGymkhana"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="Nombre"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/DescripcionGymkhana"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/TituloGymkhana"
+        android:layout_margin="20dp"
+        android:text="Descripcion"
+        android:minHeight="48sp"
+        android:textSize="25sp"/>
+    <TextView
+        android:layout_margin="20dp"
+        android:id="@+id/DificultadGymkhana"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/DescripcionGymkhana"
+        android:text="Dificultad"
+        android:minHeight="48sp"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/FechaInicioGymkhana"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/DificultadGymkhana"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toLeftOf="@id/Espacio"
+        android:hint="FechaInicio"
+        android:minHeight="48sp"
+        android:textSize="25sp" />
+        <Space
+            android:id="@+id/Espacio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_margin="20dp"
+            android:layout_below="@id/DificultadGymkhana"
+            android:id="@+id/FechaFinGymkhana"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha Fin"
+            android:minHeight="48sp"
+            android:textSize="25sp"
+            android:layout_toRightOf="@id/Espacio"
+
+            />
+
+    <TextView
+        android:id="@+id/NumeroParticipantes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/NumeroPruebas"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:hint="Numeros de participantes"
+        android:minHeight="48sp"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/NumeroPruebas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/FechaInicioGymkhana"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:hint="Numeros de pruebas"
+        android:minHeight="48sp"
+        android:textSize="25sp" />
+    <TextView
+        android:id="@+id/PlazasDisponibles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/NumeroParticipantes"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:hint="Plazas Disponibles"
+        android:minHeight="48sp"
+        android:textSize="25sp" />
+<Button
+    android:text="Participar en la gymkana"
+    android:id="@+id/Participar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"/>
+</RelativeLayout>

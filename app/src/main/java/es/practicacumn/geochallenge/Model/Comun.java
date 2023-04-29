@@ -25,7 +25,8 @@ import java.util.Date;
 public class Comun {
     //OpenWeatherMap
     public static String Base_URL_Weather = "https://api.openweathermap.org/data/2.5/";
-    public static String apikey_Weather ="20e3abf61e79685b67d46434c32c00c6";
+    public static String apikey_Weather ="dc18aed958efdc14a9ea08c0de0e99b1";
+    public static String clave_Secundaria="702b72c21d32bb17d3b6171cd1041e7f";
     public static String units = "metric" ;
     public static String lang="es";
 

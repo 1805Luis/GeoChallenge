@@ -108,7 +108,7 @@ public class Frag_TiempoMet extends Fragment implements LocationListener{
 
     private void MiTiempo(double latitude, double longitude) {
         WeatherAPI myapi= RetrofitWeather.getInstance();
-        Call<WeatherData> examplecall = myapi.getweather(latitude,longitude, Comun.apikey_Weather,Comun.units,Comun.lang);
+        Call<WeatherData> examplecall = myapi.getweather(latitude,longitude, Comun.clave_Secundaria,Comun.units,Comun.lang);
         examplecall.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {

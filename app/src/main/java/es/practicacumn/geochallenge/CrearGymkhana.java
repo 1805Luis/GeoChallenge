@@ -29,8 +29,8 @@ import java.util.Locale;
 import es.practicacumn.geochallenge.Model.Comun;
 
 public class CrearGymkhana extends AppCompatActivity implements View.OnClickListener {
-    private EditText Gnombre,GinicioFecha,GinicioHora,GfinFecha,GfinHora,GNparticipantes;
-    private String GKnombre,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes;
+    private EditText Gnombre,GinicioFecha,GinicioHora,GfinFecha,GfinHora,GNparticipantes,GDescripcion;
+    private String GKnombre,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes,Descripcion;
     private TextView GnivelDificultad;
     private RatingBar Gdificultad;
     private Button CrearPruebas;
@@ -40,6 +40,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_gymkhana);
         Gnombre=findViewById(R.id.NombreGK);
+        GDescripcion=findViewById(R.id.DescripcionGK);
         GinicioFecha=findViewById(R.id.FechaInicio);
         Comun.InicializarFecha(GinicioFecha,CrearGymkhana.this);
         GfinFecha=findViewById(R.id.FechaFin);
@@ -63,6 +64,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         GKfinHora =GfinHora.getText().toString().trim();
         GKdificultad=GnivelDificultad.getText().toString();
         GKNcomponentes=GNparticipantes.getText().toString().trim();
+        Descripcion=GDescripcion.getText().toString().trim();
     }
 
     private void NivelDificultad() {
@@ -127,20 +129,30 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     private void Continuar() {
         Inicializar();
         if(!GKnombre.isEmpty()){
-                if(!GKdificultad.isEmpty()){
-                    if(!GKNcomponentes.isEmpty()){
-                        if(!GKinicioHora.isEmpty()&&!GKinicioFecha.isEmpty()&&!GKfinHora.isEmpty()&&!GKfinFecha.isEmpty()){
-                            if(fechasPasadas(GKinicioFecha,GKinicioHora)){
-                                if(fechasPasadas(GKfinFecha, GKfinHora)){
-                                    if(esPosterior(GKinicioFecha,GKfinFecha,GKinicioHora,GKfinHora)){
+            if(!Descripcion.isEmpty()) {
+                if (!GKdificultad.isEmpty()) {
+                    if (!GKNcomponentes.isEmpty()) {
+                        if (!GKinicioHora.isEmpty() && !GKinicioFecha.isEmpty() && !GKfinHora.isEmpty() && !GKfinFecha.isEmpty()) {
+                            if (fechasPasadas(GKinicioFecha, GKinicioHora)) {
+                                if (fechasPasadas(GKfinFecha, GKfinHora)) {
+                                    if (esPosterior(GKinicioFecha, GKfinFecha, GKinicioHora, GKfinHora)) {
                                         EnviarDatos();
-                                    }else Toast.makeText(this, "Las fechas no son posteriores", Toast.LENGTH_SHORT).show();
-                                }else Toast.makeText(this, "No pude poner la fecha y hora de final en el pasado", Toast.LENGTH_SHORT).show();
-                            }else Toast.makeText(this, "No pude poner la fecha y hora de inicio en el pasado", Toast.LENGTH_SHORT).show();
-                        }else Toast.makeText(this, "Los campos de inicio y fin no pueden estar vacios", Toast.LENGTH_SHORT).show();
-                    }else Toast.makeText(this, "Debe indicar el numero maximo de participantes", Toast.LENGTH_SHORT).show();
-                }else Toast.makeText(this, "Debe especificar la dificultad", Toast.LENGTH_SHORT).show();
-        }else Toast.makeText(this, "Debe indicar el nombre de la gymkhana", Toast.LENGTH_SHORT).show();
+                                    } else
+                                        Toast.makeText(this, "Las fechas no son posteriores", Toast.LENGTH_SHORT).show();
+                                } else
+                                    Toast.makeText(this, "No pude poner la fecha y hora de final en el pasado", Toast.LENGTH_SHORT).show();
+                            } else
+                                Toast.makeText(this, "No pude poner la fecha y hora de inicio en el pasado", Toast.LENGTH_SHORT).show();
+                        } else
+                            Toast.makeText(this, "Los campos de inicio y fin no pueden estar vacios", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(this, "Debe indicar el numero maximo de participantes", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(this, "Debe especificar la dificultad", Toast.LENGTH_SHORT).show();
+            }else
+                Toast.makeText(this, "Debe incluir una breve descripcion de la gymkhana", Toast.LENGTH_SHORT).show();
+        }else
+            Toast.makeText(this, "Debe indicar el nombre de la gymkhana", Toast.LENGTH_SHORT).show();
     }
     private boolean esPosterior(String fechaInicio, String fechaFinal, String horaInicio, String horaFinal) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
@@ -178,6 +190,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         extras.putString("InicioHGY",GKinicioHora);
         extras.putString("FinFGY",GKfinFecha);
         extras.putString("FinHGY",GKfinHora);
+        extras.putString("Descripcion",Descripcion);
 
         Intent intent=new Intent(getApplicationContext(),LugarGymkhana.class);
         intent.putExtras(extras);

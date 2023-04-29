@@ -44,7 +44,7 @@ import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener,Frag_Mapa.OnMapClickListener {
-    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo;
+    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo,Descripcion;
     private double lat,lon;
     private int orden;
     private List<Prueba> ListaPruebas;
@@ -90,7 +90,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void almacenarDatos() {
-        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,FechaInicio,FechaFin,HoraInicio,HoraFin,ParticipantesMax,ListaPruebas,false,ubicacionGymkhana,null);
+        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,Descripcion,FechaInicio,FechaFin,HoraInicio,HoraFin,Integer.parseInt(ParticipantesMax),ListaPruebas,false,ubicacionGymkhana,null);
 
         cambiarActividad(gymkhana);
 
@@ -121,6 +121,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
             FechaFin= extras.getString("FinFGY");
             HoraFin=extras.getString("FinHGY");
             ubicacionGymkhana= (UbicacionGymkhana) extras.getSerializable("LugarPrueba");
+            Descripcion=extras.getString("Descripcion");
 
 
 

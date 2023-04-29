@@ -18,13 +18,26 @@
         android:singleLine="true"
         android:textAlignment="center"
         android:textSize="20sp" />
+    <EditText
+        android:id="@+id/DescripcionGK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:hint="Descripcion "
+        android:singleLine="true"
+        android:layout_below="@+id/NombreGK"
+        android:textAlignment="center"
+        android:textSize="20sp" />
 
 
     <RelativeLayout
         android:id="@+id/RDificultad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/NombreGK"
+        android:layout_below="@id/DescripcionGK"
         android:layout_marginStart="10dp">
 
         <TextView

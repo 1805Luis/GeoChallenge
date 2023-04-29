@@ -1,6 +1,10 @@
 package es.practicacumn.geochallenge.Model.UsuarioGymkhana;
 
-public class Usuario {
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.io.Serializable;
+@IgnoreExtraProperties
+public class Usuario implements Serializable {
 
     private String Nombre;
     private String Apellido;

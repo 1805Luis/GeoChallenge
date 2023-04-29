@@ -23,6 +23,15 @@
         android:theme="@style/Theme.GeoChallenge"
         tools:targetApi="31">
         <activity
+            android:name=".Hub_jugando"
+            android:exported="false" />
+        <activity
+            android:name=".DetallesGymkhana"
+            android:exported="false" />
+        <activity
+            android:name=".ApuntarseGymkhana"
+            android:exported="false" />
+        <activity
             android:name=".TiempoMeteorologico"
             android:exported="false" />
         <activity

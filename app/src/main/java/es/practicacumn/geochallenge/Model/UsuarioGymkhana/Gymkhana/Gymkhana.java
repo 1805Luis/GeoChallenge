@@ -1,30 +1,39 @@
 package es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 import java.util.List;
 
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario;
 
+@IgnoreExtraProperties
 public class Gymkhana implements Serializable {
     private String Id;
     private String Nombre;
     private String Lugar;
     private String Dificultad;
+    private String Descripcion;
     private String DiaInicio;
     private String DiaFin;
     private String HoraInicio;
     private String HoraFin;
-    private String MaxParticipantes;
+    private int MaxParticipantes;
     private List<Prueba> Pruebas;
     private boolean Terminado;
     private UbicacionGymkhana ubicacionGymkhana;
     private List<Usuario> usuarios;
 
-    public Gymkhana(String id, String nombre, String lugar, String dificultad, String diaInicio, String diaFin, String horaInicio, String horaFin, String maxParticipantes, List<Prueba> pruebas, boolean terminado, UbicacionGymkhana ubicacionGymkhana, List<Usuario> usuarios) {
+    public Gymkhana() {
+
+    }
+
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, boolean terminado, UbicacionGymkhana ubicacionGymkhana, List<Usuario> usuarios) {
         Id = id;
         Nombre = nombre;
         Lugar = lugar;
         Dificultad = dificultad;
+        Descripcion = descripcion;
         DiaInicio = diaInicio;
         DiaFin = diaFin;
         HoraInicio = horaInicio;
@@ -35,6 +44,7 @@ public class Gymkhana implements Serializable {
         this.ubicacionGymkhana = ubicacionGymkhana;
         this.usuarios = usuarios;
     }
+
 
     public String getNombre() {
         return Nombre;
@@ -92,11 +102,11 @@ public class Gymkhana implements Serializable {
         HoraFin = horaFin;
     }
 
-    public String getMaxParticipantes() {
+    public int getMaxParticipantes() {
         return MaxParticipantes;
     }
 
-    public void setMaxParticipantes(String maxParticipantes) {
+    public void setMaxParticipantes(int maxParticipantes) {
         MaxParticipantes = maxParticipantes;
     }
 
@@ -138,5 +148,13 @@ public class Gymkhana implements Serializable {
 
     public void setUsuarios(List<Usuario> usuarios) {
         this.usuarios = usuarios;
+    }
+
+    public String getDescripcion() {
+        return Descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        Descripcion = descripcion;
     }
 }

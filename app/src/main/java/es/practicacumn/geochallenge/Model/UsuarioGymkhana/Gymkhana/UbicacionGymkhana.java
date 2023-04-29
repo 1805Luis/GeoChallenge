@@ -1,10 +1,16 @@
 package es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 
+@IgnoreExtraProperties
 public class UbicacionGymkhana implements Serializable {
     double latitud;
     double longitud;
+
+    public UbicacionGymkhana() {
+    }
 
     public UbicacionGymkhana(double latitud, double longitud) {
         this.latitud = latitud;

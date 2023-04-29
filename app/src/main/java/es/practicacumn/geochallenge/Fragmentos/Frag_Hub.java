@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import es.practicacumn.geochallenge.ApuntarseGymkhana;
 import es.practicacumn.geochallenge.ConsejosP;
 import es.practicacumn.geochallenge.ConsejosS;
 import es.practicacumn.geochallenge.CrearGymkhana;
@@ -45,7 +46,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
         Participar.setOnClickListener(this);
         Supervivencia=v.findViewById(R.id.supervivencia);
         Supervivencia.setOnClickListener(this);
-        lanzarTiempo();
+        //lanzarTiempo();
         return v;
     }
 
@@ -70,7 +71,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 break;
             case R.id.participar:
-                Intent intent2=new Intent(getContext(), TiempoMeteorologico.class);
+                Intent intent2=new Intent(getContext(), ApuntarseGymkhana.class);
                 startActivity(intent2);
                 //Toast.makeText(getContext(), "Participar Gymkhana", Toast.LENGTH_SHORT).show();
                 break;

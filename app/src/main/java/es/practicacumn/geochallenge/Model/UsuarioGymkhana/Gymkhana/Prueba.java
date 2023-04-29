@@ -1,13 +1,17 @@
 package es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana;
 
-import java.io.Serializable;
+import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
+@IgnoreExtraProperties
 public class Prueba implements Serializable {
     private int Orden;
     private double Latitud;
     private double Longitud;
     private String Descripccion;
     private String CodigoQr;
+
+    public Prueba() {  }
 
     public Prueba(int orden, double latitud, double longitud, String descripccion, String codigoQr) {
         Orden = orden;
