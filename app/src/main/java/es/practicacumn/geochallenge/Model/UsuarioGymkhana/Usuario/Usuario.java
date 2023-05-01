@@ -1,4 +1,4 @@
-package es.practicacumn.geochallenge.Model.UsuarioGymkhana;
+package es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -18,10 +18,11 @@ public class Usuario implements Serializable {
     private String Alergias;
     private double Latitud;
     private double Longitud;
+    private ParticipaGymkhana participaGymkhana;
 
     public Usuario() {    }
 
-    public Usuario(String nombre, String apellido, String telefono, String fechaNacimiento, String genero, String grupoSanguineo, String altura, String peso, String antecedentesMedicos, String alergias, double latitud, double longitud) {
+    public Usuario(String nombre, String apellido, String telefono, String fechaNacimiento, String genero, String grupoSanguineo, String altura, String peso, String antecedentesMedicos, String alergias, double latitud, double longitud, ParticipaGymkhana participaGymkhana) {
         Nombre = nombre;
         Apellido = apellido;
         Telefono = telefono;
@@ -34,6 +35,7 @@ public class Usuario implements Serializable {
         Alergias = alergias;
         Latitud = latitud;
         Longitud = longitud;
+        this.participaGymkhana = participaGymkhana;
     }
 
     public String getNombre() {
@@ -130,5 +132,13 @@ public class Usuario implements Serializable {
 
     public void setLongitud(double longitud) {
         Longitud = longitud;
+    }
+
+    public ParticipaGymkhana getParticipaGymkhana() {
+        return participaGymkhana;
+    }
+
+    public void setParticipaGymkhana(ParticipaGymkhana participaGymkhana) {
+        this.participaGymkhana = participaGymkhana;
     }
 }

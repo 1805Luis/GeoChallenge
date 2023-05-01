@@ -19,16 +19,17 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 
 public class DetallesGymkhana extends AppCompatActivity implements View.OnClickListener {
  private TextView Nombre,Informacion,Inicio,Fin,NumeroPruebas,NumeroParticipantes,Dificultad,Plazas;
  private Button participar;
- private DatabaseReference mDatabase,GymkhanaRef;
+ private DatabaseReference mDatabase,GymkhanaRef,UserRef;
  private FirebaseAuth mAuth;
  private String UserId,GymkhanaID;
  private int PlazasDisponibles,participantesMaximos,participantesActuales;
@@ -50,7 +51,7 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
         Inicio.setText("Inicio: "+obj.getDiaInicio()+", "+obj.getHoraInicio());
         Fin.setText("Fin: "+obj.getDiaFin()+", "+obj.getHoraFin());
         NumeroPruebas.setText("Estará compuesta por "+obj.getPruebas().size()+" pruebas");
-        NumeroParticipantes.setText("Estará compuesta por "+obj.getMaxParticipantes()+" participantes");
+        NumeroParticipantes.setText("Estará compuesta por "+participantesMaximos+" participantes");
         Dificultad.setText("Dificultad: "+obj.getDificultad());
         GymkhanaRef=FirebaseDatabase.getInstance().getReference();
         PlazasDisponibles(obj);
@@ -133,15 +134,17 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
     }
 
     private void Participar() {
-        if(participantesMaximos==usuarioList.size()+1) {
             GymkhanaRef = FirebaseDatabase.getInstance().getReference("Gymkhana/" + GymkhanaID);
             GymkhanaRef.child("participantes").child(UserId).setValue(user);
+            UserRef=FirebaseDatabase.getInstance().getReference("Usuario/"+UserId);
+            Map<String,Object> participa=new HashMap<>();
+            participa.put("idGymkhana",GymkhanaID);
+            participa.put("participa",true);
+            UserRef.child("participaGymkhana").updateChildren(participa);
             Intent intent = new Intent(this, Hub.class);
             startActivity(intent);
             finish();
 
-        }else
-            Toast.makeText(this, "Ocupacion Maxima", Toast.LENGTH_SHORT).show();
 
 
 

@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.io.Serializable;
 import java.util.List;
 
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 
 @IgnoreExtraProperties
 public class Gymkhana implements Serializable {

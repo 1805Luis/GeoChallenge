@@ -46,6 +46,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
         Participar.setOnClickListener(this);
         Supervivencia=v.findViewById(R.id.supervivencia);
         Supervivencia.setOnClickListener(this);
+
         //lanzarTiempo();
         return v;
     }
@@ -73,7 +74,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
             case R.id.participar:
                 Intent intent2=new Intent(getContext(), ApuntarseGymkhana.class);
                 startActivity(intent2);
-                //Toast.makeText(getContext(), "Participar Gymkhana", Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.supervivencia:
                 Intent intent4=new Intent(getContext(), ConsejosS.class);
