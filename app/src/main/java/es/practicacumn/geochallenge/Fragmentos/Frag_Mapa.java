@@ -88,6 +88,7 @@ public class Frag_Mapa extends Fragment {
                 Pmarker.setIcon(Picono);
                 Pmarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(Pmarker);
+                map.getController().setCenter(posta);
             }
         }
 

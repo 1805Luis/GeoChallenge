@@ -22,6 +22,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class Hub extends AppCompatActivity {
         toolbar=findViewById(R.id.toolbar1);
         toolbar.setTitle(consejos[indice]);
 
-        ActionBarDrawerToggle actionBarDrawerToggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,0,0);
+        ActionBarDrawerToggle actionBarDrawerToggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.nav_open,R.string.nav_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportFragmentManager().beginTransaction().add(R.id.containerHub,new Frag_Hub()).commit();
@@ -87,10 +88,7 @@ public class Hub extends AppCompatActivity {
     }
 
     private void borrarDatos() {
-      CrearAlerta();
-    }
 
-    private void CrearAlerta() {
         AlertDialog.Builder alerta= new AlertDialog.Builder(this);
         alerta.setTitle("¿Desea eliminar su cuenta?");
         alerta.setMessage("Todos sus datos serán eliminados")
@@ -161,5 +159,33 @@ public class Hub extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            SalirApp();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
+    private void SalirApp() {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("¿Desea salir de la aplicación?");
+        alerta.setMessage("¿Está seguro de que desea salir de la aplicación?")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alerta.create().show();
+    }
 }

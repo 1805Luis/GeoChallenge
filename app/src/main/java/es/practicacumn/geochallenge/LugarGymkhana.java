@@ -51,7 +51,7 @@ import java.util.Locale;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
 public class LugarGymkhana extends AppCompatActivity implements View.OnClickListener {
-    private String Nombre, Lugar, Dificultad, ParticipantesMax, FechaInicio, FechaFin, HoraInicio, HoraFin,Descripcion;
+    private String Nombre, Lugar, Dificultad, ParticipantesMax, FechaInicio, FechaFin, HoraInicio, HoraFin,Descripcion,UserId;
     private Marker previous,markerinicial; // Variable para guardar el marcador anterior
     private IMapController mapController;
     private MapView map = null;
@@ -146,13 +146,16 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
     }
 
     private void getLocalizacion() {
-        if(previous!=null){
-            previous=null;
-        }
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
+                if(previous!=null){
+                    previous=null;
+                }
+                if(markerinicial!=null){
+                    map.getOverlays().remove(markerinicial);
+                }
                 IGeoPoint point=new GeoPoint(location.getLatitude(),location.getLongitude());
                 ColocarVariablesDouble(location.getLatitude(),location.getLongitude());
                 IntroduccirDatos(point);
@@ -194,6 +197,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==event.KEYCODE_BACK){
             Aviso();
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -277,6 +281,8 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
             FechaFin = entrada.getString("FinFGY");
             HoraFin = entrada.getString("FinHGY");
             Descripcion=entrada.getString("Descripcion");
+            UserId=entrada.getString("IdUsuario");
+
         }
     }
 
@@ -293,6 +299,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
         extras.putString("Lugar",Lugar);
         extras.putSerializable("LugarPrueba",lugarPrueba);
         extras.putString("Descripcion",Descripcion);
+
 
 
         Intent intent=new Intent(getApplicationContext(),CrearPruebas.class);

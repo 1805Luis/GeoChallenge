@@ -1,6 +1,5 @@
 package es.practicacumn.geochallenge;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,10 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +26,7 @@ import es.practicacumn.geochallenge.Model.Comun;
 
 public class CrearGymkhana extends AppCompatActivity implements View.OnClickListener {
     private EditText Gnombre,GinicioFecha,GinicioHora,GfinFecha,GfinHora,GNparticipantes,GDescripcion;
-    private String GKnombre,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes,Descripcion;
+    private String GKnombre,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes,Descripcion,UserId;
     private TextView GnivelDificultad;
     private RatingBar Gdificultad;
     private Button CrearPruebas;
@@ -39,6 +35,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_gymkhana);
+        recibirDatos();
         Gnombre=findViewById(R.id.NombreGK);
         GDescripcion=findViewById(R.id.DescripcionGK);
         GinicioFecha=findViewById(R.id.FechaInicio);
@@ -56,6 +53,16 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         CrearPruebas.setOnClickListener(this);
 
     }
+
+    private void recibirDatos() {
+        if(isTaskRoot()){
+            Bundle entrada = getIntent().getExtras();
+            if (!entrada.isEmpty()) {
+                UserId = entrada.getString("IdUsuario");
+            }
+        }
+    }
+
     private void Inicializar() {
         GKnombre=Gnombre.getText().toString().trim();
         GKinicioFecha=GinicioFecha.getText().toString().trim();
@@ -132,19 +139,26 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
             if(!Descripcion.isEmpty()) {
                 if (!GKdificultad.isEmpty()) {
                     if (!GKNcomponentes.isEmpty()) {
-                        if (!GKinicioHora.isEmpty() && !GKinicioFecha.isEmpty() && !GKfinHora.isEmpty() && !GKfinFecha.isEmpty()) {
-                            if (fechasPasadas(GKinicioFecha, GKinicioHora)) {
-                                if (fechasPasadas(GKfinFecha, GKfinHora)) {
-                                    if (esPosterior(GKinicioFecha, GKfinFecha, GKinicioHora, GKfinHora)) {
-                                        EnviarDatos();
+                        if(Integer.parseInt(GKNcomponentes)>=4){
+                            if (!GKinicioHora.isEmpty() && !GKinicioFecha.isEmpty() && !GKfinHora.isEmpty() && !GKfinFecha.isEmpty()) {
+                                if (fechasPasadas(GKinicioFecha, GKinicioHora)) {
+                                    if (fechasPasadas(GKfinFecha, GKfinHora)) {
+                                        if (esPosterior(GKinicioFecha, GKfinFecha, GKinicioHora, GKfinHora)) {
+                                            if(validarHora(GKinicioFecha,GKinicioHora)){
+                                                EnviarDatos();
+                                            }else
+                                                Toast.makeText(this, "Debes dejar una hora de margen a la hora de crear la gymkhana", Toast.LENGTH_SHORT).show();
+                                        } else
+                                            Toast.makeText(this, "Las fechas no son posteriores", Toast.LENGTH_SHORT).show();
                                     } else
-                                        Toast.makeText(this, "Las fechas no son posteriores", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, "No pude poner la fecha y hora de final en el pasado", Toast.LENGTH_SHORT).show();
                                 } else
-                                    Toast.makeText(this, "No pude poner la fecha y hora de final en el pasado", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "No pude poner la fecha y hora de inicio en el pasado", Toast.LENGTH_SHORT).show();
                             } else
-                                Toast.makeText(this, "No pude poner la fecha y hora de inicio en el pasado", Toast.LENGTH_SHORT).show();
-                        } else
-                            Toast.makeText(this, "Los campos de inicio y fin no pueden estar vacios", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, "Los campos de inicio y fin no pueden estar vacios", Toast.LENGTH_SHORT).show();
+                        }else
+                            Toast.makeText(this, "El mínimo son 4 participantes ", Toast.LENGTH_SHORT).show();
+
                     } else
                         Toast.makeText(this, "Debe indicar el numero maximo de participantes", Toast.LENGTH_SHORT).show();
                 } else
@@ -154,6 +168,39 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         }else
             Toast.makeText(this, "Debe indicar el nombre de la gymkhana", Toast.LENGTH_SHORT).show();
     }
+
+    private boolean validarHora(String fecha, String hora) {
+        boolean resultado = false;
+
+        try {
+            Calendar hoy = Calendar.getInstance();
+            Date fechaActualSolo = hoy.getTime();
+            Date horaActualSolo = new Date(hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), 0);
+
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+            Date fechaHora = formato.parse(fecha + " " + hora);
+
+
+            // Comparar si la fecha es la misma que la de hoy
+            if (fechaHora.compareTo(fechaActualSolo) == 0) {
+                // Obtener la hora actual más 1 hora
+                hoy.add(Calendar.HOUR_OF_DAY, 1);
+                Date horaActualMas1 = new Date(hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), 0);
+
+                // Comparar si la hora actual más 1 hora es menor o igual a la hora pasada como parámetro
+                if (horaActualMas1.compareTo(horaActualSolo) <= 0) {
+                    resultado = true;
+                }
+            }else{
+                resultado=true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return resultado;
+    }
+
     private boolean esPosterior(String fechaInicio, String fechaFinal, String horaInicio, String horaFinal) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
@@ -200,29 +247,34 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==event.KEYCODE_BACK){
-            AlertDialog.Builder alerta= new AlertDialog.Builder(this);
-            alerta.setTitle("¿Desea volver atras?");
-            alerta.setMessage("Perderá el progreso")
-                    .setCancelable(false)
-                    .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            Intent intent=new Intent(getApplicationContext(),Hub.class);
-                            startActivity(intent);
-                            finish();
-
-                        }
-                    })
-                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
-            alerta.create().show();
+            Crearalerta();
+            return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void Crearalerta() {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("¿Desea volver atras?");
+        alerta.setMessage("Perderá el progreso")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent intent=new Intent(getApplicationContext(),Hub.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alerta.create().show();
     }
 
 }

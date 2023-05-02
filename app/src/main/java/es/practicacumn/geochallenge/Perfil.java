@@ -161,6 +161,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==event.KEYCODE_BACK){
             CrearAlerta();
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

@@ -134,20 +134,24 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
     }
 
     private void Participar() {
-            GymkhanaRef = FirebaseDatabase.getInstance().getReference("Gymkhana/" + GymkhanaID);
-            GymkhanaRef.child("participantes").child(UserId).setValue(user);
-            UserRef=FirebaseDatabase.getInstance().getReference("Usuario/"+UserId);
-            Map<String,Object> participa=new HashMap<>();
-            participa.put("idGymkhana",GymkhanaID);
-            participa.put("participa",true);
-            UserRef.child("participaGymkhana").updateChildren(participa);
-            Intent intent = new Intent(this, Hub.class);
-            startActivity(intent);
-            finish();
+        if(usuarioList.isEmpty()){
+            apuntarseGymkhana();
+        } else if(participantesMaximos>=(usuarioList.size()+1)){
+            apuntarseGymkhana();
+        }else
+            Toast.makeText(this, "No hay plazas disponibles", Toast.LENGTH_SHORT).show();
+    }
 
-
-
-
-
+    private void apuntarseGymkhana() {
+        GymkhanaRef = FirebaseDatabase.getInstance().getReference("Gymkhana/" + GymkhanaID);
+        GymkhanaRef.child("participantes").child(UserId).setValue(user);
+        UserRef=FirebaseDatabase.getInstance().getReference("Usuario/"+UserId);
+        Map<String,Object> participa=new HashMap<>();
+        participa.put("idGymkhana",GymkhanaID);
+        participa.put("participa",true);
+        UserRef.child("participaGymkhana").updateChildren(participa);
+        Intent intent = new Intent(this, Hub.class);
+        startActivity(intent);
+        finish();
     }
 }

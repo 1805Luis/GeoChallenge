@@ -21,14 +21,15 @@ public class Gymkhana implements Serializable {
     private int MaxParticipantes;
     private List<Prueba> Pruebas;
     private boolean Terminado;
-    private UbicacionGymkhana ubicacionGymkhana;
-    private List<Usuario> usuarios;
+    private UbicacionGymkhana UbicacionGymkhana;
+    private List<Usuario> Usuarios;
+    private String IdCreador;
 
     public Gymkhana() {
 
     }
 
-    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, boolean terminado, UbicacionGymkhana ubicacionGymkhana, List<Usuario> usuarios) {
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, boolean terminado, UbicacionGymkhana ubicacionGymkhana, List<Usuario> usuarios, String idCreador) {
         Id = id;
         Nombre = nombre;
         Lugar = lugar;
@@ -41,10 +42,10 @@ public class Gymkhana implements Serializable {
         MaxParticipantes = maxParticipantes;
         Pruebas = pruebas;
         Terminado = terminado;
-        this.ubicacionGymkhana = ubicacionGymkhana;
-        this.usuarios = usuarios;
+        UbicacionGymkhana = ubicacionGymkhana;
+        Usuarios = usuarios;
+        IdCreador = idCreador;
     }
-
 
     public String getNombre() {
         return Nombre;
@@ -135,19 +136,19 @@ public class Gymkhana implements Serializable {
     }
 
     public UbicacionGymkhana getUbicacionGymkhana() {
-        return ubicacionGymkhana;
+        return UbicacionGymkhana;
     }
 
     public void setUbicacionGymkhana(UbicacionGymkhana ubicacionGymkhana) {
-        this.ubicacionGymkhana = ubicacionGymkhana;
+        this.UbicacionGymkhana = ubicacionGymkhana;
     }
 
     public List<Usuario> getUsuarios() {
-        return usuarios;
+        return Usuarios;
     }
 
     public void setUsuarios(List<Usuario> usuarios) {
-        this.usuarios = usuarios;
+        Usuarios = usuarios;
     }
 
     public String getDescripcion() {
@@ -156,5 +157,13 @@ public class Gymkhana implements Serializable {
 
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
+    }
+
+    public String getIdCreador() {
+        return IdCreador;
+    }
+
+    public void setIdCreador(String idCreador) {
+        IdCreador = idCreador;
     }
 }

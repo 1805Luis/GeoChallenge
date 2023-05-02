@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,7 +46,7 @@ import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener,Frag_Mapa.OnMapClickListener {
-    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo,Descripcion;
+    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo,Descripcion,UserId;
     private double lat,lon;
     private int orden;
     private List<Prueba> ListaPruebas;
@@ -52,12 +54,16 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     private EditText EOrden,ELat,ELon,EInfo;
     private DatabaseReference mDatabase;
     private StorageReference storageRef;
+    private FirebaseUser user;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_pruebas);
+        user= FirebaseAuth.getInstance().getCurrentUser();
+        UserId=user.getUid();
+        recibirDatos();
         mDatabase= FirebaseDatabase.getInstance().getReference();
         ListaPruebas= new ArrayList<>();
         EOrden=findViewById(R.id.Orden);
@@ -71,7 +77,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         Button continuar = findViewById(R.id.Terminar);
         continuar.setOnClickListener(this);
         generarId();
-        recibirDatos();
+
     }
 
     @Override
@@ -90,7 +96,8 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void almacenarDatos() {
-        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,Descripcion,FechaInicio,FechaFin,HoraInicio,HoraFin,Integer.parseInt(ParticipantesMax),ListaPruebas,false,ubicacionGymkhana,null);
+
+        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,Descripcion,FechaInicio,FechaFin,HoraInicio,HoraFin,Integer.parseInt(ParticipantesMax),ListaPruebas,false,ubicacionGymkhana,null,UserId);
 
         cambiarActividad(gymkhana);
 
@@ -122,6 +129,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
             HoraFin=extras.getString("FinHGY");
             ubicacionGymkhana= (UbicacionGymkhana) extras.getSerializable("LugarPrueba");
             Descripcion=extras.getString("Descripcion");
+
 
 
 
@@ -160,7 +168,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     private void generarCodigoQR(BarcodeEncoder barcodeEncoder) {
         try {
 
-            Bitmap bitmap = barcodeEncoder.encodeBitmap("Orden de la prueba: " + orden + " Latitud: " + lat + " ,Longitud: " + lon + " Informacion: " + Pinfo, BarcodeFormat.QR_CODE, 750, 750);
+            Bitmap bitmap = barcodeEncoder.encodeBitmap("Orden de la prueba: " + orden + " Id_Gymkhana: " + Id + " Informacion: " + Pinfo, BarcodeFormat.QR_CODE, 750, 750);
             String nombre="Prueba"+orden;
             subirCodigoQR(bitmap,nombre);
 
@@ -171,6 +179,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void subirCodigoQR(Bitmap bitmap, String nombreArchivo) {
+        //El id es el de la gymkhana
         storageRef = FirebaseStorage.getInstance().getReference().child("codigosQR").child(Id);
 
         // Convertir el código QR a un array de bytes
@@ -178,13 +187,13 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] data = baos.toByteArray();
 
-        // Subir el código QR a Firebase Storage con un nombre de archivo único
+        // Subir el código QR a Storage con un nombre de archivo único
         StorageReference codigoQRRef = storageRef.child(nombreArchivo);
         codigoQRRef.putBytes(data)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
+                    // El código QR se subió exitosamente
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // El código QR se subió exitosamente
                         codigoQRRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -199,10 +208,8 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                                 bundle.putSerializable("pruebas", (Serializable) ListaPruebas);
                                 Frag_Pruebas fPruebas = new Frag_Pruebas();
                                 fPruebas.setArguments(bundle);
-                                // Crea una transacción de fragmentos
                                 FragmentManager fragmentManager = getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                //replace elimina el fragmento existente y agrega un nuevo fragmento
                                 fragmentTransaction.replace(R.id.container, fPruebas);
                                 fragmentTransaction.commit();
 
@@ -230,6 +237,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==event.KEYCODE_BACK){
             CrearAlerta();
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

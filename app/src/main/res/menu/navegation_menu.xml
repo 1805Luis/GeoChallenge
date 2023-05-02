@@ -12,6 +12,10 @@
                 android:id="@+id/DatosUsuario"
                 android:icon="@drawable/ic_perfil"
                 android:title="Mi perfil"/>
+        <item
+            android:id="@+id/MisGymkhanas"
+            android:icon="@drawable/ic_documentos"
+            android:title="Mis gymkhanas"/>
     </group>
 
     <item android:title="Ajustes">

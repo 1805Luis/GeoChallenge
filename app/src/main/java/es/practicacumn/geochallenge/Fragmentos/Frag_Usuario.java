@@ -28,7 +28,7 @@ public class Frag_Usuario extends Fragment {
     private DatabaseReference mDatabase,userReference;
     private TextView Unombre,Uapellido,Utelf,UfechaNac,Usexo,Usangre,Ualtura,Upeso,Ualergia,Uantecedentes;
     private FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-    String userId;
+    private String userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
