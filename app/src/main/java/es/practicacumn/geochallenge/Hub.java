@@ -38,18 +38,19 @@ import java.util.Random;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_Hub;
 import es.practicacumn.geochallenge.Fragmentos.Frag_Usuario;
+import es.practicacumn.geochallenge.Service.GymkhanaService;
 
 public class Hub extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
+    private static final int REQUEST_CODE_NOTIFICATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
+        pedirPermisos();
         String[]consejos= getResources().getStringArray(R.array.Consejo_del_dia);
         Random random = new Random();
         int indice = random.nextInt(consejos.length);
@@ -85,7 +86,19 @@ public class Hub extends AppCompatActivity {
                 return true;
             }
         });
+
+        Intent intent =new Intent(this, GymkhanaService.class);
+        startService(intent);
     }
+    private void pedirPermisos() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION);
+            return;
+        }
+    }
+
+
+
 
     private void borrarDatos() {
 

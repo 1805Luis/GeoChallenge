@@ -25,6 +25,7 @@ import java.util.Map;
 
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
+import es.practicacumn.geochallenge.Service.GymkhanaService;
 
 public class DetallesGymkhana extends AppCompatActivity implements View.OnClickListener {
  private TextView Nombre,Informacion,Inicio,Fin,NumeroPruebas,NumeroParticipantes,Dificultad,Plazas;

@@ -1,9 +1,12 @@
 package es.practicacumn.geochallenge.Fragmentos;
 
 import android.Manifest;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -11,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +51,7 @@ import es.practicacumn.geochallenge.DetallesGymkhana;
 import es.practicacumn.geochallenge.MainActivity;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 import es.practicacumn.geochallenge.R;
+import es.practicacumn.geochallenge.Service.GymkhanaService;
 import es.practicacumn.geochallenge.TiempoMeteorologico;
 
 public class Frag_Hub extends Fragment implements View.OnClickListener {
@@ -56,6 +62,8 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
     private String UserId;
     private List<Usuario> usuarioList;
 
+
+    public Frag_Hub() {    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
