@@ -5,7 +5,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.io.Serializable;
 @IgnoreExtraProperties
 public class Usuario implements Serializable {
-
     private String Nombre;
     private String Apellido;
     private String Telefono;
@@ -18,11 +17,12 @@ public class Usuario implements Serializable {
     private String Alergias;
     private double Latitud;
     private double Longitud;
-    private ParticipaGymkhana participaGymkhana;
+    private String idUser;
+
 
     public Usuario() {    }
 
-    public Usuario(String nombre, String apellido, String telefono, String fechaNacimiento, String genero, String grupoSanguineo, String altura, String peso, String antecedentesMedicos, String alergias, double latitud, double longitud, ParticipaGymkhana participaGymkhana) {
+    public Usuario(String nombre, String apellido, String telefono, String fechaNacimiento, String genero, String grupoSanguineo, String altura, String peso, String antecedentesMedicos, String alergias, double latitud, double longitud, String idUser) {
         Nombre = nombre;
         Apellido = apellido;
         Telefono = telefono;
@@ -35,7 +35,7 @@ public class Usuario implements Serializable {
         Alergias = alergias;
         Latitud = latitud;
         Longitud = longitud;
-        this.participaGymkhana = participaGymkhana;
+        this.idUser = idUser;
     }
 
     public String getNombre() {
@@ -134,11 +134,11 @@ public class Usuario implements Serializable {
         Longitud = longitud;
     }
 
-    public ParticipaGymkhana getParticipaGymkhana() {
-        return participaGymkhana;
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setParticipaGymkhana(ParticipaGymkhana participaGymkhana) {
-        this.participaGymkhana = participaGymkhana;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 }

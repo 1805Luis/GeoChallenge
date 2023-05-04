@@ -141,74 +141,8 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
     }
 
     private void Participa() {
-        if(user.getParticipaGymkhana().isParticipa()){
-            AlertDialog.Builder alerta= new AlertDialog.Builder(getActivity());
-            alerta.setTitle("Ya participa en una gymkhna");
-            alerta.setMessage("¿Que desea hacer?")
-                    .setCancelable(false)
-                    .setPositiveButton("Desapuntarse y apuntarse a otra", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            GymkhanaRef=FirebaseDatabase.getInstance().getReference();
-                            usuarioList=new ArrayList<>();
-                            GymkhanaRef.child("Gymkhana").child(user.getParticipaGymkhana().getIdGymkhana()).child("participantes").addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if(snapshot.exists()){
-                                        for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                                            Usuario usuario=dataSnapshot.getValue(Usuario.class);
-                                            usuarioList.add(usuario);
-                                        }
-                                    }
-                                    int i =0;
-                                    boolean encontrado=false;
-                                    while (i<usuarioList.size()&&!encontrado){
-                                        if(usuarioList.get(i).equals(UserId)){
-                                            usuarioList.remove(i);
-                                            encontrado=true;
-                                        }else{
-                                            i++;
-                                        }
-                                    }
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(getContext(), "Error al descargar los datos", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            GymkhanaRef.child("Gymkhana").child(user.getParticipaGymkhana().getIdGymkhana()).child("participantes").setValue(usuarioList).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(getActivity(), "Cambios realizados con exito", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            //Cambiar Datos Usuario
-                            UserRef=FirebaseDatabase.getInstance().getReference("Usuario/"+UserId);
-                            String mensaje="No participa";
-                            Map<String,Object> participa=new HashMap<>();
-                            participa.put("idGymkhana",mensaje);
-                            participa.put("participa",false);
-                            UserRef.child("participaGymkhana").updateChildren(participa);
-                            Intent intent=new Intent(getContext(), ApuntarseGymkhana.class);
-                            startActivity(intent);
-
-                        }
-                    })
-                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-
-                        }
-                    });
-            alerta.create().show();
-
-        }else{
             Intent intent=new Intent(getContext(), ApuntarseGymkhana.class);
             startActivity(intent);
         }
 
     }
-}

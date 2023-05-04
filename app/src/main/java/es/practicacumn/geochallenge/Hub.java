@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Random;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_Hub;
+import es.practicacumn.geochallenge.Fragmentos.Frag_MisGymkhanas;
 import es.practicacumn.geochallenge.Fragmentos.Frag_Usuario;
 import es.practicacumn.geochallenge.Service.GymkhanaService;
 
@@ -74,6 +75,9 @@ public class Hub extends AppCompatActivity {
                     case R.id.DatosUsuario:
                         lanzarFragmentos(2);
                         break;
+                    case R.id.MisGymkhanas:
+                        lanzarFragmentos(3);
+                        break;
                     case R.id.CerraSesion:
                         signOut();
                         break;
@@ -87,8 +91,8 @@ public class Hub extends AppCompatActivity {
             }
         });
 
-        Intent intent =new Intent(this, GymkhanaService.class);
-        startService(intent);
+      // Intent intent =new Intent(this, GymkhanaService.class);
+      //  startService(intent);
     }
     private void pedirPermisos() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -161,6 +165,11 @@ public class Hub extends AppCompatActivity {
                 Frag_Usuario fragUsuario=new Frag_Usuario();
                 iniciarTransición(fragUsuario);
                 break;
+            case 3:
+                Frag_MisGymkhanas fragMisGymkhanas=new Frag_MisGymkhanas();
+                iniciarTransición(fragMisGymkhanas);
+                break;
+
         }
 
     }

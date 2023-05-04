@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Proveedor de mosaicos sin conexión y almacenamiento de mosaicos -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -24,9 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GeoChallenge"
         tools:targetApi="31">
+        <activity
+            android:name=".MisGymkhanas"
+            android:exported="false" />
 
-        <service android:name=".Service.GymkhanaService">
-        </service>
+        <service android:name=".Service.GymkhanaService"></service>
 
         <activity
             android:name=".Hub_jugando"
@@ -57,7 +59,7 @@
         <activity
             android:name=".Hub"
             android:exported="false"
-            android:theme="@style/Theme.GeoChallenge.NoActionBar"/>
+            android:theme="@style/Theme.GeoChallenge.NoActionBar" />
         <activity
             android:name=".DetallesPrueba"
             android:exported="false" />

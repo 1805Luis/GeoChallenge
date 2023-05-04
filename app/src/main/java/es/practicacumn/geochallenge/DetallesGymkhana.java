@@ -30,12 +30,12 @@ import es.practicacumn.geochallenge.Service.GymkhanaService;
 public class DetallesGymkhana extends AppCompatActivity implements View.OnClickListener {
  private TextView Nombre,Informacion,Inicio,Fin,NumeroPruebas,NumeroParticipantes,Dificultad,Plazas;
  private Button participar;
- private DatabaseReference mDatabase,GymkhanaRef,UserRef;
+ private DatabaseReference mDatabase,GymkhanaRef;
  private FirebaseAuth mAuth;
  private String UserId,GymkhanaID;
  private int PlazasDisponibles,participantesMaximos,participantesActuales;
  private Usuario user;
- private List<Usuario> usuarioList;
+ private List<String> usuarioList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +82,8 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                        Usuario usuario=dataSnapshot.getValue(Usuario.class);
-                        usuarioList.add(usuario);
+                        String claveParticipante = snapshot.getKey();
+                        usuarioList.add(claveParticipante);
                     }
                 }
                 if(usuarioList.isEmpty()){
@@ -129,8 +129,7 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
         switch (view.getId()){
             case R.id.Participar:
                 Participar();
-
-
+                break;
         }
     }
 
@@ -145,12 +144,7 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
 
     private void apuntarseGymkhana() {
         GymkhanaRef = FirebaseDatabase.getInstance().getReference("Gymkhana/" + GymkhanaID);
-        GymkhanaRef.child("participantes").child(UserId).setValue(user);
-        UserRef=FirebaseDatabase.getInstance().getReference("Usuario/"+UserId);
-        Map<String,Object> participa=new HashMap<>();
-        participa.put("idGymkhana",GymkhanaID);
-        participa.put("participa",true);
-        UserRef.child("participaGymkhana").updateChildren(participa);
+        GymkhanaRef.child("participantes").child(UserId).setValue(true);
         Intent intent = new Intent(this, Hub.class);
         startActivity(intent);
         finish();

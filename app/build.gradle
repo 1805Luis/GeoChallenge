@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "es.practicacumn.geochallenge"
-        minSdk 21
+        minSdkVersion 21
         targetSdk 33
         versionCode 1
         versionName "1.0"

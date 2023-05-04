@@ -27,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import es.practicacumn.geochallenge.Model.Comun;
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.ParticipaGymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 
 public class Perfil extends AppCompatActivity implements View.OnClickListener {
@@ -134,8 +133,7 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void subirDatos() {
-        ParticipaGymkhana participa=new ParticipaGymkhana("No participa",false);
-        Usuario usuario= new Usuario(Unombre,Uapellido,Utlf,Ucumple,Usexo,Usangre,Ualtura,Upeso,Uantecedentes,Ualergias,0.0,0.0,participa);
+        Usuario usuario= new Usuario(Unombre,Uapellido,Utlf,Ucumple,Usexo,Usangre,Ualtura,Upeso,Uantecedentes,Ualergias,0.0,0.0,UserId);
         mDatabase.child("Usuario").child(UserId).setValue(usuario);
         Toast.makeText(this, "Usuario creado con exito", Toast.LENGTH_SHORT).show();
         Intent intent= new Intent(getApplicationContext(),Hub.class);

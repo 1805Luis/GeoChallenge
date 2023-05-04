@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import es.practicacumn.geochallenge.Hub;
+import es.practicacumn.geochallenge.MainActivity;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 import es.practicacumn.geochallenge.R;
 
@@ -59,7 +60,7 @@ public class Frag_Usuario extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Intent intent=new Intent(getContext(), Hub.class);
+                Intent intent=new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
                 Toast.makeText(getContext(), "Error al obtener el usuario", Toast.LENGTH_SHORT).show();
 
