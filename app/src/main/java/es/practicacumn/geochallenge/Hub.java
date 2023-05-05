@@ -13,9 +13,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
@@ -46,6 +48,7 @@ public class Hub extends AppCompatActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private static final int REQUEST_CODE_NOTIFICATION = 1;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +94,47 @@ public class Hub extends AppCompatActivity {
             }
         });
 
-      // Intent intent =new Intent(this, GymkhanaService.class);
-      //  startService(intent);
+        Intent intent =new Intent(this, GymkhanaService.class);
+        startService(intent);
+
+        broadcastReceiver=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals("LanzarAlerta")){
+                    String idGymkhana=intent.getStringExtra("IdGymkhana");
+                    InicioGymkhana(idGymkhana);
+                }
+
+            }
+        };
+
     }
+
+    private void InicioGymkhana(String idGymkhana) {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("LA GYMKHANA A COMENZADO");
+        alerta.setMessage("¡Únete ahora!")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent=new Intent(getApplicationContext(),Hub_jugando.class);
+                        intent.putExtra("IdGymkhana",idGymkhana);
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alerta.create().show();
+    }
+
     private void pedirPermisos() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION);
@@ -209,5 +250,18 @@ public class Hub extends AppCompatActivity {
                     }
                 });
         alerta.create().show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter=new IntentFilter("LanzarAlerta");
+        registerReceiver(broadcastReceiver,filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
 }

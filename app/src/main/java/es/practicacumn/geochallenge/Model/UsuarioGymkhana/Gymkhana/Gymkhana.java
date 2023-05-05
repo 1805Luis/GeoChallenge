@@ -22,14 +22,14 @@ public class Gymkhana implements Serializable {
     private List<Prueba> Pruebas;
     private boolean Terminado;
     private UbicacionGymkhana UbicacionGymkhana;
-    private List<Usuario> Usuarios;
+    private List<String> Idusuarios;
     private String IdCreador;
 
     public Gymkhana() {
 
     }
 
-    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, boolean terminado, UbicacionGymkhana ubicacionGymkhana, List<Usuario> usuarios, String idCreador) {
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, boolean terminado, UbicacionGymkhana ubicacionGymkhana, List<String> usuarios, String idCreador) {
         Id = id;
         Nombre = nombre;
         Lugar = lugar;
@@ -43,7 +43,7 @@ public class Gymkhana implements Serializable {
         Pruebas = pruebas;
         Terminado = terminado;
         UbicacionGymkhana = ubicacionGymkhana;
-        Usuarios = usuarios;
+        Idusuarios = usuarios;
         IdCreador = idCreador;
     }
 
@@ -143,12 +143,12 @@ public class Gymkhana implements Serializable {
         this.UbicacionGymkhana = ubicacionGymkhana;
     }
 
-    public List<Usuario> getUsuarios() {
-        return Usuarios;
+    public List<String> getIdusuarios() {
+        return Idusuarios;
     }
 
-    public void setUsuarios(List<Usuario> usuarios) {
-        Usuarios = usuarios;
+    public void setIdusuarios(List<String> idusuarios) {
+        Idusuarios = idusuarios;
     }
 
     public String getDescripcion() {
