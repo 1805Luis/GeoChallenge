@@ -1,12 +1,16 @@
 package es.practicacumn.geochallenge.Fragmentos;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.Gravity;
@@ -17,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,7 +68,6 @@ public class Frag_MisGymkhanas extends Fragment {
         ExtrarDatos();
         return v;
     }
-
     private void ExtrarDatos() {
         progressBar.setVisibility(View.VISIBLE);
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -142,13 +146,11 @@ public class Frag_MisGymkhanas extends Fragment {
             }
         });
     }
-
     private void ElimarGymkhana(String id) {
         DatabaseReference Gymkhana=FirebaseDatabase.getInstance().getReference("Gymkhana");
         DatabaseReference gymkhana=Gymkhana.child(id);
         gymkhana.removeValue();
     }
-
     private void EliminarStorage(String ruta) {
         FirebaseStorage storage=FirebaseStorage.getInstance();
         StorageReference carpeta =storage.getReference().child(ruta);
@@ -163,4 +165,6 @@ public class Frag_MisGymkhanas extends Fragment {
                     carpeta.delete();
                 });
     }
+
+
 }
