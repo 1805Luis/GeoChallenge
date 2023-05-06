@@ -81,7 +81,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
         mapController = map.getController();
         mapController.setZoom(18.0);
 
-        getIniLocalizacion();
+        PermisoLocalizacion();
         getLocalizacion();
 
         Context ctx = this.getApplicationContext();
@@ -144,6 +144,15 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
             }
         });
     }
+    private void PermisoLocalizacion() {
+        int permiso= ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        if(permiso== PackageManager.PERMISSION_DENIED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
+            }else{
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            }
+        }
+    }
 
     private void getLocalizacion() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -174,15 +183,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,100,5,locationListener);
     }
 
-    private void getIniLocalizacion() {
-        int permiso=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);
-        if(permiso==PackageManager.PERMISSION_DENIED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
-            }else{
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-            }
-        }
-    }
+
 
 
     private void IntroduccirDatos(IGeoPoint point1) {

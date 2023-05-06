@@ -14,14 +14,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
+import java.util.List;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 
 public class MostraGymkhana extends AppCompatActivity implements View.OnClickListener {
     private Gymkhana gymkana;
     private Button crearGK;
     private DatabaseReference mDatabase;
+    private List<Prueba> pruebas;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,8 @@ public class MostraGymkhana extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.crear:
+                pruebas=gymkana.getPruebas();
+                Toast.makeText(this, ""+pruebas.size(), Toast.LENGTH_SHORT).show();
                 mDatabase.child("Gymkhana").child(gymkana.getId()).setValue(gymkana);
                 Toast.makeText(this, "Creada con exito", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getApplicationContext(),Hub.class);

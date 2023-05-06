@@ -2,10 +2,14 @@ package es.practicacumn.geochallenge;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,6 +39,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_gymkhana);
+        PermisoLocalizacion();
         recibirDatos();
         Gnombre=findViewById(R.id.NombreGK);
         GDescripcion=findViewById(R.id.DescripcionGK);
@@ -51,6 +56,17 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         GNparticipantes=findViewById(R.id.ParticipantesMax);
         CrearPruebas=findViewById(R.id.Crear);
         CrearPruebas.setOnClickListener(this);
+
+    }
+
+    private void PermisoLocalizacion() {
+        int permiso= ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        if(permiso== PackageManager.PERMISSION_DENIED){
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
+            }else{
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            }
+        }
 
     }
 

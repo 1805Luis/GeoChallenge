@@ -54,7 +54,7 @@ public class Hub extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
-        pedirPermisos();
+        PermisoNotificaciones();
         String[]consejos= getResources().getStringArray(R.array.Consejo_del_dia);
         Random random = new Random();
         int indice = random.nextInt(consejos.length);
@@ -110,6 +110,8 @@ public class Hub extends AppCompatActivity {
 
     }
 
+
+
     private void InicioGymkhana(String idGymkhana) {
         AlertDialog.Builder alerta= new AlertDialog.Builder(this);
         alerta.setTitle("LA GYMKHANA A COMENZADO");
@@ -135,12 +137,14 @@ public class Hub extends AppCompatActivity {
         alerta.create().show();
     }
 
-    private void pedirPermisos() {
+
+    private void PermisoNotificaciones() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION);
             return;
         }
     }
+
 
 
 

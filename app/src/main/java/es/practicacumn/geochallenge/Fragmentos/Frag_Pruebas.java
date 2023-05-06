@@ -44,6 +44,7 @@ public class Frag_Pruebas extends Fragment {
                 startActivity(paso);
             }
         });
+
         return v;
     }
 }

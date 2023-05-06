@@ -3,6 +3,7 @@ package es.practicacumn.geochallenge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -55,6 +58,10 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     private DatabaseReference mDatabase;
     private StorageReference storageRef;
     private FirebaseUser user;
+    private Button enviar,continuar;
+    private ProgressBar progressBar;
+    private TextView informacion;
+    private RelativeLayout carga;
 
 
     @Override
@@ -72,10 +79,13 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         ELon=findViewById(R.id.Longitud);
         LanzarMapa(ELon);
         EInfo=findViewById(R.id.Descripccion);
-        Button enviar = findViewById(R.id.IntroduccirDatos);
+        enviar = findViewById(R.id.IntroduccirDatos);
         enviar.setOnClickListener(this);
-        Button continuar = findViewById(R.id.Terminar);
+        continuar = findViewById(R.id.Terminar);
         continuar.setOnClickListener(this);
+        carga=findViewById(R.id.CargarPruebas);
+        informacion=findViewById(R.id.textoplano);
+        progressBar=findViewById(R.id.HacerPrueba);
         generarId();
 
     }
@@ -116,7 +126,6 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void recibirDatos() {
-
         Bundle extras=getIntent().getExtras();
         if(!extras.isEmpty()) {
             Nombre = extras.getString("NombreGY");
@@ -137,6 +146,17 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void introducirDatos() {
+        enviar.setEnabled(false);
+        carga.setVisibility(View.VISIBLE);
+        informacion.setText("VALIDANDO DATOS.....");
+        progressBar.setProgress(2);
+        Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.container);;
+
+        if(fragment!=null){
+            getSupportFragmentManager().beginTransaction().
+                    remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
+        }
+
         Porden = EOrden.getText().toString().trim();
         PLat = ELat.getText().toString().trim();
         PLon = ELon.getText().toString().trim();
@@ -153,23 +173,57 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                                 lon = Double.parseDouble(PLon);
                                 if(lon <=180&& lon >=-180){
                                     if(!Pinfo.isEmpty()){
+                                        informacion.setText("DATOS VALIDOS.....");
+                                        progressBar.setProgress(25);
                                         generarCodigoQR(barcodeEncoder);
-                                    }else Toast.makeText(this, "La informacion de la pista no puede ser vacía", Toast.LENGTH_SHORT).show();
-                                }else Toast.makeText(this, "La longitud debe estar entre -180º y 180º", Toast.LENGTH_SHORT).show();
-                            }else Toast.makeText(this, "La longitud no puede ser nula", Toast.LENGTH_SHORT).show();
-                        }else Toast.makeText(this, "La latitud debe estar entre -90º y 90º", Toast.LENGTH_SHORT).show();
-                    }else Toast.makeText(this, "La latitud no puede ser nula", Toast.LENGTH_SHORT).show();
-                }else Toast.makeText(this, "El numero de la pista ha de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
-            }else Toast.makeText(this, "Se debe introducir un numero", Toast.LENGTH_SHORT).show();
-        }else Toast.makeText(this, "Introduzca el numero de la pista", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(this, "La informacion de la pista no puede ser vacía", Toast.LENGTH_SHORT).show();
+                                        Normalidad();
+                                    }
+                                }else{
+                                    Toast.makeText(this, "La longitud debe estar entre -180º y 180º", Toast.LENGTH_SHORT).show();
+                                    Normalidad();
+                                }
+                            }else{
+                                Toast.makeText(this, "La longitud no puede ser nula", Toast.LENGTH_SHORT).show();
+                                Normalidad();
+                            }
+                        }else{
+                            Toast.makeText(this, "La latitud debe estar entre -90º y 90º", Toast.LENGTH_SHORT).show();
+                            Normalidad();
+                        }
+                    }else{
+                        Toast.makeText(this, "La latitud no puede ser nula", Toast.LENGTH_SHORT).show();
+                        Normalidad();
+                    }
+                }else{
+                    Toast.makeText(this, "El numero de la pista ha de ser "+(ListaPruebas.size()+1), Toast.LENGTH_SHORT).show();
+                    Normalidad();
+                }
+            }else{
+                Toast.makeText(this, "Se debe introducir un numero", Toast.LENGTH_SHORT).show();
+                Normalidad();
+            }
+        }else{
+            Toast.makeText(this, "Introduzca el numero de la pista", Toast.LENGTH_SHORT).show();
+            Normalidad();
+        }
 
     }
 
+    private void Normalidad() {
+        carga.setVisibility(View.INVISIBLE);
+        enviar.setEnabled(true);
+    }
+
     private void generarCodigoQR(BarcodeEncoder barcodeEncoder) {
+        informacion.setText("GENERANDO CODIGO QR.....");
         try {
 
             Bitmap bitmap = barcodeEncoder.encodeBitmap("Orden de la prueba: " + orden + " Id_Gymkhana: " + Id + " Informacion: " + Pinfo, BarcodeFormat.QR_CODE, 750, 750);
             String nombre="Prueba"+orden;
+            informacion.setText("CODIGO QR GENERADO.....");
+            progressBar.setProgress(50);
             subirCodigoQR(bitmap,nombre);
 
 
@@ -179,6 +233,8 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void subirCodigoQR(Bitmap bitmap, String nombreArchivo) {
+        informacion.setText("SUBIENDO ARCHIVO.....");
+
         //El id es el de la gymkhana
         storageRef = FirebaseStorage.getInstance().getReference().child("codigosQR").child(Id);
 
@@ -194,6 +250,8 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                     @Override
                     // El código QR se subió exitosamente
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        informacion.setText("QR SUBIDO CON EXITO.....");
+                        progressBar.setProgress(75);
                         codigoQRRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -208,10 +266,15 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                                 bundle.putSerializable("pruebas", (Serializable) ListaPruebas);
                                 Frag_Pruebas fPruebas = new Frag_Pruebas();
                                 fPruebas.setArguments(bundle);
+                                informacion.setText("MOSTRANDO PISTA.....");
                                 FragmentManager fragmentManager = getSupportFragmentManager();
                                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 fragmentTransaction.replace(R.id.container, fPruebas);
                                 fragmentTransaction.commit();
+
+                                progressBar.setProgress(100);
+                                carga.setVisibility(View.INVISIBLE);
+                                enviar.setEnabled(true);
 
                             }
                         });
@@ -250,7 +313,8 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        String ruta= "/codigosQR/"+Id;
+                        EliminarStorage(ruta);
                         Intent intent=new Intent(getApplicationContext(),CrearGymkhana.class);
                         startActivity(intent);
                         finish();
@@ -266,6 +330,20 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                 });
         alerta.create().show();
 
+    }
+    private void EliminarStorage(String ruta) {
+        FirebaseStorage storage=FirebaseStorage.getInstance();
+        StorageReference carpeta =storage.getReference().child(ruta);
+        carpeta.listAll()
+                .addOnSuccessListener(listResult ->{
+                    for (StorageReference item: listResult.getItems()){
+                        item.delete();
+                    }
+                    for (StorageReference subcarpeta: listResult.getPrefixes()){
+                        EliminarStorage(subcarpeta.getPath());
+                    }
+                    carpeta.delete();
+                });
     }
 
     private void LanzarMapa(EditText Ubicacion) {
