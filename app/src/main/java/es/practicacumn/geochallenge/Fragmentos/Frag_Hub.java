@@ -56,11 +56,6 @@ import es.practicacumn.geochallenge.TiempoMeteorologico;
 
 public class Frag_Hub extends Fragment implements View.OnClickListener {
     private Button Crear,Auxilios,Participar,Supervivencia;
-    private DatabaseReference mDatabase,GymkhanaRef,UserRef;
-    private FirebaseAuth mAuth;
-    private Usuario user;
-    private String UserId;
-    private List<Usuario> usuarioList;
 
 
     public Frag_Hub() {    }
@@ -78,30 +73,8 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
         Participar.setOnClickListener(this);
         Supervivencia=v.findViewById(R.id.supervivencia);
         Supervivencia.setOnClickListener(this);
-        ObtenerUsuario();
         //lanzarTiempo();
         return v;
-    }
-
-    private void ObtenerUsuario() {
-        mDatabase= FirebaseDatabase.getInstance().getReference();
-        mAuth= FirebaseAuth.getInstance();
-        UserId=mAuth.getUid();
-        mDatabase.child("Usuario").child(UserId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    GenericTypeIndicator<Usuario> usuario=new GenericTypeIndicator<Usuario>() {};
-                    user=snapshot.getValue(usuario);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
     }
 
     private void lanzarTiempo() {
@@ -117,10 +90,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.crearGY:
-                Bundle extras = new Bundle();
-                extras.putString("IdUsuario",UserId);
                 Intent intent=new Intent(getContext(), CrearGymkhana.class);
-                intent.putExtras(extras);
                 startActivity(intent);
                 break;
 

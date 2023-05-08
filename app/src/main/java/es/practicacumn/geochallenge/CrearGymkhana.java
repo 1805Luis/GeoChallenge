@@ -20,6 +20,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,8 +32,9 @@ import java.util.Locale;
 import es.practicacumn.geochallenge.Model.Comun;
 
 public class CrearGymkhana extends AppCompatActivity implements View.OnClickListener {
-    private EditText Gnombre,GinicioFecha,GinicioHora,GfinFecha,GfinHora,GNparticipantes,GDescripcion;
-    private String GKnombre,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes,Descripcion,UserId;
+    private TextInputLayout nombreGKTIL,participantesTIL,inicioFechaTIL,inicioHoraTIL,finFechaTIL,finHoraTIL,descripcionTIL;
+    private TextInputEditText Gnombre,GNparticipantes,GinicioFecha,GinicioHora,GfinFecha,GfinHora, Gdescripcion;
+    private String GKnombre,GKinicioFecha,GKinicioHora,GKfinFecha, GKfinHora,GKdificultad,GKNcomponentes,Descripcion;
     private TextView GnivelDificultad;
     private RatingBar Gdificultad;
     private Button CrearPruebas;
@@ -40,20 +44,36 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_gymkhana);
         PermisoLocalizacion();
-        recibirDatos();
-        Gnombre=findViewById(R.id.NombreGK);
-        GDescripcion=findViewById(R.id.DescripcionGK);
-        GinicioFecha=findViewById(R.id.FechaInicio);
+
+        nombreGKTIL = findViewById(R.id.NombreGK);
+        Gnombre = (TextInputEditText) nombreGKTIL.getEditText();
+
+        descripcionTIL=findViewById(R.id.DescripcionGK);
+        Gdescripcion =(TextInputEditText) descripcionTIL.getEditText();
+
+        inicioFechaTIL=findViewById(R.id.FechaInicio);
+        GinicioFecha=(TextInputEditText)inicioFechaTIL.getEditText();
         Comun.InicializarFecha(GinicioFecha,CrearGymkhana.this);
-        GfinFecha=findViewById(R.id.FechaFin);
-        Comun.InicializarFecha(GfinFecha,CrearGymkhana.this);
-        GinicioHora=findViewById(R.id.HoraInicio);
+
+        inicioHoraTIL=findViewById(R.id.HoraInicio);
+        GinicioHora=(TextInputEditText)inicioHoraTIL.getEditText();
         InicializarHora(GinicioHora);
-        GfinHora=findViewById(R.id.HoraFin);
+
+        finFechaTIL=findViewById(R.id.FechaFin);
+        GfinFecha=(TextInputEditText)finFechaTIL.getEditText();
+        Comun.InicializarFecha(GfinFecha,CrearGymkhana.this);
+
+        finHoraTIL=findViewById(R.id.HoraFin);
+        GfinHora=(TextInputEditText) finHoraTIL.getEditText();
         InicializarHora(GfinHora);
+
+        participantesTIL=findViewById(R.id.ParticipantesMax);
+        GNparticipantes=(TextInputEditText) participantesTIL.getEditText();
+
         GnivelDificultad=findViewById(R.id.NivelDificultad);
         NivelDificultad();
-        GNparticipantes=findViewById(R.id.ParticipantesMax);
+
+
         CrearPruebas=findViewById(R.id.Crear);
         CrearPruebas.setOnClickListener(this);
 
@@ -70,14 +90,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void recibirDatos() {
-        if(isTaskRoot()){
-            Bundle entrada = getIntent().getExtras();
-            if (!entrada.isEmpty()) {
-                UserId = entrada.getString("IdUsuario");
-            }
-        }
-    }
+
 
     private void Inicializar() {
         GKnombre=Gnombre.getText().toString().trim();
@@ -87,7 +100,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         GKfinHora =GfinHora.getText().toString().trim();
         GKdificultad=GnivelDificultad.getText().toString();
         GKNcomponentes=GNparticipantes.getText().toString().trim();
-        Descripcion=GDescripcion.getText().toString().trim();
+        Descripcion= Gdescripcion.getText().toString().trim();
     }
 
     private void NivelDificultad() {
