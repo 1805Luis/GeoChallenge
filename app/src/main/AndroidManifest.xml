@@ -11,27 +11,28 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Proveedor de mosaicos en línea -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
+        android:configChanges="keyboardHidden|orientation|screenSize"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/icono_app"
-        android:configChanges="keyboardHidden|orientation|screenSize"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.GeoChallenge"
         tools:targetApi="31">
-        <service android:name=".Service.GymkhanaService"></service>
+        <activity
+            android:name=".Brujula"
+            android:exported="false" />
+
+        <service android:name=".Service.GymkhanaService" />
 
         <activity
             android:name=".MisGymkhanas"
             android:exported="false" />
-
         <activity
             android:name=".Hub_jugando"
             android:exported="false" />
