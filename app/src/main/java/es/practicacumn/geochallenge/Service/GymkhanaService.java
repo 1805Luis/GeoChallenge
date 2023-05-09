@@ -15,7 +15,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,7 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import es.practicacumn.geochallenge.Hub_jugando;
+import es.practicacumn.geochallenge.HubJugando;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.R;
 
@@ -178,7 +177,7 @@ public class GymkhanaService extends Service {
         }
     }
     private void crearNotificación() {
-        setPendingIntent(Hub_jugando.class);
+        setPendingIntent(HubJugando.class);
         Notification.Builder builder = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             builder = new Notification.Builder(getApplicationContext(), CHANNEL_ID);

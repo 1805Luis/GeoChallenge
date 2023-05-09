@@ -25,71 +25,94 @@
         android:theme="@style/Theme.GeoChallenge"
         tools:targetApi="31">
         <activity
-            android:name=".Brujula"
+            android:name=".Mapa"
             android:exported="false" />
+        <activity
+            android:name=".Brujula"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <service android:name=".Service.GymkhanaService" />
 
         <activity
             android:name=".MisGymkhanas"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".Hub_jugando"
-            android:exported="false" />
+            android:name=".HubJugando"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DetallesGymkhana"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ApuntarseGymkhana"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TiempoMeteorologico"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DetallesConsejos"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ConsejosP"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ConsejosS"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LugarGymkhana"
             android:exported="false"
             android:label="@string/title_activity_lugar_gymkhana"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.GeoChallenge.NoActionBar" />
         <activity
             android:name=".Hub"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.GeoChallenge.NoActionBar" />
         <activity
             android:name=".DetallesPrueba"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".MostraGymkhana"
-            android:exported="false" />
+            android:name=".MuestraGymkhana"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CrearPruebas"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CrearGymkhana"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".VerificarCuenta"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".OlvidePwd"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Perfil"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CrearCuenta"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -13,12 +14,18 @@ import es.practicacumn.geochallenge.Model.Consejos.Consejos;
 
 public class ConsejosS extends AppCompatActivity {
     private ArrayList<Consejos> consejosSupervivencia;
-
+    private int voy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consejos_s);
+        Bundle entrada = getIntent().getExtras();
+        if (entrada!=null) {
+            voy=entrada.getInt("Voy");
+        }else{
+            voy=0;
+        }
         consejosSupervivencia=new ArrayList<Consejos>();
         consejosSupervivencia.add(new Consejos(1,"Encuentra refugio","Busca un lugar seguro para protegerte del clima, animales o posibles peligros. Un refugio improvisado, como una cueva, una carpa o un refugio construido con materiales naturales, puede ser una opción."));
         consejosSupervivencia.add(new Consejos(2,"Encuentra agua potable","El agua es esencial para la supervivencia. Asegúrate de encontrar una fuente de agua potable, como ríos, arroyos o lagos, y purificarla antes de beberla. Puedes usar filtros de agua, hervirla o usar pastillas purificadoras."));
@@ -45,5 +52,17 @@ public class ConsejosS extends AppCompatActivity {
         //replace elimina el fragmento existente y agrega un nuevo fragmento
         fragmentTransaction.replace(R.id.containerConsejos, fragConsejos);
         fragmentTransaction.commit();
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent;
+        if(voy==1){
+            intent=new Intent(getApplicationContext(),HubJugando.class);
+        }else{
+            intent=new Intent(getApplicationContext(),Hub.class);
+        }
+        startActivity(intent);
+        finish();
     }
 }

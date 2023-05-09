@@ -48,6 +48,7 @@ import es.practicacumn.geochallenge.ConsejosP;
 import es.practicacumn.geochallenge.ConsejosS;
 import es.practicacumn.geochallenge.CrearGymkhana;
 import es.practicacumn.geochallenge.DetallesGymkhana;
+import es.practicacumn.geochallenge.HubJugando;
 import es.practicacumn.geochallenge.MainActivity;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 import es.practicacumn.geochallenge.R;
@@ -100,7 +101,9 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.participar:
-                Participa();
+                //Participa();
+                Intent intent2=new Intent(getContext(), HubJugando.class);
+                startActivity(intent2);
                 break;
 
             case R.id.supervivencia:

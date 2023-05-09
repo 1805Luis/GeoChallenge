@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +19,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,7 +36,6 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -119,7 +116,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
 
     private void cambiarActividad(Gymkhana gymkana) {
-        Intent intent= new Intent(getApplicationContext(),MostraGymkhana.class);
+        Intent intent= new Intent(getApplicationContext(), MuestraGymkhana.class);
         intent.putExtra("gymkana",gymkana);
         startActivity(intent);
 

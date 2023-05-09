@@ -4,19 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_Consejos;
 import es.practicacumn.geochallenge.Model.Consejos.Consejos;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
 public class ConsejosP extends AppCompatActivity {
     private ArrayList<Consejos> consejosPrimerosauxilios;
+    private int voy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consejos_p);
+        Bundle entrada = getIntent().getExtras();
+        if (entrada!=null) {
+            voy=entrada.getInt("Voy");
+        }else{
+            voy=0;
+        }
+
         consejosPrimerosauxilios =new ArrayList<Consejos>();
         consejosPrimerosauxilios.add(new Consejos(1,"Evalúa la seguridad","Antes de acercarte a una persona herida, asegúrate de que la escena sea segura para ti y para la víctima. Haz una evaluación rápida del entorno y toma precauciones para evitar cualquier peligro adicional."));
         consejosPrimerosauxilios.add(new Consejos(2,"Llama a los servicios de emergencia","Si la situación lo requiere, llama a los servicios de emergencia o pide ayuda a alguien cercano. Es importante obtener ayuda médica profesional lo antes posible."));
@@ -42,5 +54,18 @@ public class ConsejosP extends AppCompatActivity {
         //replace elimina el fragmento existente y agrega un nuevo fragmento
         fragmentTransaction.replace(R.id.containerConsejos, fragConsejos);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent;
+        if(voy==1){
+            intent=new Intent(getApplicationContext(),HubJugando.class);
+        }else{
+            intent=new Intent(getApplicationContext(),Hub.class);
+        }
+        startActivity(intent);
+        finish();
     }
 }

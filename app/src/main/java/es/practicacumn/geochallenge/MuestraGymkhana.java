@@ -20,7 +20,7 @@ import es.practicacumn.geochallenge.Fragmentos.Frag_Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 
-public class MostraGymkhana extends AppCompatActivity implements View.OnClickListener {
+public class MuestraGymkhana extends AppCompatActivity implements View.OnClickListener {
     private Gymkhana gymkana;
     private Button crearGK;
     private DatabaseReference mDatabase;

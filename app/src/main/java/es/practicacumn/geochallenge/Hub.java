@@ -6,7 +6,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -19,10 +18,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -55,14 +50,12 @@ public class Hub extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
         PermisoNotificaciones();
-        String[]consejos= getResources().getStringArray(R.array.Consejo_del_dia);
-        Random random = new Random();
-        int indice = random.nextInt(consejos.length);
+
 
         drawerLayout=findViewById(R.id.drawerlayout1);
         navigationView=findViewById(R.id.navigationview1);
         toolbar=findViewById(R.id.toolbar1);
-        toolbar.setTitle(consejos[indice]);
+        toolbar.setTitle("GeoChallenge");
 
         ActionBarDrawerToggle actionBarDrawerToggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.nav_open,R.string.nav_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -120,7 +113,7 @@ public class Hub extends AppCompatActivity {
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent=new Intent(getApplicationContext(),Hub_jugando.class);
+                        Intent intent=new Intent(getApplicationContext(), HubJugando.class);
                         intent.putExtra("IdGymkhana",idGymkhana);
                         startActivity(intent);
                         finish();
