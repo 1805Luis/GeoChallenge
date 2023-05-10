@@ -5,35 +5,68 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HubJugando">
-    <TextView
-        android:id="@+id/ordenh"
-        android:text="Informacion Actual de la pista"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"/>
-    <TextView
-        android:layout_below="@id/ordenh"
-        android:id="@+id/idh"
-        android:text="Informacion Actual de la pista"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_height="wrap_content"
-        />
-    <TextView
-        android:layout_below="@id/idh"
-        android:id="@+id/pista"
-        android:text="Informacion Actual de la pista"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"/>
 
     <RelativeLayout
+        android:id="@+id/RCoordenadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/pista"
+        android:layout_marginStart="10dp"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/Latitud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/Espacio1"
+            android:text="Latitud"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            android:textAlignment="center"
+
+            />
+        <Space
+            android:id="@+id/Espacio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/Longitud"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Longitud"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_toRightOf="@id/Espacio1"
+            android:layout_alignParentRight="true"
+            android:textAlignment="center"
+            android:layout_marginRight="15dp"
+            />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/containerBrujula"
+        android:layout_below="@id/RCoordenadas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/pista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:minHeight="48sp"
+        android:text="Escanea el codigo QR"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:layout_below="@id/containerBrujula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -43,14 +76,13 @@
             android:backgroundTint="@color/marroncillo"
             android:text="Mapa"
             android:id="@+id/mapa"
-            android:layout_marginTop="150dp"
             android:layout_marginLeft="35dp"/>
 
         <Button
             android:scaleType="fitCenter"
             android:layout_width="155dp"
             android:layout_height="155dp"
-            android:text="Protecion vital"
+            android:text="Guía primeros auxilios"
             android:id="@+id/vital"
             android:backgroundTint="@color/marroncillo"
             android:layout_marginTop="30dp"
@@ -62,9 +94,8 @@
             android:layout_width="155dp"
             android:layout_height="155dp"
             android:backgroundTint="@color/marroncillo"
-            android:text="Brujula"
-            android:id="@+id/brujula"
-            android:layout_marginTop="150dp"
+            android:text="Lector de qr"
+            android:id="@+id/leerQR"
             android:layout_alignParentRight="true"
             android:layout_marginRight="35dp"/>
 
@@ -72,13 +103,25 @@
             android:backgroundTint="@color/marroncillo"
             android:layout_width="155dp"
             android:layout_height="155dp"
-            android:text="Lector de qr"
-            android:id="@+id/leerQR"
+            android:text="Guía supervivencia"
+            android:id="@+id/Supervivencia"
             android:layout_marginTop="30dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="35dp"
-            android:layout_below="@+id/brujula"
+            android:layout_below="@+id/leerQR"
             />
     </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:fabSize="auto"
+        android:id="@+id/obtenerPista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_pista"
+        android:backgroundTint="@color/amarillochillon"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        />
 
 </RelativeLayout>
