@@ -118,6 +118,10 @@ public class GymkhanaService extends Service {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("Gymkhana/" + gymkhanaID +"/participantes");
         ref.child(userId).setValue(false);
+        ref=database.getReference("Gymkhana/" + gymkhanaID);
+        ref.child("estado").setValue("En progreso");
+
+
     }
 
     private void Estado(String id){

@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +25,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class CrearCuenta extends AppCompatActivity implements View.OnClickListener {
-    private EditText email,pwd, Vpwd;
+    private TextInputLayout emailTIL,pwdTIL,VpwdTIL;
+    private TextInputEditText email,pwd, Vpwd;
     private String Email,Pwd, VPwd;
     private Button continuar,VIP;
     private FirebaseAuth Auth;
@@ -34,10 +37,12 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_cuenta);
         Auth=FirebaseAuth.getInstance();
-
-        email=findViewById(R.id.EmailCC);
-        pwd=findViewById(R.id.PasswordCC);
-        Vpwd =findViewById(R.id.ConfirmationPwdCC);
+        emailTIL=findViewById(R.id.EmailCC);
+        email=(TextInputEditText)emailTIL.getEditText();
+        pwdTIL=findViewById(R.id.PasswordCC);
+        pwd=(TextInputEditText)pwdTIL.getEditText();
+        VpwdTIL =findViewById(R.id.ConfirmationPwdCC);
+        Vpwd=(TextInputEditText)VpwdTIL.getEditText();
         continuar=findViewById(R.id.Continuar);
         continuar.setOnClickListener(this);
     }

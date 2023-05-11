@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +80,27 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
         pista=findViewById(R.id.obtenerPista);
         pista.setOnClickListener(this);
         detenerServicio();
+        recibirDatos();
         lanzarBrujula();
         ayuda=false;
         diseño();
 
+    }
+
+    private void recibirDatos() {
+        Bundle entrada = getIntent().getExtras();
+        if (entrada!=null) {
+
+            informacion = entrada.getString("Descripcion");
+            ordenPrueba = entrada.getInt("Orden");
+            listPruebas = (List<Prueba>) entrada.getSerializable("Pruebas");
+            ayuda=entrada.getBoolean("Ayuda");
+
+            InformacionActual.setText(informacion);
+            if(ayuda){
+                Ayuda();
+            }
+        }
     }
 
     private void diseño() {
@@ -162,6 +180,10 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.mapa:
                 Intent intent1=new Intent(this, Mapa.class);
+                intent1.putExtra("Descripcion",informacion);
+                intent1.putExtra("Pruebas",(Serializable) listPruebas);
+                intent1.putExtra("Orden",ordenPrueba);
+                intent1.putExtra("Ayuda",ayuda);
                 startActivity(intent1);
                 break;
             case R.id.vital:

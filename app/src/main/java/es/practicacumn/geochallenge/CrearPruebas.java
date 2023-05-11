@@ -104,7 +104,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     }
     private void almacenarDatos() {
 
-        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,Descripcion,FechaInicio,FechaFin,HoraInicio,HoraFin,Integer.parseInt(ParticipantesMax),ListaPruebas,false,ubicacionGymkhana,null,UserId);
+        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,Descripcion,FechaInicio,FechaFin,HoraInicio,HoraFin,Integer.parseInt(ParticipantesMax),ListaPruebas,"Creada",ubicacionGymkhana,null,UserId);
 
         cambiarActividad(gymkhana);
 
@@ -144,6 +144,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
 
     private void introducirDatos() {
         enviar.setEnabled(false);
+        continuar.setEnabled(false);
         carga.setVisibility(View.VISIBLE);
         informacion.setText("VALIDANDO DATOS.....");
         progressBar.setProgress(2);
@@ -211,6 +212,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     private void Normalidad() {
         carga.setVisibility(View.INVISIBLE);
         enviar.setEnabled(true);
+        continuar.setEnabled(true);
     }
 
     private void generarCodigoQR(BarcodeEncoder barcodeEncoder) {
@@ -272,6 +274,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                                 progressBar.setProgress(100);
                                 carga.setVisibility(View.INVISIBLE);
                                 enviar.setEnabled(true);
+                                continuar.setEnabled(true);
 
                             }
                         });

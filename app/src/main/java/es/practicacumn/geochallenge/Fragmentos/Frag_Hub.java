@@ -27,33 +27,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import es.practicacumn.geochallenge.ApuntarseGymkhana;
 import es.practicacumn.geochallenge.ConsejosP;
 import es.practicacumn.geochallenge.ConsejosS;
 import es.practicacumn.geochallenge.CrearGymkhana;
-import es.practicacumn.geochallenge.DetallesGymkhana;
+
 import es.practicacumn.geochallenge.HubJugando;
-import es.practicacumn.geochallenge.MainActivity;
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 import es.practicacumn.geochallenge.R;
-import es.practicacumn.geochallenge.Service.GymkhanaService;
-import es.practicacumn.geochallenge.TiempoMeteorologico;
+
 
 public class Frag_Hub extends Fragment implements View.OnClickListener {
     private Button Crear,Auxilios,Participar,Supervivencia;
@@ -74,7 +56,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
         Participar.setOnClickListener(this);
         Supervivencia=v.findViewById(R.id.supervivencia);
         Supervivencia.setOnClickListener(this);
-        //lanzarTiempo();
+        lanzarTiempo();
         return v;
     }
 
@@ -101,13 +83,12 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.participar:
-                //Participa();
-                Intent intent2=new Intent(getContext(), HubJugando.class);
-                startActivity(intent2);
+                Participa();
                 break;
 
             case R.id.supervivencia:
-                Intent intent4=new Intent(getContext(), ConsejosS.class);
+                //Intent intent4=new Intent(getContext(), ConsejosS.class);
+                Intent intent4=new Intent(getContext(), HubJugando.class);
                 startActivity(intent4);
                 break;
         }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,12 +32,14 @@ import java.util.Date;
 import es.practicacumn.geochallenge.Adaptadores.AdaptadorGymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 
-public class ApuntarseGymkhana extends AppCompatActivity {
+public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClickListener {
     private DatabaseReference ref;
     private ListView listView;
     private List<Gymkhana> gymkhanaList;
     private TextView Nohay;
     private ProgressBar progressBar;
+    private EditText buscador;
+    private ImageButton buscar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +49,10 @@ public class ApuntarseGymkhana extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         listView=findViewById(R.id.mostraGymkhana);
         Nohay=findViewById(R.id.Sininfo);
+        buscador=findViewById(R.id.buscarGymkhana);
+        buscar=findViewById(R.id.lupaGK);
+        buscar.setOnClickListener(this);
+
         ref = FirebaseDatabase.getInstance().getReference().child("Gymkhana");
 
         ValueEventListener gymkhanaListener =new ValueEventListener() {
@@ -56,7 +63,7 @@ public class ApuntarseGymkhana extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Gymkhana gymkhana=dataSnapshot.getValue(Gymkhana.class);
                     actualizarValores(gymkhana.getDiaInicio(),gymkhana.getHoraInicio(),gymkhana.getId());
-                    if(!gymkhana.isTerminado()){
+                    if(!gymkhana.getEstado().equals("Apunto de empezar")){
                         gymkhanaList.add(gymkhana);
                     }
 
@@ -110,8 +117,18 @@ public class ApuntarseGymkhana extends AppCompatActivity {
         selectedCalendar.add(Calendar.MINUTE,30);
         if (selectedCalendar.before(currentCalendar)){
             DatabaseReference GymkhanaRef=FirebaseDatabase.getInstance().getReference("Gymkhana/" + id);
-            GymkhanaRef.child("terminado").setValue(true);
+            GymkhanaRef.child("estado").setValue("Apunto de empezar");
         }
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.lupaGK:
+                Toast.makeText(this, "Funciona", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
     }
 }

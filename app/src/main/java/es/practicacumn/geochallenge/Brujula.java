@@ -2,14 +2,21 @@ package es.practicacumn.geochallenge;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+
+import java.io.Serializable;
+import java.util.List;
+
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 
 public class Brujula extends AppCompatActivity implements SensorEventListener {
 
@@ -19,6 +26,10 @@ public class Brujula extends AppCompatActivity implements SensorEventListener {
     private float azimuth=0f;
     private float currectAzimuth=0f;
     private SensorManager mSensorManager;
+    private String informacion;
+    private int ordenPrueba;
+    private List<Prueba> listPruebas;
+    private boolean ayuda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +37,18 @@ public class Brujula extends AppCompatActivity implements SensorEventListener {
         setContentView(R.layout.activity_brujula);
         imageView=(ImageView) findViewById(R.id.compass);
         mSensorManager=(SensorManager) getSystemService(SENSOR_SERVICE);
+        recibirDatos();
+    }
+
+    private void recibirDatos() {
+        Bundle entrada = getIntent().getExtras();
+        if (entrada!=null) {
+
+            informacion = entrada.getString("Descripcion");
+            ordenPrueba = entrada.getInt("Orden");
+            listPruebas = (List<Prueba>) entrada.getSerializable("Pruebas");
+            ayuda=entrada.getBoolean("Ayuda");
+        }
     }
 
 
@@ -82,5 +105,23 @@ public class Brujula extends AppCompatActivity implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            VolverAtras();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void VolverAtras() {
+        Intent intent1=new Intent(this,HubJugando.class);
+        intent1.putExtra("Descripcion",informacion);
+        intent1.putExtra("Pruebas",(Serializable) listPruebas);
+        intent1.putExtra("Orden",ordenPrueba);
+        intent1.putExtra("Ayuda",ayuda);
+        startActivity(intent1);
+        finish();
     }
 }

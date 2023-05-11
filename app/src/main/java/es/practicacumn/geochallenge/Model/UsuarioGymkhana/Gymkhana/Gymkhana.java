@@ -5,8 +5,6 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.io.Serializable;
 import java.util.List;
 
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
-
 @IgnoreExtraProperties
 public class Gymkhana implements Serializable {
     private String Id;
@@ -20,7 +18,7 @@ public class Gymkhana implements Serializable {
     private String HoraFin;
     private int MaxParticipantes;
     private List<Prueba> Pruebas;
-    private boolean Terminado;
+    private String Estado;
     private UbicacionGymkhana UbicacionGymkhana;
     private List<String> Idusuarios;
     private String IdCreador;
@@ -29,7 +27,7 @@ public class Gymkhana implements Serializable {
 
     }
 
-    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, boolean terminado, UbicacionGymkhana ubicacionGymkhana, List<String> usuarios, String idCreador) {
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, String estado, UbicacionGymkhana ubicacionGymkhana, List<String> usuarios, String idCreador) {
         Id = id;
         Nombre = nombre;
         Lugar = lugar;
@@ -41,7 +39,7 @@ public class Gymkhana implements Serializable {
         HoraFin = horaFin;
         MaxParticipantes = maxParticipantes;
         Pruebas = pruebas;
-        Terminado = terminado;
+        Estado = estado;
         UbicacionGymkhana = ubicacionGymkhana;
         Idusuarios = usuarios;
         IdCreador = idCreador;
@@ -119,12 +117,12 @@ public class Gymkhana implements Serializable {
         Pruebas = pruebas;
     }
 
-    public boolean isTerminado() {
-        return Terminado;
+    public String getEstado() {
+        return Estado;
     }
 
-    public void setTerminado(boolean terminado) {
-        Terminado = terminado;
+    public void setEstado(String estado) {
+        Estado = estado;
     }
 
     public String getId() {

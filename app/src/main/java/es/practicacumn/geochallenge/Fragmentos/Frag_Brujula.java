@@ -1,6 +1,7 @@
 package es.practicacumn.geochallenge.Fragmentos;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,9 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import es.practicacumn.geochallenge.Brujula;
 import es.practicacumn.geochallenge.R;
+import es.practicacumn.geochallenge.TiempoMeteorologico;
 
 public class Frag_Brujula extends Fragment implements SensorEventListener {
     private ImageView imageView;
@@ -26,6 +30,7 @@ public class Frag_Brujula extends Fragment implements SensorEventListener {
     private float azimuth=0f;
     private float currectAzimuth=0f;
     private SensorManager mSensorManager;
+    private FrameLayout frameLayout;
 
     public Frag_Brujula() {
         // Required empty public constructor
@@ -38,6 +43,14 @@ public class Frag_Brujula extends Fragment implements SensorEventListener {
         View v= inflater.inflate(R.layout.fragment_frag__brujula, container, false);
         imageView=(ImageView) v.findViewById(R.id.compass);
         mSensorManager = (SensorManager) requireContext().getSystemService(Context.SENSOR_SERVICE);
+        frameLayout=v.findViewById(R.id.actividadBrujula);
+        frameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), Brujula.class);
+                startActivity(intent);
+            }
+        });
         return v;
     }
 

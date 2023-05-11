@@ -16,18 +16,22 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class OlvidePwd extends AppCompatActivity{
     private Button continuar;
-    private EditText email;
+    private TextInputLayout emailTIL;
+    private TextInputEditText email;
     private String correo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_olvide_pwd);
-        email=findViewById(R.id.Correo);
+        emailTIL=findViewById(R.id.Correo);
+        email=(TextInputEditText)emailTIL.getEditText();
         continuar=findViewById(R.id.Siguiente);
         continuar.setOnClickListener(new View.OnClickListener() {
             @Override

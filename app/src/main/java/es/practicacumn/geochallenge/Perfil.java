@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,9 +33,10 @@ import es.practicacumn.geochallenge.Model.Comun;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
 
 public class Perfil extends AppCompatActivity implements View.OnClickListener {
-    private Spinner sexo,sangre;
+    private AutoCompleteTextView sexo,sangre;
     private FirebaseAuth mAuth;
-    private EditText nombre,apellido,tlf,cumple,altura,peso,antecedentes,alergias;
+    private TextInputLayout nombreTIL,apellidoTIL,tlfTIL,cumpleTIL,alturaTIL,pesoTIL,antecedentesTIL,alergiasTIL,sexoTIL;
+    private TextInputEditText nombre,apellido,tlf,cumple,altura,peso,antecedentes,alergias;
     private String Unombre,Uapellido,Utlf,Usexo,Usangre,Uantecedentes,Ualergias,UserId,Ucumple,Upeso,Ualtura;
     private Button enviar;
     private DatabaseReference mDatabase;
@@ -43,7 +47,6 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         mDatabase= FirebaseDatabase.getInstance().getReference();
         mAuth=FirebaseAuth.getInstance();
         UserId=mAuth.getUid();
-
         mDatabase.child("Usuario").child(UserId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -59,17 +62,35 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
             }
         });
 
-        nombre = findViewById(R.id.Nombre);
-        apellido = findViewById(R.id.Apellidos);
-        tlf = findViewById(R.id.Telefono);
-        cumple=findViewById(R.id.FechaNacimiento);
+        nombreTIL = findViewById(R.id.Nombre);
+        nombre=(TextInputEditText) nombreTIL.getEditText();
+
+        apellidoTIL= findViewById(R.id.Apellidos);
+        apellido =(TextInputEditText)apellidoTIL.getEditText();
+
+        tlfTIL = findViewById(R.id.Telefono);
+        tlf =(TextInputEditText)tlfTIL.getEditText();
+
+        cumpleTIL=findViewById(R.id.FechaNacimiento);
+        cumple=(TextInputEditText)cumpleTIL.getEditText();
         Comun.InicializarFecha(cumple,Perfil.this);
+
         inizializarSexo();
         inizializarSangre();
-        altura = findViewById(R.id.Altura);
-        peso = findViewById(R.id.Peso);
-        antecedentes = findViewById(R.id.Medico);
-        alergias = findViewById(R.id.Alergias);
+
+
+        alturaTIL=findViewById(R.id.Altura);
+        altura=(TextInputEditText)alturaTIL.getEditText();
+
+        pesoTIL=findViewById(R.id.Peso);
+        peso=(TextInputEditText)pesoTIL.getEditText();
+
+        antecedentesTIL=findViewById(R.id.Medico);
+        antecedentes=(TextInputEditText)antecedentesTIL.getEditText();
+
+        alergiasTIL=findViewById(R.id.Alergias);
+        alergias=(TextInputEditText)alergiasTIL.getEditText();
+
 
         enviar=findViewById(R.id.DatosUsuario);
         enviar.setOnClickListener(this);
@@ -86,13 +107,13 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
     }
     private void inizializarSexo() {
         sexo=findViewById(R.id.Sexo_spinner);
-        ArrayAdapter<CharSequence> adapterSexo= ArrayAdapter.createFromResource(this,R.array.sexo_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapterSexo= ArrayAdapter.createFromResource(this,R.array.sexo_array, R.layout.item_spinner);
         adapterSexo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sexo.setAdapter(adapterSexo);
     }
     private void inizializarSangre() {
         sangre=findViewById(R.id.Sangre_spinner);
-        ArrayAdapter<CharSequence> adapterSangre = ArrayAdapter.createFromResource(this,R.array.sangre_array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapterSangre = ArrayAdapter.createFromResource(this,R.array.sangre_array, R.layout.item_spinner);
         adapterSangre.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sangre.setAdapter(adapterSangre);
     }
@@ -146,8 +167,8 @@ public class Perfil extends AppCompatActivity implements View.OnClickListener {
         Uapellido=apellido.getText().toString().trim();
         Utlf=tlf.getText().toString().trim();
         Ucumple=cumple.getText().toString().trim();
-        Usexo=sexo.getSelectedItem().toString();
-        Usangre=sangre.getSelectedItem().toString();
+        Usexo=sexo.getText().toString();
+        Usangre=sangre.getText().toString();
         Ualtura=altura.getText().toString().trim();
         Upeso=peso.getText().toString().trim();
         Uantecedentes=antecedentes.getText().toString().trim();
