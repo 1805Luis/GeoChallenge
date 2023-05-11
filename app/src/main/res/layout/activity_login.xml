@@ -4,39 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CrearCuenta">
+    tools:context=".Login">
 
-    <RelativeLayout
-        android:id="@+id/bienvenida"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
         <TextView
-            android:id="@+id/l"
+            android:id="@+id/bienvenida"
             android:gravity="left"
-            android:layout_margin="15dp"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="BIENVENIDOS A"
-            android:textSize="50dp"
+            android:text="HOLA, DE NUEVO"
+            android:textSize="30dp"
             />
-
-        <TextView
-            android:layout_below="@id/l"
-            android:gravity="center"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="GEOCHALLENGE"
-            android:textSize="40dp"
-            />
-
-
-    </RelativeLayout>
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_below="@id/bienvenida"
-        android:id="@+id/EmailCC"
+        android:id="@+id/EmailL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -58,12 +41,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/PasswordCC"
+        android:id="@+id/PasswordL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48sp"
         android:textSize="20sp"
-        android:layout_below="@+id/EmailCC"
+        android:layout_below="@+id/EmailL"
         android:layout_marginTop="10dp"
         android:hint="Password"
         android:layout_marginRight="10dp"
@@ -81,59 +64,44 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ConfirmationPwdCC"
+    <TextView
+        android:id="@+id/OlvideContraseña"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48sp"
-        android:textSize="20sp"
-        android:layout_below="@+id/PasswordCC"
-        android:layout_marginTop="10dp"
-        android:hint="Escribela de nuevo"
-        app:startIconDrawable="@drawable/ic_contraseia"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        app:boxBackgroundMode="outline"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:textSize="20sp"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
+        android:layout_below="@id/PasswordL"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:paddingRight="10dp"
+        android:text="Olvide la contraseña"
+        android:textColor="#0D47A1"
+        android:textSize="18dp" />
     <Button
-        android:id="@+id/Continuar"
+        android:id="@+id/Acceder"
+        android:layout_margin="50dp"
+        android:layout_below="@id/PasswordL"
+        android:text="ACCEDER"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ConfirmationPwdCC"
-        android:text="Continuar"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/texto"
         android:gravity="center"
         android:textSize="18dp"
-        android:layout_margin="20dp"
         android:text="O ACCEDER CON"
-        android:layout_below="@id/Continuar"
+        android:layout_below="@id/Acceder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/RegistroGoogle"
+        android:id="@+id/AccederGoogle"
+        android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/texto"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        app:buttonSize="wide"></com.google.android.gms.common.SignInButton>
+        android:layout_marginTop="25dp"
+        app:buttonSize="wide">
+    </com.google.android.gms.common.SignInButton>
+
+
 
 </RelativeLayout>

@@ -44,13 +44,6 @@ public class Frag_Brujula extends Fragment implements SensorEventListener {
         imageView=(ImageView) v.findViewById(R.id.compass);
         mSensorManager = (SensorManager) requireContext().getSystemService(Context.SENSOR_SERVICE);
         frameLayout=v.findViewById(R.id.actividadBrujula);
-        frameLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), Brujula.class);
-                startActivity(intent);
-            }
-        });
         return v;
     }
 

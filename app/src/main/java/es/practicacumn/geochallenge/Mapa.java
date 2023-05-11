@@ -53,15 +53,6 @@ public class Mapa extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa);
 
-        Bundle entrada = getIntent().getExtras();
-        if (entrada!=null) {
-
-            informacion = entrada.getString("Descripcion");
-            ordenPrueba = entrada.getInt("Orden");
-            listPruebas = (List<Prueba>) entrada.getSerializable("Pruebas");
-            ayuda=entrada.getBoolean("Ayuda");
-        }
-
         toolbar1 =findViewById(R.id.tmap);
         setSupportActionBar(toolbar1);
         atras=findViewById(R.id.regreso);
@@ -72,6 +63,14 @@ public class Mapa extends AppCompatActivity implements View.OnClickListener {
         mapController = map.getController();
         mapController.setZoom(18.0);
 
+        Bundle entrada = getIntent().getExtras();
+        if (entrada!=null) {
+
+            informacion = entrada.getString("Descripcion");
+            ordenPrueba = entrada.getInt("Orden");
+            listPruebas = (List<Prueba>) entrada.getSerializable("Pruebas");
+            ayuda=entrada.getBoolean("Ayuda");
+        }
         PermisoLocalizacion();
         getLocalizacion();
 

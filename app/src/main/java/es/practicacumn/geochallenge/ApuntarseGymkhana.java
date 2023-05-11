@@ -1,19 +1,24 @@
 package es.practicacumn.geochallenge;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +35,7 @@ import java.util.Date;
 
 
 import es.practicacumn.geochallenge.Adaptadores.AdaptadorGymkhana;
+import es.practicacumn.geochallenge.Model.Comun;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 
 public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClickListener {
@@ -38,8 +44,12 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
     private List<Gymkhana> gymkhanaList;
     private TextView Nohay;
     private ProgressBar progressBar;
-    private EditText buscador;
-    private ImageButton buscar;
+    private FloatingActionButton filtro;
+    private TextInputLayout nombreGKTIL,inicioFechaTIL, lugarTIL;
+    private TextInputEditText Gnombre,GinicioFecha, Glugar;
+    private TextView GnivelDificultad;
+    private RatingBar Gdificultad;
+    private Button busqueda;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +59,10 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
         progressBar.setVisibility(View.VISIBLE);
         listView=findViewById(R.id.mostraGymkhana);
         Nohay=findViewById(R.id.Sininfo);
-        buscador=findViewById(R.id.buscarGymkhana);
-        buscar=findViewById(R.id.lupaGK);
-        buscar.setOnClickListener(this);
+        filtro=findViewById(R.id.filtrarGymkhanas);
+        filtro.setOnClickListener(this);
+
+
 
         ref = FirebaseDatabase.getInstance().getReference().child("Gymkhana");
 
@@ -125,10 +136,93 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.lupaGK:
-                Toast.makeText(this, "Funciona", Toast.LENGTH_SHORT).show();
+            case R.id.filtrarGymkhanas:
+                FiltrarDatos();
                 break;
-
         }
     }
+
+    private void FiltrarDatos() {
+        AlertDialog.Builder alerta =new AlertDialog.Builder(this);
+        LayoutInflater inflater=getLayoutInflater();
+        View view=inflater.inflate(R.layout.buscadorgymkhana,null);
+        alerta.setView(view);
+        alerta.setCancelable(true);
+        final AlertDialog dialog=alerta.create();
+        dialog.show();
+
+        nombreGKTIL = view.findViewById(R.id.GKNombre);
+        Gnombre = (TextInputEditText) nombreGKTIL.getEditText();
+
+        lugarTIL =view.findViewById(R.id.GkLugar);
+        Glugar =(TextInputEditText) lugarTIL.getEditText();
+
+        inicioFechaTIL=view.findViewById(R.id.FechaInicioGk);
+        GinicioFecha=(TextInputEditText)inicioFechaTIL.getEditText();
+        Comun.InicializarFecha(GinicioFecha,ApuntarseGymkhana.this);
+;
+
+        GnivelDificultad=view.findViewById(R.id.GKNivelDificultad);
+        NivelDificultad(view);
+
+        busqueda=view.findViewById(R.id.BuscarGK);
+        busqueda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RealizarBusqueda(Gnombre,Glugar,GinicioFecha,GnivelDificultad);
+                dialog.dismiss();
+            }
+        });
+
+    }
+
+    private void RealizarBusqueda(TextInputEditText gnombre, TextInputEditText glugar, TextInputEditText ginicioFecha, TextView gnivelDificultad) {
+        List<Gymkhana> resultado=new ArrayList<>();
+        String nombre=gnombre.getText().toString().trim();
+        String lugar=glugar.getText().toString().trim();
+        String fecha=ginicioFecha.getText().toString().trim();
+        String nivel=gnivelDificultad.getText().toString().trim();
+
+        for(Gymkhana gymkhana: gymkhanaList){
+            if((nombre==null||gymkhana.getNombre().equalsIgnoreCase(nombre)) &&
+                    (lugar==null||gymkhana.getLugar().equalsIgnoreCase(lugar))&&
+                    (fecha==null||gymkhana.getDiaInicio().equalsIgnoreCase(fecha))&&
+                    (nivel==null||gymkhana.getDificultad().equalsIgnoreCase(nivel))){
+                resultado.add(gymkhana);
+            }
+            if(gymkhana.getDificultad().equalsIgnoreCase(nivel)) resultado.add(gymkhana);
+        }
+        AdaptadorGymkhana consulta=new AdaptadorGymkhana(getApplicationContext(),resultado);
+        listView.setAdapter(consulta);
+
+    }
+
+    private void NivelDificultad(View view) {
+        Gdificultad=view.findViewById(R.id.GKDificultad);
+        Gdificultad.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                GnivelDificultad.setText(String.valueOf(v));
+                switch ((int) Gdificultad.getRating()){
+                    case 1:
+                        GnivelDificultad.setText("Facil");
+                        break;
+                    case 2:
+                        GnivelDificultad.setText("Moderado");
+                        break;
+                    case 3:
+                        GnivelDificultad.setText("Intermedio");
+                        break;
+                    case 4:
+                        GnivelDificultad.setText("Dificil");
+                        break;
+                    case 5:
+                        GnivelDificultad.setText("Extremo");
+                        break;
+                }
+
+            }
+        });
+    }
+
 }

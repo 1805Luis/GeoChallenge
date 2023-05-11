@@ -113,15 +113,17 @@
     </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        app:fabSize="auto"
         android:id="@+id/obtenerPista"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_pista"
-        android:backgroundTint="@color/amarillochillon"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/amarillochillon"
+        android:src="@drawable/ic_pista"
+        app:fabSize="auto" />
 
 </RelativeLayout>

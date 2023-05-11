@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/GKNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="Nombre de la gymkhana"
+        app:boxBackgroundMode="outline"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/GkLugar"
+        android:layout_below="@+id/GKNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:hint="Ciudad, Pais "
+        app:boxBackgroundMode="outline"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+        android:id="@+id/RDificultad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/GkLugar"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/Dificultad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@id/Espacio"
+            android:hint="Dificultad:"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"
+            />
+        <Space
+            android:id="@+id/Espacio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/GKNivelDificultad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="¿Cual será?"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_toRightOf="@id/Espacio"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            />
+
+    </RelativeLayout>
+
+    <RatingBar
+        android:id="@+id/GKDificultad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/RDificultad"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:scrollbarSize="0.5sp"
+        android:stepSize="1"
+        android:theme="@style/Estrellas"
+        android:contentDescription="dificultad"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/FechaInicioGk"
+            android:layout_below="@id/GKDificultad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:hint="Comienza"
+            android:minHeight="48sp"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            app:startIconDrawable="@drawable/ic_calendario"
+            app:boxBackgroundMode="outline"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Space
+            android:id="@+id/Espacio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
+
+
+
+    <Button
+        android:id="@+id/BuscarGK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/FechaInicioGk"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="Continuar"
+        android:drawableRight="@drawable/ic_continuar"/>
+
+
+
+</RelativeLayout>

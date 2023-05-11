@@ -4,78 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/supervivencia">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            >
-
-        <EditText
-            android:id="@+id/Email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:textSize="20sp"
-            android:layout_marginTop="5dp"/>
-
-        <EditText
-            android:id="@+id/Password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:minHeight="48sp"
-            android:textSize="20sp"
-            android:layout_below="@+id/Email"
-            android:layout_marginTop="10dp"
-            android:hint="Password"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="458dp"
+        android:background="@drawable/corner"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        >
 
         <Button
-            android:id="@+id/OlvidePwd"
+            android:id="@+id/irLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/Password"
-            android:text="Olvidé la contraseña"
-            android:layout_marginTop="25dp" />
+            android:layout_centerInParent="true"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginEnd="20sp"
+            android:layout_marginBottom="20sp"
+            android:text="Acceder" />
 
         <Button
-            android:id="@+id/Acceder"
+            android:id="@+id/soyNuevo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/OlvidePwd"
-            android:text="Acceder"
-            android:layout_marginTop="25dp"
-            android:drawableLeft="@drawable/ic_iniciarsesion"
-            />
+            android:layout_below="@id/irLogin"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginEnd="20sp"
+            android:layout_marginBottom="20sp"
+            android:text="Registrase" />
+    </RelativeLayout>
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/AccederGoogle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/Acceder"
-            android:layout_marginTop="25dp"
-            app:buttonSize="wide">
-        </com.google.android.gms.common.SignInButton>
-
-
-        <Button
-            android:id="@+id/CrearCuenta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/AccederGoogle"
-            android:text="No tengo cuenta"
-            android:layout_marginTop="25dp" />
-
-        <Button
-            android:id="@+id/AccesoSinLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Acceso VIP"
-            android:layout_below="@+id/CrearCuenta"
-            android:onClick="estratosferico"
-            android:layout_marginTop="25dp"/>
-
-        </RelativeLayout>
 
 </RelativeLayout>
