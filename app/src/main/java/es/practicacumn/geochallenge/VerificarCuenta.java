@@ -1,10 +1,13 @@
 package es.practicacumn.geochallenge;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,7 +29,7 @@ public class VerificarCuenta extends AppCompatActivity {
         Bundle parametros=this.getIntent().getExtras();
         if ((parametros!=null)) {
              String correo = parametros.getString("email");
-            tvMensaje.setText("Se le ha enviado un correo de verificacion al correo: "+ correo);
+            tvMensaje.setText("Se le ha enviado un correo de verificacion al correo: "+ correo+" si no lo ve en la bandeja de entrada, verifique el spam");
         }
         btnReenviar = findViewById(R.id.btnReenviar);
         btnReenviar.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +66,48 @@ public class VerificarCuenta extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==event.KEYCODE_BACK){
+            CrearAlerta();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void CrearAlerta() {
+        AlertDialog.Builder alerta= new AlertDialog.Builder(this);
+        alerta.setTitle("¿Desea volver atras?");
+        alerta.setMessage("Perderá el progreso y tendra que repetir el proceso de registro")
+                .setCancelable(false)
+                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        FirebaseAuth mAuth=FirebaseAuth.getInstance();;
+                        FirebaseUser user=mAuth.getCurrentUser();
+                        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+                        });
+
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        alerta.create().show();
+
     }
 
 }

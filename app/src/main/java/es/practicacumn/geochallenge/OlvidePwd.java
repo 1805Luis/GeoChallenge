@@ -52,7 +52,7 @@ public class OlvidePwd extends AppCompatActivity{
                     .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                            Intent intent=new Intent(getApplicationContext(),Login.class);
                             startActivity(intent);
                             finish();
                         }

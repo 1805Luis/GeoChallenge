@@ -169,6 +169,9 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
         busqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
+                Nohay.setVisibility(View.INVISIBLE);
+                listView.setVisibility(View.INVISIBLE);
                 RealizarBusqueda(Gnombre,Glugar,GinicioFecha,GnivelDificultad);
                 dialog.dismiss();
             }
@@ -178,22 +181,41 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
 
     private void RealizarBusqueda(TextInputEditText gnombre, TextInputEditText glugar, TextInputEditText ginicioFecha, TextView gnivelDificultad) {
         List<Gymkhana> resultado=new ArrayList<>();
-        String nombre=gnombre.getText().toString().trim();
-        String lugar=glugar.getText().toString().trim();
+        String nombre=(gnombre.getText().toString().trim()).toLowerCase();
+        String lugar=glugar.getText().toString().trim().toLowerCase();
         String fecha=ginicioFecha.getText().toString().trim();
         String nivel=gnivelDificultad.getText().toString().trim();
-
-        for(Gymkhana gymkhana: gymkhanaList){
-            if((nombre==null||gymkhana.getNombre().equalsIgnoreCase(nombre)) &&
-                    (lugar==null||gymkhana.getLugar().equalsIgnoreCase(lugar))&&
-                    (fecha==null||gymkhana.getDiaInicio().equalsIgnoreCase(fecha))&&
-                    (nivel==null||gymkhana.getDificultad().equalsIgnoreCase(nivel))){
-                resultado.add(gymkhana);
-            }
-            if(gymkhana.getDificultad().equalsIgnoreCase(nivel)) resultado.add(gymkhana);
+        if(nivel.equals("Sin especificar")){
+            nivel="";
         }
-        AdaptadorGymkhana consulta=new AdaptadorGymkhana(getApplicationContext(),resultado);
-        listView.setAdapter(consulta);
+
+        if(gymkhanaList.size()>0) {
+            for (Gymkhana gymkhana : gymkhanaList) {
+                if ((nombre.isEmpty() || gymkhana.getNombre().toLowerCase().contains(nombre)) &&
+                        (lugar.isEmpty() || gymkhana.getLugar().toLowerCase().contains(lugar))&&
+                        (fecha.isEmpty()||gymkhana.getDiaInicio().equals(fecha))&&
+                        (nivel.isEmpty()||gymkhana.getDificultad().equals(nivel))) {
+
+                    resultado.add(gymkhana);
+                }
+
+                if(resultado.size()>0){
+                    AdaptadorGymkhana consulta = new AdaptadorGymkhana(getApplicationContext(), resultado);
+                    listView.setAdapter(consulta);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    listView.setVisibility(View.VISIBLE);
+                    Nohay.setVisibility(View.INVISIBLE);
+                }else{
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Nohay.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+        }else{
+            progressBar.setVisibility(View.INVISIBLE);
+            Nohay.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -204,6 +226,9 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 GnivelDificultad.setText(String.valueOf(v));
                 switch ((int) Gdificultad.getRating()){
+                    case 0:
+                        GnivelDificultad.setText("Sin especificar");
+                        break;
                     case 1:
                         GnivelDificultad.setText("Facil");
                         break;

@@ -95,6 +95,8 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
     }
 
     private void Participa() {
+
+
             Intent intent=new Intent(getContext(), ApuntarseGymkhana.class);
             startActivity(intent);
         }

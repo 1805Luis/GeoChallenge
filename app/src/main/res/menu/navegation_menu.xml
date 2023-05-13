@@ -16,6 +16,10 @@
             android:id="@+id/MisGymkhanas"
             android:icon="@drawable/ic_documentos"
             android:title="Mis gymkhanas"/>
+        <item
+            android:id="@+id/Apuntadas"
+            android:icon="@drawable/ic_calendario"
+            android:title="Gymkhanas apuntadas"/>
     </group>
 
     <item android:title="Ajustes">

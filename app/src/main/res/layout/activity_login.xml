@@ -52,6 +52,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         app:startIconDrawable="@drawable/ic_contraseia"
+        app:passwordToggleEnabled="true"
         app:boxBackgroundMode="outline"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         >
@@ -72,9 +73,9 @@
         android:layout_alignParentRight="true"
         android:gravity="right"
         android:paddingRight="10dp"
-        android:text="Olvide la contraseña"
+        android:textSize="18dp"
         android:textColor="#0D47A1"
-        android:textSize="18dp" />
+        />
     <Button
         android:id="@+id/Acceder"
         android:layout_margin="50dp"
@@ -101,6 +102,17 @@
         android:layout_marginTop="25dp"
         app:buttonSize="wide">
     </com.google.android.gms.common.SignInButton>
+
+
+    <TextView
+        android:id="@+id/Registrarse"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
 
 

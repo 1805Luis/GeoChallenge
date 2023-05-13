@@ -7,6 +7,8 @@
     tools:context=".VerificarCuenta">
 
     <TextView
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/imagen"
         android:id="@+id/tvMensaje"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,6 +16,8 @@
         android:layout_centerInParent="true"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+        android:gravity="center"
+        android:textSize="20dp"
         />
 
     <Button
@@ -24,6 +28,15 @@
         android:layout_below="@+id/tvMensaje"
         android:layout_marginTop="12sp"
         android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/imagen"
+        android:layout_width="198dp"
+        android:layout_height="287dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/verificaremail" />
 
 
 </RelativeLayout>

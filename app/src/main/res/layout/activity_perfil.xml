@@ -101,7 +101,7 @@
         android:layout_marginLeft="10sp"
         android:minHeight="48sp"
         android:textSize="20sp"
-        app:startIconDrawable="@drawable/ic_nacimiento"
+        app:startIconDrawable="@drawable/ic_calendario"
         app:boxBackgroundMode="outline"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         >

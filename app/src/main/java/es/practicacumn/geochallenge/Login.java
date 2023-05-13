@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,9 +25,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,7 +40,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private SignInButton AccesoGoogle;
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
     private String correo, contrasenia;
+    private TextView registrase, recuperarpwd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         AccesoGoogle=findViewById(R.id.AccederGoogle);
         AccesoGoogle.setOnClickListener(this);
+
+        registrase=findViewById(R.id.Registrarse);
+        registrase.setOnClickListener(this);
+        SpannableString content = new SpannableString("No tengo cuenta");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        registrase.setText(content);
+
+        recuperarpwd=findViewById(R.id.OlvideContraseña);
+        recuperarpwd.setOnClickListener(this);
+        SpannableString pwd = new SpannableString("Olvidé la contraseña");
+        pwd.setSpan(new UnderlineSpan(), 0, pwd.length(), 0);
+        recuperarpwd.setText(pwd);
     }
 
     @Override
@@ -66,6 +85,17 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             case R.id.AccederGoogle:
                 iniciarGoogle();
                 signIn();
+                break;
+
+            case R.id.Registrarse:
+                Intent intent=new Intent(this,CrearCuenta.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.OlvideContraseña:
+                Intent intent1=new Intent(this,OlvidePwd.class);
+                startActivity(intent1);
                 break;
 
         }
@@ -102,6 +132,44 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Resultado retornado al inicio de sesión con Google
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google inicio de sesión exitoso, autenticar con Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Fallo en el inicio de sesión con Google
+                Log.w("LoginActivity", "signInResult:failed code=" + e.getStatusCode());
+                Toast.makeText(Login.this, "Error en el inicio de sesión con Google", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Inicio de sesión con Firebase exitoso, redirigir a la actividad "Hub"
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(Login.this, Perfil.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // Fallo en el inicio de sesión
+                        }
+                    }
+                });
     }
 
     @Override

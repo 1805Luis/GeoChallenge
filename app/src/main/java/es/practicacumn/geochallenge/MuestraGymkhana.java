@@ -43,7 +43,6 @@ public class MuestraGymkhana extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()){
             case R.id.crear:
                 pruebas=gymkana.getPruebas();
-                Toast.makeText(this, ""+pruebas.size(), Toast.LENGTH_SHORT).show();
                 mDatabase.child("Gymkhana").child(gymkana.getId()).setValue(gymkana);
                 Toast.makeText(this, "Creada con exito", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getApplicationContext(),Hub.class);

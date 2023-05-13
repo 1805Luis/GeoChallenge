@@ -67,7 +67,7 @@
             android:id="@+id/GKNivelDificultad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="¿Cual será?"
+            android:hint="Sin especificar"
             android:minHeight="48sp"
             android:textSize="20sp"
             android:layout_toRightOf="@id/Espacio"
