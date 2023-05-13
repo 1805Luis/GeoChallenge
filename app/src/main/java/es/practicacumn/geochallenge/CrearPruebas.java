@@ -7,22 +7,28 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -46,12 +52,13 @@ import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener,Frag_Mapa.OnMapClickListener {
-    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo,Descripcion,UserId;
+    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo,Descripcion,UserId,Tipo,Clave;
     private double lat,lon;
     private int orden;
     private List<Prueba> ListaPruebas;
     private UbicacionGymkhana ubicacionGymkhana;
-    private EditText EOrden,ELat,ELon,EInfo;
+    private TextInputLayout ClaveGymkhana,OrdenGymkhana,LatitudGymkhana,LongitudGymkhana,InformacionGymkhana;
+    private TextInputEditText clave,EOrden,ELat,ELon,EInfo;
     private DatabaseReference mDatabase;
     private StorageReference storageRef;
     private FirebaseUser user;
@@ -59,6 +66,8 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     private ProgressBar progressBar;
     private TextView informacion;
     private RelativeLayout carga;
+
+    private Switch opcion;
 
 
     @Override
@@ -70,12 +79,21 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         recibirDatos();
         mDatabase= FirebaseDatabase.getInstance().getReference();
         ListaPruebas= new ArrayList<>();
-        EOrden=findViewById(R.id.Orden);
-        ELat=findViewById(R.id.Latitud);
+
+        OrdenGymkhana=findViewById(R.id.Orden);
+        EOrden =(TextInputEditText)OrdenGymkhana.getEditText();
+
+        LatitudGymkhana=findViewById(R.id.Latitud);
+        ELat =(TextInputEditText)LatitudGymkhana.getEditText();
         LanzarMapa(ELat);
-        ELon=findViewById(R.id.Longitud);
+
+        LongitudGymkhana=findViewById(R.id.Longitud);
+        ELon =(TextInputEditText)LongitudGymkhana.getEditText();
         LanzarMapa(ELon);
-        EInfo=findViewById(R.id.Descripccion);
+
+        InformacionGymkhana=findViewById(R.id.Descripccion);
+        EInfo =(TextInputEditText)InformacionGymkhana.getEditText();
+
         enviar = findViewById(R.id.IntroduccirDatos);
         enviar.setOnClickListener(this);
         continuar = findViewById(R.id.Terminar);
@@ -103,11 +121,55 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void almacenarDatos() {
+        Gymkhana gymkhana;
+        TipoGymkhana();
+        if(Tipo.equals("Publica")) {
+            gymkhana = new Gymkhana(Id, Nombre, Lugar, Dificultad, Descripcion, FechaInicio, FechaFin, HoraInicio, HoraFin, Integer.parseInt(ParticipantesMax), ListaPruebas, "Creada", ubicacionGymkhana, null, UserId, Tipo);
+        }else{
+            gymkhana = new Gymkhana(Id, Nombre, Lugar, Dificultad, Descripcion, FechaInicio, FechaFin, HoraInicio, HoraFin, Integer.parseInt(ParticipantesMax), ListaPruebas, "Creada", ubicacionGymkhana, null, UserId, Tipo,Clave);
 
-        Gymkhana gymkhana= new Gymkhana(Id,Nombre,Lugar,Dificultad,Descripcion,FechaInicio,FechaFin,HoraInicio,HoraFin,Integer.parseInt(ParticipantesMax),ListaPruebas,"Creada",ubicacionGymkhana,null,UserId);
-
+        }
         cambiarActividad(gymkhana);
 
+    }
+
+    private void TipoGymkhana() {
+        AlertDialog.Builder alerta =new AlertDialog.Builder(this);
+        LayoutInflater inflater=getLayoutInflater();
+        View view=inflater.inflate(R.layout.alert_tipogymkhana,null);
+        alerta.setView(view);
+        alerta.setCancelable(true);
+        final AlertDialog dialog=alerta.create();
+        dialog.show();
+
+        opcion=view.findViewById(R.id.elige);
+        ClaveGymkhana = view.findViewById(R.id.ClaveGK);
+        opcion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(opcion.isChecked()){
+                    ClaveGymkhana.setVisibility(View.VISIBLE);
+                    clave = (TextInputEditText) ClaveGymkhana.getEditText();
+                    Clave=clave.getText().toString().trim();
+                    opcion.setText("Privada   " );
+                }else{
+                    ClaveGymkhana.setVisibility(View.INVISIBLE);
+                    cerrarTeclado(view);
+                    opcion.setText("Publica   " );
+
+                }
+            }
+        });
+
+
+
+
+
+    }
+
+    private void cerrarTeclado(View view) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private void generarId() {

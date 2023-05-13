@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -145,7 +144,7 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
     private void FiltrarDatos() {
         AlertDialog.Builder alerta =new AlertDialog.Builder(this);
         LayoutInflater inflater=getLayoutInflater();
-        View view=inflater.inflate(R.layout.buscadorgymkhana,null);
+        View view=inflater.inflate(R.layout.alert_buscadorgymkhana,null);
         alerta.setView(view);
         alerta.setCancelable(true);
         final AlertDialog dialog=alerta.create();

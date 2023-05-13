@@ -19,9 +19,8 @@ import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import es.practicacumn.geochallenge.Brujula;
 import es.practicacumn.geochallenge.R;
-import es.practicacumn.geochallenge.TiempoMeteorologico;
+
 
 public class Frag_Brujula extends Fragment implements SensorEventListener {
     private ImageView imageView;

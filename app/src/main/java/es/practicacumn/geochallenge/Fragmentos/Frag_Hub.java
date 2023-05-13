@@ -26,7 +26,14 @@ import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Switch;
+import android.widget.Toast;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import es.practicacumn.geochallenge.ApuntarseGymkhana;
 import es.practicacumn.geochallenge.ConsejosP;
@@ -93,6 +100,7 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
 
     private void Participa() {
 

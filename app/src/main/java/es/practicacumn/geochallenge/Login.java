@@ -40,7 +40,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private SignInButton AccesoGoogle;
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
-    private FirebaseAuth mAuth;
     private String correo, contrasenia;
     private TextView registrase, recuperarpwd;
 

@@ -33,7 +33,8 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 
-
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -56,7 +57,8 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
     private IMapController mapController;
     private MapView map = null;
     private float startX, startY;
-    private EditText LatitudP, LongitudP;
+    private TextInputLayout LatitudTIL,LongitudTIL;
+    private TextInputEditText LatitudP,LongitudP;
     private double LatitudUbicacion, LongitudUbicacion, Latitud,Longitud;
     private Button Busqueda,Siguiente;
     private LocationManager locationManager;
@@ -67,8 +69,13 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lugargymkhana);
         RecibirDatos();
-        LatitudP = findViewById(R.id.LatitudPrueba);
-        LongitudP = findViewById(R.id.LongitudPrueba);
+
+        LatitudTIL=findViewById(R.id.LatitudGymkhana);
+        LatitudP=(TextInputEditText)LatitudTIL.getEditText();
+
+        LongitudTIL=findViewById(R.id.LongitudGymkhana);
+        LongitudP=(TextInputEditText)LongitudTIL.getEditText();
+
         Busqueda=findViewById(R.id.Buscar);
         Busqueda.setOnClickListener(this);
         Siguiente=findViewById(R.id.ContinuarConPruebas);
@@ -312,7 +319,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
     private void RealizarBusqueda() {
         AlertDialog.Builder alerta =new AlertDialog.Builder(this);
         LayoutInflater inflater=getLayoutInflater();
-        View view=inflater.inflate(R.layout.alert_personalizada,null);
+        View view=inflater.inflate(R.layout.alert_busquedalugar,null);
         alerta.setView(view);
         alerta.setCancelable(false);
         final AlertDialog dialog=alerta.create();

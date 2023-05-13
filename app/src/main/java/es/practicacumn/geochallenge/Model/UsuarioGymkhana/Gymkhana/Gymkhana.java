@@ -18,16 +18,20 @@ public class Gymkhana implements Serializable {
     private String HoraFin;
     private int MaxParticipantes;
     private List<Prueba> Pruebas;
-    private String Estado;
+    private String Estado; // Creada,Apunto de empezar,En progreso,Terminada
     private UbicacionGymkhana UbicacionGymkhana;
     private List<String> Idusuarios;
     private String IdCreador;
+    private String Tipo; // Privada o Publica
+    private String ClaveAcceso;
 
     public Gymkhana() {
 
     }
 
-    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, String estado, UbicacionGymkhana ubicacionGymkhana, List<String> usuarios, String idCreador) {
+
+    //Publica
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, String estado, es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana ubicacionGymkhana, List<String> idusuarios, String idCreador, String tipo) {
         Id = id;
         Nombre = nombre;
         Lugar = lugar;
@@ -41,8 +45,30 @@ public class Gymkhana implements Serializable {
         Pruebas = pruebas;
         Estado = estado;
         UbicacionGymkhana = ubicacionGymkhana;
-        Idusuarios = usuarios;
+        Idusuarios = idusuarios;
         IdCreador = idCreador;
+        Tipo = tipo;
+    }
+
+    //Privada
+    public Gymkhana(String id, String nombre, String lugar, String dificultad, String descripcion, String diaInicio, String diaFin, String horaInicio, String horaFin, int maxParticipantes, List<Prueba> pruebas, String estado, es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana ubicacionGymkhana, List<String> idusuarios, String idCreador, String tipo, String claveAcceso) {
+        Id = id;
+        Nombre = nombre;
+        Lugar = lugar;
+        Dificultad = dificultad;
+        Descripcion = descripcion;
+        DiaInicio = diaInicio;
+        DiaFin = diaFin;
+        HoraInicio = horaInicio;
+        HoraFin = horaFin;
+        MaxParticipantes = maxParticipantes;
+        Pruebas = pruebas;
+        Estado = estado;
+        UbicacionGymkhana = ubicacionGymkhana;
+        Idusuarios = idusuarios;
+        IdCreador = idCreador;
+        Tipo = tipo;
+        ClaveAcceso = claveAcceso;
     }
 
     public String getNombre() {
@@ -163,5 +189,21 @@ public class Gymkhana implements Serializable {
 
     public void setIdCreador(String idCreador) {
         IdCreador = idCreador;
+    }
+
+    public String getTipo() {
+        return Tipo;
+    }
+
+    public void setTipo(String tipo) {
+        Tipo = tipo;
+    }
+
+    public String getClaveAcceso() {
+        return ClaveAcceso;
+    }
+
+    public void setClaveAcceso(String claveAcceso) {
+        ClaveAcceso = claveAcceso;
     }
 }

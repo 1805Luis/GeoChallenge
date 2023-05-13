@@ -6,16 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".CrearPruebas"
     >
-
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Orden"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Numero de pista"
-        android:inputType="number"
         android:layout_margin="16dp"
         android:minHeight="48sp"
-        android:textSize="20sp" />
+        app:startIconDrawable="@drawable/ic_info"
+        app:boxBackgroundMode="outline"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textSize="20sp"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <RelativeLayout
         android:id="@+id/RCoordenadas"
         android:layout_width="wrap_content"
@@ -23,30 +34,43 @@
         android:layout_below="@id/Orden"
         android:layout_marginStart="10dp">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Latitud"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_toLeftOf="@id/Espacio1"
             android:hint="Latitud"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:minHeight="48sp"
             android:textSize="20sp"
-            android:layout_marginLeft="15dp"
+            android:layout_margin="15dp"
+            app:startIconDrawable="@drawable/ic_lugar"
+            app:helperText="Seleccione en el mapa"
             android:textAlignment="center"
-            android:inputType="numberSigned|numberDecimal"
-            android:onClick="LanzarMapa"
-            />
+            app:boxBackgroundMode="outline"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:textSize="20sp"
+                android:inputType="numberSigned|numberDecimal"
+                android:onClick="LanzarMapa"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Space
             android:id="@+id/Espacio1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"/>
-        <EditText
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Longitud"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,16 +80,32 @@
             android:layout_toRightOf="@id/Espacio1"
             android:layout_alignParentRight="true"
             android:textAlignment="center"
-            android:layout_marginRight="15dp"
-            android:inputType="numberSigned|numberDecimal"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            />
+            android:layout_margin="15dp"
+            app:helperText="Seleccione en el mapa"
+
+            app:startIconDrawable="@drawable/ic_lugar"
+
+            app:boxBackgroundMode="outline"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:textSize="20sp"
+                android:inputType="numberSigned|numberDecimal"
+                android:onClick="LanzarMapa"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </RelativeLayout>
-    <EditText
+
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Descripccion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,7 +117,18 @@
         android:minHeight="48sp"
         android:textSize="20sp"
         android:hint="Descripccion de la prueba"
-        />
+        app:startIconDrawable="@drawable/ic_info"
+        app:boxBackgroundMode="outline"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/IntroduccirDatos"
         android:layout_width="match_parent"
