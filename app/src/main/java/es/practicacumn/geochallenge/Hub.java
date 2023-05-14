@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Random;
 
+import es.practicacumn.geochallenge.Fragmentos.Frag_GymkhanasApuntadas;
 import es.practicacumn.geochallenge.Fragmentos.Frag_Hub;
 import es.practicacumn.geochallenge.Fragmentos.Frag_MisGymkhanas;
 import es.practicacumn.geochallenge.Fragmentos.Frag_Usuario;
@@ -73,6 +74,9 @@ public class Hub extends AppCompatActivity {
                         break;
                     case R.id.MisGymkhanas:
                         lanzarFragmentos(3);
+                        break;
+                    case R.id.Apuntadas:
+                        lanzarFragmentos(4);
                         break;
                     case R.id.CerraSesion:
                         signOut();
@@ -207,7 +211,10 @@ public class Hub extends AppCompatActivity {
                 Frag_MisGymkhanas fragMisGymkhanas=new Frag_MisGymkhanas();
                 iniciarTransición(fragMisGymkhanas);
                 break;
-
+            case 4:
+                Frag_GymkhanasApuntadas fragGymkhanasApuntadas=new Frag_GymkhanasApuntadas();
+                iniciarTransición(fragGymkhanasApuntadas);
+                break;
         }
 
     }

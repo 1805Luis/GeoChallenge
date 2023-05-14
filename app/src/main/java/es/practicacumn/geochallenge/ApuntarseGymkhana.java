@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -49,6 +50,7 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
     private TextView GnivelDificultad;
     private RatingBar Gdificultad;
     private Button busqueda;
+    private boolean filtrado=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,6 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
         Nohay=findViewById(R.id.Sininfo);
         filtro=findViewById(R.id.filtrarGymkhanas);
         filtro.setOnClickListener(this);
-
 
 
         ref = FirebaseDatabase.getInstance().getReference().child("Gymkhana");
@@ -87,9 +88,14 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Gymkhana obj=(Gymkhana) adapterView.getItemAtPosition(i);
-                            Intent paso = new Intent(getApplicationContext(), DetallesGymkhana.class);
-                            paso.putExtra("objeto",(Serializable) obj);
-                            startActivity(paso);
+                            if(obj.getTipo().equals("Privada")){
+                                VerificarContraseña(obj);
+                            }else{
+                                Intent paso = new Intent(getApplicationContext(), DetallesGymkhana.class);
+                                paso.putExtra("objeto",(Serializable) obj);
+                                startActivity(paso);
+                            }
+
                         }
                     });
                 }else{
@@ -110,6 +116,39 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
         };
         ref.addValueEventListener(gymkhanaListener);
     }
+
+    private void VerificarContraseña(Gymkhana gymkhana) {
+        int i=0;
+        AlertDialog.Builder alerta =new AlertDialog.Builder(this);
+        LayoutInflater inflater=getLayoutInflater();
+        View view=inflater.inflate(R.layout.alert_contrasenia,null);
+        alerta.setView(view);
+        alerta.setCancelable(true);
+        final AlertDialog dialog=alerta.create();
+        dialog.show();
+
+        TextInputLayout VerificarClave=view.findViewById(R.id.VerificarClave);
+        TextInputEditText Verificarclave=(TextInputEditText) VerificarClave.getEditText();
+        Button verificar=view.findViewById(R.id.Verificar);
+        verificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Verificarclave.getText().toString().trim().equals(gymkhana.getClaveAcceso())){
+                    Intent paso = new Intent(getApplicationContext(), DetallesGymkhana.class);
+                    paso.putExtra("objeto",(Serializable) gymkhana);
+                    startActivity(paso);
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(ApuntarseGymkhana.this, "Clave Incorrecta", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+
+                }
+
+            }
+        });
+
+    }
+
 
     private void actualizarValores(String diaInicio, String horaInicio, String id) {
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy hh:mm");
@@ -136,12 +175,30 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.filtrarGymkhanas:
-                FiltrarDatos();
+                if(filtrado){
+                    FiltrarDatos();
+                }else{
+                    filtro.setImageResource(R.drawable.ic_filtro);
+                    filtrado=true;
+                    AdaptadorGymkhana mi=new AdaptadorGymkhana(getApplicationContext(),gymkhanaList);
+                    listView.setAdapter(mi);
+                    progressBar.setVisibility(View.INVISIBLE);
+                    if(gymkhanaList.size()>0){
+                        Nohay.setVisibility(View.INVISIBLE);
+                        listView.setVisibility(View.VISIBLE);
+                    }else{
+                        Nohay.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.INVISIBLE);
+                    }
+
+                }
+
                 break;
         }
     }
 
     private void FiltrarDatos() {
+
         AlertDialog.Builder alerta =new AlertDialog.Builder(this);
         LayoutInflater inflater=getLayoutInflater();
         View view=inflater.inflate(R.layout.alert_buscadorgymkhana,null);
@@ -168,6 +225,8 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
         busqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                filtro.setImageResource(R.drawable.ic_quitarfiltro);
+                filtrado=false;
                 progressBar.setVisibility(View.VISIBLE);
                 Nohay.setVisibility(View.INVISIBLE);
                 listView.setVisibility(View.INVISIBLE);
@@ -206,6 +265,7 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
                     Nohay.setVisibility(View.INVISIBLE);
                 }else{
                     progressBar.setVisibility(View.INVISIBLE);
+                    Nohay.setText("No hay resultados para esos parametros");
                     Nohay.setVisibility(View.VISIBLE);
                 }
 

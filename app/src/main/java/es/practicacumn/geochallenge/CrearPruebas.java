@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,8 +67,8 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
     private ProgressBar progressBar;
     private TextView informacion;
     private RelativeLayout carga;
-
-    private Switch opcion;
+    private  Button Siguiente;
+    private SwitchMaterial opcion;
 
 
     @Override
@@ -115,22 +116,10 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                 if(ListaPruebas.size()+1<=2){
                     Toast.makeText(this, "Debe introduccir al menos 2 pistas", Toast.LENGTH_SHORT).show();
                 }else{
-                    almacenarDatos();
+                    TipoGymkhana();
                 }
                 break;
         }
-    }
-    private void almacenarDatos() {
-        Gymkhana gymkhana;
-        TipoGymkhana();
-        if(Tipo.equals("Publica")) {
-            gymkhana = new Gymkhana(Id, Nombre, Lugar, Dificultad, Descripcion, FechaInicio, FechaFin, HoraInicio, HoraFin, Integer.parseInt(ParticipantesMax), ListaPruebas, "Creada", ubicacionGymkhana, null, UserId, Tipo);
-        }else{
-            gymkhana = new Gymkhana(Id, Nombre, Lugar, Dificultad, Descripcion, FechaInicio, FechaFin, HoraInicio, HoraFin, Integer.parseInt(ParticipantesMax), ListaPruebas, "Creada", ubicacionGymkhana, null, UserId, Tipo,Clave);
-
-        }
-        cambiarActividad(gymkhana);
-
     }
 
     private void TipoGymkhana() {
@@ -144,22 +133,42 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
 
         opcion=view.findViewById(R.id.elige);
         ClaveGymkhana = view.findViewById(R.id.ClaveGK);
+        clave = (TextInputEditText) ClaveGymkhana.getEditText();
+
+        Siguiente=view.findViewById(R.id.terminarTipo);
         opcion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(opcion.isChecked()){
                     ClaveGymkhana.setVisibility(View.VISIBLE);
-                    clave = (TextInputEditText) ClaveGymkhana.getEditText();
-                    Clave=clave.getText().toString().trim();
                     opcion.setText("Privada   " );
+                    Tipo="Privada";
+                    Clave = clave.getText().toString().trim();
+
                 }else{
                     ClaveGymkhana.setVisibility(View.INVISIBLE);
                     cerrarTeclado(view);
                     opcion.setText("Publica   " );
-
+                    Tipo="Publica";
                 }
             }
         });
+
+
+        Siguiente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Clave!=null){
+                    Gymkhana gymkhana = new Gymkhana(Id, Nombre, Lugar, Dificultad, Descripcion, FechaInicio, FechaFin, HoraInicio, HoraFin, Integer.parseInt(ParticipantesMax), ListaPruebas, "Creada", ubicacionGymkhana, null, UserId, "Privada",clave.getText().toString().trim());
+                    cambiarActividad(gymkhana);
+                }else{
+                    Gymkhana gymkhana = new Gymkhana(Id, Nombre, Lugar, Dificultad, Descripcion, FechaInicio, FechaFin, HoraInicio, HoraFin, Integer.parseInt(ParticipantesMax), ListaPruebas, "Creada", ubicacionGymkhana, null, UserId, "Publica");
+                    cambiarActividad(gymkhana);
+                }
+
+            }
+        });
+
 
 
 
@@ -210,13 +219,13 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         carga.setVisibility(View.VISIBLE);
         informacion.setText("VALIDANDO DATOS.....");
         progressBar.setProgress(2);
-        Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.container);;
+        Fragment fragment= getSupportFragmentManager().findFragmentById(R.id.container);
 
         if(fragment!=null){
             getSupportFragmentManager().beginTransaction().
                     remove(getSupportFragmentManager().findFragmentById(R.id.container)).commit();
         }
-
+        cerrarTeclado(new View(this));
         Porden = EOrden.getText().toString().trim();
         PLat = ELat.getText().toString().trim();
         PLon = ELon.getText().toString().trim();
@@ -412,6 +421,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         Ubicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cerrarTeclado(view);
                 Frag_Mapa fragMapa=new Frag_Mapa();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("pruebas", (Serializable) ListaPruebas);

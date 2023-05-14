@@ -1,40 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
-    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <TextView
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tipo de gymkhana"
+        android:text="Introduzca la contraseña"
         android:gravity="center"
         android:textSize="20dp"
         android:textStyle="italic"/>
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:layout_margin="10dp"
-        android:id="@+id/elige"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Publica   "
-        android:switchPadding="10dp"
-        android:checked="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ClaveGK"
+        android:id="@+id/VerificarClave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:visibility="gone"
-        android:hint="Clave de la gymkhana"
+        android:hint="Clave"
         app:startIconDrawable="@drawable/ic_clave"
         app:boxBackgroundMode="outline"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -51,10 +36,8 @@
         android:layout_margin="16dp"
         android:gravity="center"
         android:text="CONTINUAR"
-        android:id="@+id/terminarTipo"
+        android:id="@+id/Verificar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
 
 </LinearLayout>

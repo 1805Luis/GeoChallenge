@@ -110,6 +110,9 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
             public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
                 GnivelDificultad.setText(String.valueOf(v));
                 switch ((int) Gdificultad.getRating()){
+                    case 0:
+                        GnivelDificultad.setText("Sin especificar");
+                        break;
                     case 1:
                         GnivelDificultad.setText("Facil");
                         break;
