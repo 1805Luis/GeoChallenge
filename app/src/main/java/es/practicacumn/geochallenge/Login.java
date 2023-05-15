@@ -63,6 +63,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         registrase=findViewById(R.id.Registrarse);
         registrase.setOnClickListener(this);
+        //Subrayado
         SpannableString content = new SpannableString("No tengo cuenta");
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         registrase.setText(content);

@@ -146,7 +146,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                     Clave = clave.getText().toString().trim();
 
                 }else{
-                    ClaveGymkhana.setVisibility(View.INVISIBLE);
+                    ClaveGymkhana.setVisibility(View.GONE);
                     cerrarTeclado(view);
                     opcion.setText("Publica   " );
                     Tipo="Publica";

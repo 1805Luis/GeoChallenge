@@ -104,7 +104,6 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
                         gymkhana = dataSnapshot.getValue(Gymkhana.class);
-                        Toast.makeText(HubJugando.this, "Obtenida con exito", Toast.LENGTH_SHORT).show();
                         fecha=gymkhana.getDiaFin();
                         hora=gymkhana.getHoraFin();
                         destructor(fecha,hora);

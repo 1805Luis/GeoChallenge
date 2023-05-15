@@ -119,7 +119,7 @@ public class Frag_GymkhanasApuntadas extends Fragment {
                                                                 listView.setVisibility(View.INVISIBLE);
                                                             }
                                                         }else {
-                                                            Toast.makeText(getActivity(), "Error en la aperacion", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getActivity(), "Error en la operacion", Toast.LENGTH_SHORT).show();
 
                                                         }
                                                     }

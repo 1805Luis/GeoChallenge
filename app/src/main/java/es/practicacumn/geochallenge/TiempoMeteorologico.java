@@ -111,7 +111,7 @@ public class TiempoMeteorologico extends AppCompatActivity implements View.OnCli
     }
     private void TiempoCoordenada(Double lat,Double lon){
         WeatherAPI myapi= RetrofitWeather.getInstance();
-        Call<WeatherData> examplecall = myapi.getweather(lat,lon, Comun.apikey_Weather,Comun.units,Comun.lang);
+        Call<WeatherData> examplecall = myapi.getweather(lat,lon, Comun.clave_Secundaria,Comun.units,Comun.lang);
         examplecall.enqueue(new Callback<WeatherData>() {
             @Override
             public void onResponse(Call<WeatherData> call, Response<WeatherData> response) {
@@ -181,7 +181,7 @@ public class TiempoMeteorologico extends AppCompatActivity implements View.OnCli
         try {
         ArrayList<Address> addresses= (ArrayList<Address>) geocoder.getFromLocationName(et.getText().toString(),1);
         WeatherAPI myapi= RetrofitWeather.getInstance();
-        Call<WeatherData> examplecall = myapi.getweather(addresses.get(0).getLatitude(),addresses.get(0).getLongitude(), Comun.apikey_Weather,Comun.units,Comun.lang);
+        Call<WeatherData> examplecall = myapi.getweather(addresses.get(0).getLatitude(),addresses.get(0).getLongitude(), Comun.clave_Secundaria,Comun.units,Comun.lang);
         examplecall.enqueue(new Callback<WeatherData>() {
 
             @Override

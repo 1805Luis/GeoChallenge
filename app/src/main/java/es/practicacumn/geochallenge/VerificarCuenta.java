@@ -26,10 +26,11 @@ public class VerificarCuenta extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verificar_cuenta);
         tvMensaje = findViewById(R.id.tvMensaje);
+        //Recopilamos parametros
         Bundle parametros=this.getIntent().getExtras();
         if ((parametros!=null)) {
              String correo = parametros.getString("email");
-            tvMensaje.setText("Se le ha enviado un correo de verificacion al correo: "+ correo+" si no lo ve en la bandeja de entrada, verifique el spam");
+            tvMensaje.setText("Se le ha enviado un correo de verificacion al correo: "+correo+" si no lo ve en la bandeja de entrada, verifique el spam");
         }
         btnReenviar = findViewById(R.id.btnReenviar);
         btnReenviar.setOnClickListener(new View.OnClickListener() {

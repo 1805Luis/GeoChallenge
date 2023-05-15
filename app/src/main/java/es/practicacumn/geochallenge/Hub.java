@@ -43,7 +43,7 @@ public class Hub extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
-    private static final int REQUEST_CODE_NOTIFICATION = 1;
+    private static final int REQUEST_CODE_NOTIFICATION = 2;
     private BroadcastReceiver broadcastReceiver;
 
     @Override
@@ -136,8 +136,9 @@ public class Hub extends AppCompatActivity {
 
 
     private void PermisoNotificaciones() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS,Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_NOTIFICATION);
             return;
         }
     }

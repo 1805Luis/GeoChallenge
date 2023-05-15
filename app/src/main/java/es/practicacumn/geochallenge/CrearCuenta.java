@@ -159,6 +159,7 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
                         if (task.isSuccessful()) {
                             List<String> signInMethods = task.getResult().getSignInMethods();
 
+                            //Usuario Registrado
                             if (signInMethods != null && !signInMethods.isEmpty()) {
                                 CrearAlerta();
                             } else {
@@ -221,25 +222,6 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
                 });
     }
 
-    private boolean comprobarContrasenia(String pwd) {
-        boolean seguro=false;
-        Pattern patronSeguridad= Pattern.compile(
-                "^" +
-                        "(?=.*[0-9])"+           // al menos 1 numero
-                        "(?=.*[a-z])"+           // al menos 1 letra minuscula
-                        "(?=.*[A-Z])"+           // al menos 1 letra mayuscula
-                        "(?=.*[@#$%&+=/!¡¿?])"+  // al menos 1 caracter especial
-                        "(?=\\S+$)"+             // no espacios em blaco
-                        ".{"+tamanio+",}"+       // longitud minima de la contraseña
-                        "$"
-        );
-
-        if(patronSeguridad.matcher(pwd).matches()){
-            seguro= true;
-        }
-
-        return seguro;
-    }
     private void iniciarGoogle() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

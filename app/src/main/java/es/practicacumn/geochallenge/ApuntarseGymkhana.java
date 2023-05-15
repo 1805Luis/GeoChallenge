@@ -118,7 +118,7 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
     }
 
     private void VerificarContraseña(Gymkhana gymkhana) {
-        int i=0;
+
         AlertDialog.Builder alerta =new AlertDialog.Builder(this);
         LayoutInflater inflater=getLayoutInflater();
         View view=inflater.inflate(R.layout.alert_contrasenia,null);
