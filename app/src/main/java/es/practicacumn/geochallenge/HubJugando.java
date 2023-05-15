@@ -36,19 +36,25 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_Brujula;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 import es.practicacumn.geochallenge.Service.GymkhanaService;
 
 public class HubJugando extends AppCompatActivity implements View.OnClickListener {
     private Button Auxilios,Mapa, Supervivencia,LeerQR;
     private TextView InformacionActual,Latitud,Longitud;
-    private String idGymkhana,informacion,Lat,Lon;
+    private String idGymkhana,informacion,Lat,Lon,fecha,hora;
     private int ordenPrueba;
     private List<Prueba> listPruebas;
     private FirebaseDatabase GymkhanasRef;
@@ -57,6 +63,7 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
     private RelativeLayout Coor;
     private FrameLayout brujula;
     private boolean ayuda;
+    private Gymkhana gymkhana;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +91,78 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
         lanzarBrujula();
         ayuda=false;
         diseño();
+        destruirServicio();
 
+
+    }
+
+    private void destruirServicio() {
+        if(idGymkhana!=null){
+            DatabaseReference gymkhanaRef = FirebaseDatabase.getInstance().getReference("Gymkhana/"+idGymkhana);
+            gymkhanaRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        gymkhana = dataSnapshot.getValue(Gymkhana.class);
+                        Toast.makeText(HubJugando.this, "Obtenida con exito", Toast.LENGTH_SHORT).show();
+                        fecha=gymkhana.getDiaFin();
+                        hora=gymkhana.getHoraFin();
+                        destructor(fecha,hora);
+
+                    } else {
+                        Toast.makeText(HubJugando.this, "No se ha podido obtener", Toast.LENGTH_SHORT).show();                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(HubJugando.this, "Error en la descarga de datos", Toast.LENGTH_SHORT).show();                }
+            });
+
+        }
+    }
+
+    private void destructor(String fecha, String hora) {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        try {
+            // Parsear la fecha y hora de cierre
+            Date fechaHoraCierre = formato.parse(fecha + " " + hora);
+
+            // Obtener la fecha y hora actual
+            Date fechaHoraActual = new Date();
+
+            // Calcular el tiempo restante en milisegundos hasta el cierre
+            long tiempoRestante = fechaHoraCierre.getTime() - fechaHoraActual.getTime();
+
+            if (tiempoRestante > 0) {
+                // Programar el cierre de la actividad en el tiempo especificado
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference ref=database.getReference("Gymkhana/" + idGymkhana);
+                        ref.child("estado").setValue("Finalizado");
+                        Intent intent=new Intent(HubJugando.this,Hub.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }, tiempoRestante);
+            } else {
+                // La fecha y hora de cierre ya ha pasado, cerrar la actividad inmediatamente
+                Intent intent=new Intent(HubJugando.this,Hub.class);
+                startActivity(intent);
+                finish();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void recibirDatos() {
         Bundle entrada = getIntent().getExtras();
         if (entrada!=null) {
-
+            idGymkhana=entrada.getString("IdGymkhana");
             informacion = entrada.getString("Descripcion");
             ordenPrueba = entrada.getInt("Orden");
             listPruebas = (List<Prueba>) entrada.getSerializable("Pruebas");

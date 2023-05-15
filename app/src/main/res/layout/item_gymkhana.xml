@@ -18,7 +18,7 @@
         android:id="@+id/descripciongymkhana"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ubicacion"
+        android:text="Descripcion"
         android:layout_marginLeft="10sp"
         android:textColor="@color/black"
         android:textSize="18sp" />
@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Fin"
+            android:text="Fin"
             android:layout_marginLeft="10sp"
             android:textColor="@color/black"
             android:textSize="18sp" />

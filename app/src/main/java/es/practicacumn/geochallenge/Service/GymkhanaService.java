@@ -129,7 +129,7 @@ public class GymkhanaService extends Service {
             lanzarAlerta(id);
 
         } else {
-            crearCanal();
+            crearCanal(id);
         }
     }
 
@@ -170,18 +170,18 @@ public class GymkhanaService extends Service {
 
     }
 
-    private void crearCanal() {
+    private void crearCanal(String id) {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel =new NotificationChannel(CHANNEL_ID,"Notificacion", NotificationManager.IMPORTANCE_HIGH);
             NotificationManager manager =(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             manager.createNotificationChannel(channel);
-            crearNotificación();
+            crearNotificación(id);
         }else{
-            crearNotificación();
+            crearNotificación(id);
         }
     }
-    private void crearNotificación() {
-        setPendingIntent(HubJugando.class);
+    private void crearNotificación(String id) {
+        setPendingIntent(HubJugando.class,id);
         Notification.Builder builder = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             builder = new Notification.Builder(getApplicationContext(), CHANNEL_ID);
@@ -202,8 +202,9 @@ public class GymkhanaService extends Service {
         }
         notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
     }
-    private void setPendingIntent(Class<?> classActivity) {
+    private void setPendingIntent(Class<?> classActivity,String id) {
         Intent intent = new Intent(this,classActivity);
+        intent.putExtra("IdGymkhana",id);
         TaskStackBuilder stackBuilder=TaskStackBuilder.create(this);
         stackBuilder.addParentStack(classActivity);
         stackBuilder.addNextIntent(intent);

@@ -1,6 +1,8 @@
 package es.practicacumn.geochallenge.Adaptadores;
 
 import android.content.Context;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,13 +44,15 @@ public class AdaptadorGymkhana extends BaseAdapter {
         LayoutInflater inflate=LayoutInflater.from(context);
         vista=inflate.inflate(R.layout.item_gymkhana,null);
         TextView titulo = vista.findViewById(R.id.nombregymkhana);
-        titulo.setText(gymkhanas.get(i).getNombre());
+        SpannableString content = new SpannableString(gymkhanas.get(i).getNombre());
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        titulo.setText(content);
         TextView informacion=vista.findViewById(R.id.descripciongymkhana);
         informacion.setText(gymkhanas.get(i).getDescripcion());
         TextView inicio= vista.findViewById(R.id.iniciogymkhana);
         inicio.setText("Inicio: "+gymkhanas.get(i).getDiaInicio()+","+gymkhanas.get(i).getHoraInicio());
         TextView fin= vista.findViewById(R.id.fingymkhana);
-        fin.setText("Inicio: "+gymkhanas.get(i).getDiaFin()+","+gymkhanas.get(i).getHoraFin());
+        fin.setText("Fin: \n"+gymkhanas.get(i).getDiaFin()+","+gymkhanas.get(i).getHoraFin());
         return vista;
     }
 }

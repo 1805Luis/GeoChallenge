@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"/>
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:id="@+id/cuadrodemando"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ElTiempo">
@@ -27,7 +27,7 @@
             android:layout_height="155dp"
             android:text="Crear Gymkhana"
             android:id="@+id/crearGY"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="125dp"
             android:layout_marginLeft="35dp"/>
 
         <Button
@@ -45,7 +45,7 @@
             android:layout_height="155dp"
             android:text="Participar"
             android:id="@+id/participar"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="125dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="35dp"/>
 
@@ -60,6 +60,16 @@
             android:layout_below="@+id/participar"
             />
     </RelativeLayout>
+
+        <Button
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_margin="35dp"
+            android:text="Jugar"
+            android:id="@+id/jugar"
+            android:visibility="gone"
+            />
     </RelativeLayout>
 
 </FrameLayout>

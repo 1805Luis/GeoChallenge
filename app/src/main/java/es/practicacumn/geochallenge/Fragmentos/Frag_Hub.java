@@ -27,26 +27,47 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import es.practicacumn.geochallenge.Adaptadores.AdaptadorGymkhana;
 import es.practicacumn.geochallenge.ApuntarseGymkhana;
 import es.practicacumn.geochallenge.ConsejosP;
 import es.practicacumn.geochallenge.ConsejosS;
 import es.practicacumn.geochallenge.CrearGymkhana;
 
+import es.practicacumn.geochallenge.DetallesGymkhana;
+import es.practicacumn.geochallenge.GymkhanasApuntadas;
 import es.practicacumn.geochallenge.HubJugando;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.R;
 
 
 public class Frag_Hub extends Fragment implements View.OnClickListener {
-    private Button Crear,Auxilios,Participar,Supervivencia;
-
+    private Button Crear,Auxilios,Participar,Supervivencia,Jugar;
+    private List<Gymkhana> gymkhanaList;
+    private FirebaseUser user;
+    private String userId;
 
     public Frag_Hub() {    }
 
@@ -55,6 +76,9 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_hub, container, false);
+        gymkhanaList=new ArrayList<>();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        userId = user.getUid();
         Crear=v.findViewById(R.id.crearGY);
         Crear.setOnClickListener(this);
         Auxilios=v.findViewById(R.id.auxilios);
@@ -63,7 +87,10 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
         Participar.setOnClickListener(this);
         Supervivencia=v.findViewById(R.id.supervivencia);
         Supervivencia.setOnClickListener(this);
+        Jugar=v.findViewById(R.id.jugar);
+        Jugar.setOnClickListener(this);
         lanzarTiempo();
+        participar();
         return v;
     }
 
@@ -90,11 +117,15 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.participar:
-                Participa();
+                Intent intent2=new Intent(getContext(), ApuntarseGymkhana.class);
+                startActivity(intent2);
                 break;
 
             case R.id.supervivencia:
-                //Intent intent4=new Intent(getContext(), ConsejosS.class);
+                Intent intent3=new Intent(getContext(), ConsejosS.class);
+                startActivity(intent3);
+                break;
+            case R.id.jugar:
                 Intent intent4=new Intent(getContext(), HubJugando.class);
                 startActivity(intent4);
                 break;
@@ -102,11 +133,38 @@ public class Frag_Hub extends Fragment implements View.OnClickListener {
     }
 
 
-    private void Participa() {
+    private void participar() {
+        DatabaseReference gymkhanaReference= FirebaseDatabase.getInstance().getReference();
+        Query query=gymkhanaReference.child("Gymkhana").orderByChild("participantes/"+userId).equalTo(false);
 
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                gymkhanaList.clear();
+                if (snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Gymkhana gymkhana = dataSnapshot.getValue(Gymkhana.class);
+                        if(gymkhana.getEstado().equals("En progreso")){
+                            gymkhanaList.add(gymkhana);
+                        }
 
-            Intent intent=new Intent(getContext(), ApuntarseGymkhana.class);
-            startActivity(intent);
-        }
+                    }
+
+                    if (gymkhanaList.size() > 0) {
+                        Jugar.setVisibility(View.VISIBLE);
+                    }else{
+                        Jugar.setVisibility(View.GONE);
+                    }
+                }else{
+                    Jugar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
     }
+
+}

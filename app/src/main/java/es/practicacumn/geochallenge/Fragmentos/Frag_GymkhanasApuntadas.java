@@ -101,7 +101,7 @@ public class Frag_GymkhanasApuntadas extends Fragment {
                                 Gymkhana gymkhana=(Gymkhana) adapterView.getItemAtPosition(i);
 
                                 AlertDialog.Builder alerta= new AlertDialog.Builder(getContext());
-                                alerta.setTitle("Desapuntarse de una gimkhana");
+                                alerta.setTitle("Desapuntarse de una gymkhana");
                                 alerta.setMessage("¿Desea desapuntarse de esta gymkhana?")
                                         .setCancelable(false)
                                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {

@@ -15,7 +15,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
-import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,15 +36,17 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
  private FirebaseAuth mAuth;
  private String UserId,GymkhanaID;
  private int PlazasDisponibles,participantesMaximos,participantesActuales;
- private Usuario user;
  private List<String> usuarioList;
  private Gymkhana obj;
+ private List<Gymkhana> gymkhanasList;
+ private boolean puede;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_gymkhana);
         usuarioList=new ArrayList<>();
+        gymkhanasList=new ArrayList<>();
         obj=(Gymkhana) getIntent().getExtras().getSerializable("objeto");
         GymkhanaID=obj.getId();
         participantesMaximos= obj.getMaxParticipantes();
@@ -64,21 +65,33 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
         mDatabase= FirebaseDatabase.getInstance().getReference();
         mAuth= FirebaseAuth.getInstance();
         UserId=mAuth.getUid();
+        Disponibilidad();
 
-        mDatabase.child("Usuario").child(UserId).addValueEventListener(new ValueEventListener() {
+
+    }
+
+    private void Disponibilidad() {
+        DatabaseReference gymkhanaReference=FirebaseDatabase.getInstance().getReference();
+        Query query=gymkhanaReference.child("Gymkhana").orderByChild("participantes/"+UserId).equalTo(true);
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    GenericTypeIndicator<Usuario> usuarioGymkhana=new GenericTypeIndicator<Usuario>() {};
-                    user=snapshot.getValue(usuarioGymkhana);
+                gymkhanasList.clear();
+                if(snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Gymkhana gymkhana = dataSnapshot.getValue(Gymkhana.class);
+                        gymkhanasList.add(gymkhana);
+                    }
                 }
+
+
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
     }
 
     private void PlazasDisponibles(Gymkhana obj) {
@@ -139,77 +152,74 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
     }
 
     private void PuedeParticipar(){
-        List<Gymkhana> gymkhanasList = new ArrayList<>();
-
-        DatabaseReference gymkhanaReference=FirebaseDatabase.getInstance().getReference();
-        Query query=gymkhanaReference.child("Gymkhana").orderByChild("participantes/"+UserId).equalTo(true);
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                gymkhanasList.clear();
-                if(snapshot.exists()) {
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Gymkhana gymkhana = dataSnapshot.getValue(Gymkhana.class);
-                        gymkhanasList.add(gymkhana);
-                    }
-
-                    boolean puede=true;
-                    int i=0;
-
-                    while (i<gymkhanasList.size() && puede){
-                        Gymkhana gymkhana = gymkhanasList.get(i);
-                        if(!TienesTiempo(obj.getDiaInicio(),gymkhana.getDiaFin(),obj.getHoraInicio(),gymkhana.getHoraFin())){
-                            puede=false;
-                        }
-                    }
-                    if(puede){
-                        Participar();
-                    }else{
-                        Toast.makeText(DetallesGymkhana.this, "No puede participar ya que te coincide con otra", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                }else {
-                    Participar();
+        if(gymkhanasList.size()>0){
+            int i=0;
+            puede=true;
+            while (i<gymkhanasList.size() && puede) {
+                Gymkhana gymkhana = gymkhanasList.get(i);
+                if (!TienesTiempo(gymkhana.getDiaInicio(),gymkhana.getDiaFin(),gymkhana.getHoraInicio(),gymkhana.getHoraFin(),obj.getDiaInicio(),obj.getHoraInicio(),obj.getDiaFin(),obj.getHoraFin())){
+                    puede = false;
                 }
-
+                i++;
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            if(puede){
+                Participar();
+            }else{
+                Toast.makeText(DetallesGymkhana.this, "No puede participar ya que te coincide con otra", Toast.LENGTH_SHORT).show();
             }
-        });
-    }
 
-    private boolean TienesTiempo(String FechaInicio, String FechaFin, String HoraInicio, String HoraFin) {
-        DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
-        DateFormat formatoHora = new SimpleDateFormat("HH:mm");
-
-        try {
-            Date fechaInicio = formatoFecha.parse(FechaInicio);
-            Date fechaFin = formatoFecha.parse(FechaFin);
-            Date horaInicio = formatoHora.parse(HoraInicio);
-            Date horaFin = formatoHora.parse(HoraFin);
-
-            // Sumar una hora a la hora de fin
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(horaFin);
-            cal.add(Calendar.HOUR_OF_DAY, 1);
-            horaFin = cal.getTime();
-
-            if (fechaInicio.before(fechaFin)) {
-                return false;
-            } else if (fechaInicio.equals(fechaFin)) {
-                return horaInicio.before(horaFin);
-            } else {
-                return true;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
+        }else{
+            Participar();
         }
     }
+
+    private boolean TienesTiempo(String diaInicioGymkhanas, String diaFinGymkhanas, String horaInicioGymkhanas, String horaFinGymkhanas,
+                                 String diaInicio, String horaInicio, String diaFin, String horaFin) {
+
+        DateFormat formatFecha = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatHora = new SimpleDateFormat("HH:mm");
+
+        try {
+
+            //Fechas y horas de cualquier gymkhana
+            Date FechaInicioGs= formatFecha.parse(diaInicioGymkhanas);
+            Date FechaFinGs   = formatFecha.parse(diaFinGymkhanas);
+            Date HoraInicioGs = formatHora.parse(horaInicioGymkhanas);
+            Date HoraFinGs    = formatHora.parse(horaFinGymkhanas);
+
+            //Fechas y horas de esta gymkhana
+            Date FechaInicio = formatFecha.parse(diaInicio);
+            Date HoraInicio = formatHora.parse(horaInicio);
+            Date FechaFin = formatFecha.parse(diaFin);
+            Date HoraFin = formatHora.parse(horaFin);
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(HoraInicio);
+            cal.add(Calendar.MINUTE, 30);
+            HoraInicio = cal.getTime();
+
+            Calendar calfin = Calendar.getInstance();
+            calfin.setTime(HoraFin);
+            calfin.add(Calendar.MINUTE, 30);
+            HoraFin = calfin.getTime();
+
+
+            if(FechaInicioGs.equals(FechaInicio) && FechaFinGs.equals(FechaFin)){
+                if(HoraInicioGs.after(HoraFin)||HoraFinGs.before(HoraInicio)){
+                    return true;
+                }
+            } else if (FechaInicioGs.after(FechaFin)||FechaFinGs.before(FechaInicio)) {
+                return true;
+            }
+
+            return false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
+
 
     private void Participar() {
         if(usuarioList.isEmpty()){

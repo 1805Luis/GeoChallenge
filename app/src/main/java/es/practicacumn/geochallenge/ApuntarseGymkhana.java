@@ -39,7 +39,7 @@ import es.practicacumn.geochallenge.Model.Comun;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 
 public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClickListener {
-    private DatabaseReference ref;
+    private DatabaseReference ref,GymkhanaRef;
     private ListView listView;
     private List<Gymkhana> gymkhanaList;
     private TextView Nohay;
@@ -74,7 +74,7 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Gymkhana gymkhana=dataSnapshot.getValue(Gymkhana.class);
                     actualizarValores(gymkhana.getDiaInicio(),gymkhana.getHoraInicio(),gymkhana.getId());
-                    if(!gymkhana.getEstado().equals("Apunto de empezar")){
+                    if(gymkhana.getEstado().equals("Creada")){
                         gymkhanaList.add(gymkhana);
                     }
 
@@ -150,25 +150,25 @@ public class ApuntarseGymkhana extends AppCompatActivity implements View.OnClick
     }
 
 
-    private void actualizarValores(String diaInicio, String horaInicio, String id) {
+    private void actualizarValores(String dia, String hora, String id) {
+        Calendar actual = Calendar.getInstance();
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        Date dateTime=null;
         try {
-            dateTime = dateFormat.parse(diaInicio + " " + horaInicio);
+            Date fechaHora = dateFormat.parse(dia + " " + hora);
+
+            Calendar fechaHoraCalendar = Calendar.getInstance();
+            fechaHoraCalendar.setTime(fechaHora);
+            fechaHoraCalendar.add(Calendar.MINUTE, 30);
+            // Agregar 30 minutos a la hora de inicio
+
+            if (fechaHoraCalendar.before(actual)){
+                GymkhanaRef=FirebaseDatabase.getInstance().getReference("/Gymkhana/"+ id+"/estado");
+                GymkhanaRef.setValue("A punto de empezar");
+            }
         }catch (ParseException e){
             e.printStackTrace();
             return;
         }
-        Calendar currentCalendar = Calendar.getInstance();
-        Calendar selectedCalendar = Calendar.getInstance();
-        selectedCalendar.setTime(dateTime);
-        // Agregar 30 minutos a la hora de inicio
-        selectedCalendar.add(Calendar.MINUTE,30);
-        if (selectedCalendar.before(currentCalendar)){
-            DatabaseReference GymkhanaRef=FirebaseDatabase.getInstance().getReference("Gymkhana/" + id);
-            GymkhanaRef.child("estado").setValue("Apunto de empezar");
-        }
-
     }
 
     @Override
