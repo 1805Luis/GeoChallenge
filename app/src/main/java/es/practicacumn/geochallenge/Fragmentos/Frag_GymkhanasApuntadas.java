@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.practicacumn.geochallenge.Adaptadores.AdaptadorGymkhana;
+import es.practicacumn.geochallenge.GymkhanasApuntadas;
 import es.practicacumn.geochallenge.MisGymkhanas;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.R;
@@ -89,7 +90,7 @@ public class Frag_GymkhanasApuntadas extends Fragment {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                 Gymkhana obj = (Gymkhana) adapterView.getItemAtPosition(i);
-                                Intent paso = new Intent(getActivity(), MisGymkhanas.class);
+                                Intent paso = new Intent(getActivity(), GymkhanasApuntadas.class);
                                 paso.putExtra("gymkana", (Serializable) obj);
                                 startActivity(paso);
                             }

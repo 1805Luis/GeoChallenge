@@ -16,16 +16,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Usuario.Usuario;
-import es.practicacumn.geochallenge.Service.GymkhanaService;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DetallesGymkhana extends AppCompatActivity implements View.OnClickListener {
  private TextView Nombre,Informacion,Inicio,Fin,NumeroPruebas,NumeroParticipantes,Dificultad,Plazas;
@@ -36,13 +39,14 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
  private int PlazasDisponibles,participantesMaximos,participantesActuales;
  private Usuario user;
  private List<String> usuarioList;
+ private Gymkhana obj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_gymkhana);
         usuarioList=new ArrayList<>();
-        Gymkhana obj=(Gymkhana) getIntent().getExtras().getSerializable("objeto");
+        obj=(Gymkhana) getIntent().getExtras().getSerializable("objeto");
         GymkhanaID=obj.getId();
         participantesMaximos= obj.getMaxParticipantes();
         Incializar();
@@ -54,6 +58,7 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
         NumeroPruebas.setText("Estará compuesta por "+obj.getPruebas().size()+" pruebas");
         NumeroParticipantes.setText("Estará compuesta por "+participantesMaximos+" participantes");
         Dificultad.setText("Dificultad: "+obj.getDificultad());
+
         GymkhanaRef=FirebaseDatabase.getInstance().getReference();
         PlazasDisponibles(obj);
         mDatabase= FirebaseDatabase.getInstance().getReference();
@@ -128,8 +133,81 @@ public class DetallesGymkhana extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.Participar:
-                Participar();
+                PuedeParticipar();
                 break;
+        }
+    }
+
+    private void PuedeParticipar(){
+        List<Gymkhana> gymkhanasList = new ArrayList<>();
+
+        DatabaseReference gymkhanaReference=FirebaseDatabase.getInstance().getReference();
+        Query query=gymkhanaReference.child("Gymkhana").orderByChild("participantes/"+UserId).equalTo(true);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                gymkhanasList.clear();
+                if(snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Gymkhana gymkhana = dataSnapshot.getValue(Gymkhana.class);
+                        gymkhanasList.add(gymkhana);
+                    }
+
+                    boolean puede=true;
+                    int i=0;
+
+                    while (i<gymkhanasList.size() && puede){
+                        Gymkhana gymkhana = gymkhanasList.get(i);
+                        if(!TienesTiempo(obj.getDiaInicio(),gymkhana.getDiaFin(),obj.getHoraInicio(),gymkhana.getHoraFin())){
+                            puede=false;
+                        }
+                    }
+                    if(puede){
+                        Participar();
+                    }else{
+                        Toast.makeText(DetallesGymkhana.this, "No puede participar ya que te coincide con otra", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }else {
+                    Participar();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private boolean TienesTiempo(String FechaInicio, String FechaFin, String HoraInicio, String HoraFin) {
+        DateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("HH:mm");
+
+        try {
+            Date fechaInicio = formatoFecha.parse(FechaInicio);
+            Date fechaFin = formatoFecha.parse(FechaFin);
+            Date horaInicio = formatoHora.parse(HoraInicio);
+            Date horaFin = formatoHora.parse(HoraFin);
+
+            // Sumar una hora a la hora de fin
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(horaFin);
+            cal.add(Calendar.HOUR_OF_DAY, 1);
+            horaFin = cal.getTime();
+
+            if (fechaInicio.before(fechaFin)) {
+                return false;
+            } else if (fechaInicio.equals(fechaFin)) {
+                return horaInicio.before(horaFin);
+            } else {
+                return true;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
