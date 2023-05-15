@@ -22,19 +22,22 @@
         android:icon="@mipmap/icono_app"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/Theme.GeoChallenge"
         tools:targetApi="31">
         <activity
             android:name=".GymkhanasApuntadas"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Login"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Mapa"
             android:exported="false"
             android:screenOrientation="portrait" />
-        
+
         <service android:name=".Service.GymkhanaService" />
 
         <activity
