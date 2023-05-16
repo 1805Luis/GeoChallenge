@@ -310,7 +310,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
 
         // Convertir el código QR a un array de bytes
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
         byte[] data = baos.toByteArray();
 
         // Subir el código QR a Storage con un nombre de archivo único

@@ -12,4 +12,18 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/generar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/azulon"
+        android:src="@drawable/ic_descarga"
+        app:fabSize="auto" />
+
 </RelativeLayout>
