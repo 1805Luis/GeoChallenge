@@ -124,13 +124,9 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
         try {
-            // Parsear la fecha y hora de cierre
             Date fechaHoraCierre = formato.parse(fecha + " " + hora);
-
-            // Obtener la fecha y hora actual
             Date fechaHoraActual = new Date();
 
-            // Calcular el tiempo restante en milisegundos hasta el cierre
             long tiempoRestante = fechaHoraCierre.getTime() - fechaHoraActual.getTime();
 
             if (tiempoRestante > 0) {
@@ -139,23 +135,42 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Mostrar la alerta
+                                AlertaDeFinalizacionGymkhana();
+                            }
+                        });
+                    }
+                }, tiempoRestante);
+            } else {
+                // La fecha y hora de cierre ya ha pasado, cerrar la actividad inmediatamente
+                AlertaDeFinalizacionGymkhana();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void AlertaDeFinalizacionGymkhana() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HubJugando.this);
+        builder.setTitle("Atencion")
+                .setMessage("La gymkhana ha finalizado")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Acciones al hacer clic en Aceptar
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference ref=database.getReference("Gymkhana/" + idGymkhana);
+                        DatabaseReference ref = database.getReference("Gymkhana/" + idGymkhana);
                         ref.child("estado").setValue("Finalizado");
                         Intent intent=new Intent(HubJugando.this,Hub.class);
                         startActivity(intent);
                         finish();
                     }
-                }, tiempoRestante);
-            } else {
-                // La fecha y hora de cierre ya ha pasado, cerrar la actividad inmediatamente
-                Intent intent=new Intent(HubJugando.this,Hub.class);
-                startActivity(intent);
-                finish();
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+                })
+                .setCancelable(false)
+                .show();
     }
 
     private void recibirDatos() {
@@ -338,7 +353,6 @@ public class HubJugando extends AppCompatActivity implements View.OnClickListene
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listPruebas.clear();
                 if (snapshot.exists()) {
                         for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                             Prueba prueba=dataSnapshot.getValue(Prueba.class);

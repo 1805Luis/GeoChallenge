@@ -78,6 +78,15 @@ public class Mapa extends AppCompatActivity implements View.OnClickListener {
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         previous = null;
 
+        if(ayuda){
+            IGeoPoint point=new GeoPoint(listPruebas.get(ordenPrueba-1).getLatitud(),listPruebas.get(ordenPrueba-1).getLongitud());
+            Marker marker = new Marker(map);
+            marker.setPosition((GeoPoint) point);
+            Drawable Picono=getResources().getDrawable(R.drawable.ic_prueba);
+            marker.setIcon(Picono);
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            map.getOverlays().add(marker);
+        }
 
         map.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.ALWAYS);
         map.setMultiTouchControls(true);
@@ -119,12 +128,6 @@ public class Mapa extends AppCompatActivity implements View.OnClickListener {
                 map.getOverlays().add(marker);
                 map.getController().setCenter(point);
                 markerinicial = marker;
-                if(ayuda){
-                    Prueba prueba=listPruebas.get(ordenPrueba-1);
-                    IGeoPoint point1=new GeoPoint(prueba.getLatitud(),prueba.getLongitud());
-                    Marker marker1 = new Marker(map);
-                    marker1.setPosition((GeoPoint) point1);
-                }
             }
         };
         int permiso=ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION);

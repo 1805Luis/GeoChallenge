@@ -50,7 +50,7 @@ public class Hub extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
-        PermisoNotificaciones();
+        Permisos();
 
 
         drawerLayout=findViewById(R.id.drawerlayout1);
@@ -135,7 +135,7 @@ public class Hub extends AppCompatActivity {
     }
 
 
-    private void PermisoNotificaciones() {
+    private void Permisos() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS,Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE_NOTIFICATION);
@@ -156,6 +156,7 @@ public class Hub extends AppCompatActivity {
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containerHub,new Frag_Hub()).commit();
                         DatabaseReference mDatabase= FirebaseDatabase.getInstance().getReference();
                         FirebaseAuth mAuth=FirebaseAuth.getInstance();
                         String UserId=mAuth.getUid();

@@ -208,7 +208,6 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(CrearCuenta.this, "Cuenta Creada con exito", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = Auth.getCurrentUser();
                             user.sendEmailVerification();
                             Intent intent = new Intent(getApplicationContext(), VerificarCuenta.class);
