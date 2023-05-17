@@ -53,7 +53,7 @@ import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Prueba;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
 public class CrearPruebas extends AppCompatActivity implements View.OnClickListener,Frag_Mapa.OnMapClickListener {
-    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo,Descripcion,UserId,Tipo,Clave;
+    private String Nombre,Lugar,Dificultad,ParticipantesMax,FechaInicio,FechaFin,HoraInicio,HoraFin,Id,Porden,PLat,PLon,Pinfo,Descripcion,UserId,Tipo;
     private double lat,lon;
     private int orden;
     private List<Prueba> ListaPruebas;
@@ -143,7 +143,6 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
                     ClaveGymkhana.setVisibility(View.VISIBLE);
                     opcion.setText("Privada   " );
                     Tipo="Privada";
-                    Clave = clave.getText().toString().trim();
 
                 }else{
                     ClaveGymkhana.setVisibility(View.GONE);
@@ -158,7 +157,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         Siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Clave!=null){
+                if(opcion.isChecked()){
                     Gymkhana gymkhana = new Gymkhana(Id, Nombre, Lugar, Dificultad, Descripcion, FechaInicio, FechaFin, HoraInicio, HoraFin, Integer.parseInt(ParticipantesMax), ListaPruebas, "Creada", ubicacionGymkhana, null, UserId, "Privada",clave.getText().toString().trim());
                     cambiarActividad(gymkhana);
                 }else{

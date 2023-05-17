@@ -33,7 +33,7 @@ public class GenerarPdf extends Service {
     private static final String CHANNEL_ID = "PDF_CHANNEL";
     private static final int NOTIFICATION_ID = 1;
     private NotificationManager notificationManager;
-    private String Nombre;
+    private String Nombre,Nombrearchivo;
 
     @Override
     public void onCreate() {
@@ -66,7 +66,7 @@ public class GenerarPdf extends Service {
         Thread thread =new Thread(new Runnable() {
             @Override
             public void run() {
-                PdfDocument pdfDocument=new android.graphics.pdf.PdfDocument();
+                PdfDocument pdfDocument=new PdfDocument();
                 Paint myPaint=new Paint();
 
 
@@ -82,7 +82,7 @@ public class GenerarPdf extends Service {
                     }
 
                     Bitmap escala = Bitmap.createScaledBitmap(bitmap, 175, 175, false);
-                    android.graphics.pdf.PdfDocument.PageInfo Page = new android.graphics.pdf.PdfDocument.PageInfo.Builder(250, 400,i+1).create();
+                    PdfDocument.PageInfo Page = new PdfDocument.PageInfo.Builder(250, 400,i+1).create();
                     PdfDocument.Page mypage = pdfDocument.startPage(Page);
                     Canvas canvas = mypage.getCanvas();
                     int titleX = 40;
@@ -99,13 +99,23 @@ public class GenerarPdf extends Service {
                     notificationBuilder.setProgress(listaPruebas.size(), i + 1, false);
                     notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
                 }
-                File file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"/CodigosQR_"+Nombre+".pdf");
+
+                Nombrearchivo=Nombre+".pdf";
+                File file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"/"+Nombrearchivo);
 
                 try {
-                    pdfDocument.writeTo(new FileOutputStream(file));
-
+                   if(file.exists()){
+                       String nuevoNombre = generarNuevoNombre(Nombrearchivo);
+                       File archivoModificado = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), nuevoNombre);
+                       pdfDocument.writeTo(new FileOutputStream(archivoModificado));
+                       showToast("Creado con exito");
+                    }else{
+                       pdfDocument.writeTo(new FileOutputStream(file));
+                       showToast("Creado con exito");
+                   }
                 }catch (Exception e){
                     e.printStackTrace();
+                    showToast("Error");
                 }
                 pdfDocument.close();
                 notificationBuilder.setContentText("PDF generado")
@@ -120,6 +130,27 @@ public class GenerarPdf extends Service {
 
         return Service.START_STICKY;
     }
+    private String generarNuevoNombre(String nombreOriginal) {
+        int i = 1;
+        String nuevoNombre = nombreOriginal;
+        String extension = "";
+
+        int extensionIndex = nombreOriginal.lastIndexOf(".");
+        if (extensionIndex != -1) {
+            extension = nombreOriginal.substring(extensionIndex);
+            nuevoNombre = nombreOriginal.substring(0, extensionIndex);
+        }
+
+        // Verifica si el archivo con el nombre modificado ya existe
+        File file=new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"/"+nuevoNombre+"("+i+")"+ extension);
+
+        while (file.exists()) {
+            i++;
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), nombreOriginal +"(" + i + ")"+ extension);
+        }
+
+        return nuevoNombre + "(" + i + ")"+ extension;
+    }
 
     private void createNotificationChannel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -132,6 +163,16 @@ public class GenerarPdf extends Service {
             channel.enableVibration(false);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private void showToast(final String message) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
