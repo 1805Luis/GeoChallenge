@@ -28,15 +28,23 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
 import es.practicacumn.geochallenge.Fragmentos.Frag_GymkhanasApuntadas;
 import es.practicacumn.geochallenge.Fragmentos.Frag_Hub;
 import es.practicacumn.geochallenge.Fragmentos.Frag_MisGymkhanas;
 import es.practicacumn.geochallenge.Fragmentos.Frag_Usuario;
+import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.Gymkhana;
 import es.practicacumn.geochallenge.Service.GymkhanaService;
 
 public class Hub extends AppCompatActivity {
@@ -45,6 +53,10 @@ public class Hub extends AppCompatActivity {
     private Toolbar toolbar;
     private static final int REQUEST_CODE_NOTIFICATION = 2;
     private BroadcastReceiver broadcastReceiver;
+    private DatabaseReference GymkhanasRef;
+    private FirebaseUser soyYo;
+    private String userId;
+    private List<Gymkhana> gymkhanas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +64,7 @@ public class Hub extends AppCompatActivity {
         setContentView(R.layout.activity_hub);
         Permisos();
 
-
+        gymkhanas=new ArrayList<>();
         drawerLayout=findViewById(R.id.drawerlayout1);
         navigationView=findViewById(R.id.navigationview1);
         toolbar=findViewById(R.id.toolbar1);
@@ -93,6 +105,9 @@ public class Hub extends AppCompatActivity {
 
         Intent intent =new Intent(this, GymkhanaService.class);
         startService(intent);
+
+        soyYo = FirebaseAuth.getInstance().getCurrentUser();
+        userId = soyYo.getUid();
 
         broadcastReceiver=new BroadcastReceiver() {
             @Override
@@ -174,6 +189,7 @@ public class Hub extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(Hub.this, "Usuario eliminado con exito", Toast.LENGTH_SHORT).show();
+                                    eliminargymkhanas();
                                     Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -190,6 +206,59 @@ public class Hub extends AppCompatActivity {
                     }
                 });
         alerta.create().show();
+    }
+
+    private void eliminargymkhanas() {
+
+        GymkhanasRef= FirebaseDatabase.getInstance().getReference("Gymkhana");
+        Query query=GymkhanasRef.orderByChild("idCreador").equalTo(userId);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                gymkhanas.clear();
+                if (snapshot.exists()) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Gymkhana gymkhana = dataSnapshot.getValue(Gymkhana.class);
+                        gymkhanas.add(gymkhana);
+                    }
+                    if (gymkhanas.size()>0){
+                        for(Gymkhana gymkhana: gymkhanas){
+                            String ruta= "/codigosQR/"+gymkhana.getId();
+                            EliminarStorage(ruta);
+                            ElimarGymkhana(gymkhana.getId());
+                        }
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void ElimarGymkhana(String id) {
+        DatabaseReference Gymkhana=FirebaseDatabase.getInstance().getReference("Gymkhana");
+        DatabaseReference gymkhana=Gymkhana.child(id);
+        gymkhana.removeValue();
+    }
+    private void EliminarStorage(String ruta) {
+        FirebaseStorage storage=FirebaseStorage.getInstance();
+        StorageReference carpeta =storage.getReference().child(ruta);
+        carpeta.listAll()
+                .addOnSuccessListener(listResult ->{
+                    for (StorageReference item: listResult.getItems()){
+                        item.delete();
+                    }
+                    for (StorageReference subcarpeta: listResult.getPrefixes()){
+                        EliminarStorage(subcarpeta.getPath());
+                    }
+                    carpeta.delete();
+                });
     }
 
     private void signOut() {
