@@ -314,6 +314,7 @@ public class Hub extends AppCompatActivity {
                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.containerHub,new Frag_Hub()).commit();
                         finish();
 
                     }

@@ -311,6 +311,7 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
         Intent intent=new Intent(getApplicationContext(),CrearPruebas.class);
         intent.putExtras(extras);
         startActivity(intent);
+        finish();
     }
 
 
