@@ -102,7 +102,7 @@ public class Frag_TiempoMet extends Fragment implements LocationListener{
     public void onLocationChanged(@NonNull Location location) {
         Latitud = location.getLatitude();
         Longitud = location.getLongitude();
-        //MiTiempo(Latitud,Longitud);
+        MiTiempo(Latitud,Longitud);
 
     }
 
