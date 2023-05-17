@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,6 +45,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_gymkhana);
         PermisoLocalizacion();
+
 
         nombreGKTIL = findViewById(R.id.NombreGK);
         Gnombre = (TextInputEditText) nombreGKTIL.getEditText();
@@ -94,6 +95,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
 
 
     private void Inicializar() {
+
         GKnombre=Gnombre.getText().toString().trim();
         GKinicioFecha=GinicioFecha.getText().toString().trim();
         GKfinFecha=GfinFecha.getText().toString().trim();
@@ -166,6 +168,8 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
     }
 
 
+
+
     private void Continuar() {
         Inicializar();
         if(!GKnombre.isEmpty()){
@@ -178,10 +182,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
                                     if (fechasPasadas(GKfinFecha, GKfinHora)) {
                                         if (esPosterior(GKinicioFecha, GKfinFecha, GKinicioHora, GKfinHora)) {
                                             if(validarHora(GKinicioFecha,GKinicioHora)){
-                                                if(HayTiempo(GKinicioFecha,GKinicioHora)){
                                                     EnviarDatos();
-                                                }else
-                                                    Toast.makeText(this, "Debes dejar el margen de una hora", Toast.LENGTH_SHORT).show();
                                             }else
                                                 Toast.makeText(this, "Debes dejar una hora de margen a la hora de crear la gymkhana", Toast.LENGTH_SHORT).show();
                                         } else
@@ -205,60 +206,38 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Debe indicar el nombre de la gymkhana", Toast.LENGTH_SHORT).show();
     }
 
+
+
+
     private boolean validarHora(String fecha, String hora) {
-        boolean resultado = false;
+        Calendar calendarHoy = Calendar.getInstance();
+        Calendar calendarComparar = Calendar.getInstance();
 
         try {
-            Calendar hoy = Calendar.getInstance();
-            Date fechaActualSolo = hoy.getTime();
-            Date horaActualSolo = new Date(hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), 0);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            Date fechaHoraHoy = calendarHoy.getTime();
+            Date fechaHoraComparar = dateFormat.parse(fecha+" "+hora);
 
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy hh:mm");
-            Date fechaHora = formato.parse(fecha + " " + hora);
+            calendarHoy.setTime(fechaHoraHoy);
+            calendarComparar.setTime(fechaHoraComparar);
 
+            // Sumar una hora a la hora actual
+            calendarHoy.add(Calendar.HOUR_OF_DAY, 1);
 
-            // Comparar si la fecha es la misma que la de hoy
-            if (fechaHora.compareTo(fechaActualSolo) == 0) {
-                // Obtener la hora actual más 1 hora
-                hoy.add(Calendar.HOUR_OF_DAY, 1);
-                Date horaActualMas1 = new Date(hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), 0);
-
-                // Comparar si la hora actual más 1 hora es menor o igual a la hora pasada como parámetro
-                if (horaActualMas1.compareTo(horaActualSolo) <= 0) {
-                    resultado = true;
-                }
+            if(calendarHoy.get(Calendar.YEAR) <= calendarComparar.get(Calendar.YEAR) &&
+                    calendarHoy.get(Calendar.MONTH) <= calendarComparar.get(Calendar.MONTH) &&
+                    calendarHoy.get(Calendar.DAY_OF_MONTH) <= calendarComparar.get(Calendar.DAY_OF_MONTH) &&
+                    calendarHoy.get(Calendar.HOUR_OF_DAY) <= calendarComparar.get(Calendar.HOUR_OF_DAY) &&
+                    calendarHoy.get(Calendar.MINUTE) <= calendarComparar.get(Calendar.MINUTE)){
+                return true;
             }else{
-                resultado=true;
+                return false;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return resultado;
-    }
-
-    private boolean HayTiempo(String dia, String hora) {
-        Calendar actual = Calendar.getInstance();
-        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy hh:mm");
-        try {
-            Date fechaHora = dateFormat.parse(dia + " " + hora);
-
-            Calendar fechaHoraCalendar = Calendar.getInstance();
-            fechaHoraCalendar.setTime(fechaHora);
-            fechaHoraCalendar.add(Calendar.HOUR_OF_DAY, 1);
-            // Agregar 30 minutos a la hora de inicio
-
-            if (fechaHoraCalendar.before(actual)){
-                return false;
-            }else{
-                return true;
-            }
-        }catch (ParseException e){
             e.printStackTrace();
             return true;
         }
     }
-
     private boolean esPosterior(String fechaInicio, String fechaFinal, String horaInicio, String horaFinal) {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
 
@@ -285,7 +264,6 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         }
 
     }
-
     private void EnviarDatos() {
         Bundle extras = new Bundle();
         extras.putString("NombreGY",GKnombre);
@@ -300,6 +278,7 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         Intent intent=new Intent(getApplicationContext(),LugarGymkhana.class);
         intent.putExtras(extras);
         startActivity(intent);
+        finish();
     }
 
     @Override

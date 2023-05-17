@@ -133,7 +133,6 @@ public class CrearCuenta extends AppCompatActivity implements View.OnClickListen
 
     private boolean validarContraseniasIguales(){
         VPwd = Vpwd.getText().toString().trim();
-
         if(VPwd.isEmpty()){
             VpwdTIL.setError("La contraseña no puede estar vacío");
             return false;

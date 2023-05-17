@@ -52,7 +52,7 @@ import java.util.Locale;
 import es.practicacumn.geochallenge.Model.UsuarioGymkhana.Gymkhana.UbicacionGymkhana;
 
 public class LugarGymkhana extends AppCompatActivity implements View.OnClickListener {
-    private String Nombre, Lugar, Dificultad, ParticipantesMax, FechaInicio, FechaFin, HoraInicio, HoraFin,Descripcion,UserId;
+    private String Nombre, Lugar, Dificultad, ParticipantesMax, FechaInicio, FechaFin, HoraInicio, HoraFin,Descripcion;
     private Marker previous,markerinicial; // Variable para guardar el marcador anterior
     private IMapController mapController;
     private MapView map = null;
@@ -289,8 +289,6 @@ public class LugarGymkhana extends AppCompatActivity implements View.OnClickList
             FechaFin = entrada.getString("FinFGY");
             HoraFin = entrada.getString("FinHGY");
             Descripcion=entrada.getString("Descripcion");
-            UserId=entrada.getString("IdUsuario");
-
         }
     }
 

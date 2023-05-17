@@ -189,6 +189,7 @@ public class CrearPruebas extends AppCompatActivity implements View.OnClickListe
         Intent intent= new Intent(getApplicationContext(), MuestraGymkhana.class);
         intent.putExtra("gymkana",gymkana);
         startActivity(intent);
+        finish();
 
     }
 
