@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -177,7 +178,10 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
                                     if (fechasPasadas(GKfinFecha, GKfinHora)) {
                                         if (esPosterior(GKinicioFecha, GKfinFecha, GKinicioHora, GKfinHora)) {
                                             if(validarHora(GKinicioFecha,GKinicioHora)){
-                                                EnviarDatos();
+                                                if(HayTiempo(GKinicioFecha,GKinicioHora)){
+                                                    EnviarDatos();
+                                                }else
+                                                    Toast.makeText(this, "Debes dejar el margen de una hora", Toast.LENGTH_SHORT).show();
                                             }else
                                                 Toast.makeText(this, "Debes dejar una hora de margen a la hora de crear la gymkhana", Toast.LENGTH_SHORT).show();
                                         } else
@@ -231,6 +235,28 @@ public class CrearGymkhana extends AppCompatActivity implements View.OnClickList
         }
 
         return resultado;
+    }
+
+    private boolean HayTiempo(String dia, String hora) {
+        Calendar actual = Calendar.getInstance();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        try {
+            Date fechaHora = dateFormat.parse(dia + " " + hora);
+
+            Calendar fechaHoraCalendar = Calendar.getInstance();
+            fechaHoraCalendar.setTime(fechaHora);
+            fechaHoraCalendar.add(Calendar.HOUR_OF_DAY, 1);
+            // Agregar 30 minutos a la hora de inicio
+
+            if (fechaHoraCalendar.before(actual)){
+                return false;
+            }else{
+                return true;
+            }
+        }catch (ParseException e){
+            e.printStackTrace();
+            return true;
+        }
     }
 
     private boolean esPosterior(String fechaInicio, String fechaFinal, String horaInicio, String horaFinal) {
